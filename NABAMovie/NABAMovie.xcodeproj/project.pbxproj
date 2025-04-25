@@ -1,0 +1,568 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXContainerItemProxy section */
+		AAC89F562DBB9F82008EBD92 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = AAC89F372DBB9F80008EBD92 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = AAC89F3E2DBB9F80008EBD92;
+			remoteInfo = NABAMovie;
+		};
+		AAC89F602DBB9F82008EBD92 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = AAC89F372DBB9F80008EBD92 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = AAC89F3E2DBB9F80008EBD92;
+			remoteInfo = NABAMovie;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		AAC89F3F2DBB9F80008EBD92 /* NABAMovie.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NABAMovie.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		AAC89F552DBB9F82008EBD92 /* NABAMovieTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = NABAMovieTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		AAC89F5F2DBB9F82008EBD92 /* NABAMovieUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = NABAMovieUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		AAC89F672DBB9F82008EBD92 /* Exceptions for "NABAMovie" folder in "NABAMovie" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = AAC89F3E2DBB9F80008EBD92 /* NABAMovie */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
+/* Begin PBXFileSystemSynchronizedRootGroup section */
+		AAC89F412DBB9F80008EBD92 /* NABAMovie */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				AAC89F672DBB9F82008EBD92 /* Exceptions for "NABAMovie" folder in "NABAMovie" target */,
+			);
+			path = NABAMovie;
+			sourceTree = "<group>";
+		};
+		AAC89F582DBB9F82008EBD92 /* NABAMovieTests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = NABAMovieTests;
+			sourceTree = "<group>";
+		};
+		AAC89F622DBB9F82008EBD92 /* NABAMovieUITests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = NABAMovieUITests;
+			sourceTree = "<group>";
+		};
+/* End PBXFileSystemSynchronizedRootGroup section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		AAC89F3C2DBB9F80008EBD92 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		AAC89F522DBB9F82008EBD92 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		AAC89F5C2DBB9F82008EBD92 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		AAC89F362DBB9F80008EBD92 = {
+			isa = PBXGroup;
+			children = (
+				AAC89F412DBB9F80008EBD92 /* NABAMovie */,
+				AAC89F582DBB9F82008EBD92 /* NABAMovieTests */,
+				AAC89F622DBB9F82008EBD92 /* NABAMovieUITests */,
+				AAC89F402DBB9F80008EBD92 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		AAC89F402DBB9F80008EBD92 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				AAC89F3F2DBB9F80008EBD92 /* NABAMovie.app */,
+				AAC89F552DBB9F82008EBD92 /* NABAMovieTests.xctest */,
+				AAC89F5F2DBB9F82008EBD92 /* NABAMovieUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		AAC89F3E2DBB9F80008EBD92 /* NABAMovie */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = AAC89F682DBB9F82008EBD92 /* Build configuration list for PBXNativeTarget "NABAMovie" */;
+			buildPhases = (
+				AAC89F3B2DBB9F80008EBD92 /* Sources */,
+				AAC89F3C2DBB9F80008EBD92 /* Frameworks */,
+				AAC89F3D2DBB9F80008EBD92 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				AAC89F412DBB9F80008EBD92 /* NABAMovie */,
+			);
+			name = NABAMovie;
+			packageProductDependencies = (
+			);
+			productName = NABAMovie;
+			productReference = AAC89F3F2DBB9F80008EBD92 /* NABAMovie.app */;
+			productType = "com.apple.product-type.application";
+		};
+		AAC89F542DBB9F82008EBD92 /* NABAMovieTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = AAC89F6D2DBB9F82008EBD92 /* Build configuration list for PBXNativeTarget "NABAMovieTests" */;
+			buildPhases = (
+				AAC89F512DBB9F82008EBD92 /* Sources */,
+				AAC89F522DBB9F82008EBD92 /* Frameworks */,
+				AAC89F532DBB9F82008EBD92 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				AAC89F572DBB9F82008EBD92 /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				AAC89F582DBB9F82008EBD92 /* NABAMovieTests */,
+			);
+			name = NABAMovieTests;
+			packageProductDependencies = (
+			);
+			productName = NABAMovieTests;
+			productReference = AAC89F552DBB9F82008EBD92 /* NABAMovieTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		AAC89F5E2DBB9F82008EBD92 /* NABAMovieUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = AAC89F702DBB9F82008EBD92 /* Build configuration list for PBXNativeTarget "NABAMovieUITests" */;
+			buildPhases = (
+				AAC89F5B2DBB9F82008EBD92 /* Sources */,
+				AAC89F5C2DBB9F82008EBD92 /* Frameworks */,
+				AAC89F5D2DBB9F82008EBD92 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				AAC89F612DBB9F82008EBD92 /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				AAC89F622DBB9F82008EBD92 /* NABAMovieUITests */,
+			);
+			name = NABAMovieUITests;
+			packageProductDependencies = (
+			);
+			productName = NABAMovieUITests;
+			productReference = AAC89F5F2DBB9F82008EBD92 /* NABAMovieUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		AAC89F372DBB9F80008EBD92 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1620;
+				LastUpgradeCheck = 1620;
+				TargetAttributes = {
+					AAC89F3E2DBB9F80008EBD92 = {
+						CreatedOnToolsVersion = 16.2;
+					};
+					AAC89F542DBB9F82008EBD92 = {
+						CreatedOnToolsVersion = 16.2;
+						TestTargetID = AAC89F3E2DBB9F80008EBD92;
+					};
+					AAC89F5E2DBB9F82008EBD92 = {
+						CreatedOnToolsVersion = 16.2;
+						TestTargetID = AAC89F3E2DBB9F80008EBD92;
+					};
+				};
+			};
+			buildConfigurationList = AAC89F3A2DBB9F80008EBD92 /* Build configuration list for PBXProject "NABAMovie" */;
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = AAC89F362DBB9F80008EBD92;
+			minimizedProjectReferenceProxies = 1;
+			preferredProjectObjectVersion = 77;
+			productRefGroup = AAC89F402DBB9F80008EBD92 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				AAC89F3E2DBB9F80008EBD92 /* NABAMovie */,
+				AAC89F542DBB9F82008EBD92 /* NABAMovieTests */,
+				AAC89F5E2DBB9F82008EBD92 /* NABAMovieUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		AAC89F3D2DBB9F80008EBD92 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		AAC89F532DBB9F82008EBD92 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		AAC89F5D2DBB9F82008EBD92 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		AAC89F3B2DBB9F80008EBD92 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		AAC89F512DBB9F82008EBD92 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		AAC89F5B2DBB9F82008EBD92 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		AAC89F572DBB9F82008EBD92 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = AAC89F3E2DBB9F80008EBD92 /* NABAMovie */;
+			targetProxy = AAC89F562DBB9F82008EBD92 /* PBXContainerItemProxy */;
+		};
+		AAC89F612DBB9F82008EBD92 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = AAC89F3E2DBB9F80008EBD92 /* NABAMovie */;
+			targetProxy = AAC89F602DBB9F82008EBD92 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		AAC89F692DBB9F82008EBD92 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = NABAMovie/Info.plist;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
+				INFOPLIST_KEY_UIMainStoryboardFile = Main;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "master-sparta.NABAMovie";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		AAC89F6A2DBB9F82008EBD92 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = NABAMovie/Info.plist;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
+				INFOPLIST_KEY_UIMainStoryboardFile = Main;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "master-sparta.NABAMovie";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		AAC89F6B2DBB9F82008EBD92 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.2;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		AAC89F6C2DBB9F82008EBD92 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.2;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		AAC89F6E2DBB9F82008EBD92 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.2;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "master-sparta.NABAMovieTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/NABAMovie.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/NABAMovie";
+			};
+			name = Debug;
+		};
+		AAC89F6F2DBB9F82008EBD92 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.2;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "master-sparta.NABAMovieTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/NABAMovie.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/NABAMovie";
+			};
+			name = Release;
+		};
+		AAC89F712DBB9F82008EBD92 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "master-sparta.NABAMovieUITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = NABAMovie;
+			};
+			name = Debug;
+		};
+		AAC89F722DBB9F82008EBD92 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "master-sparta.NABAMovieUITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = NABAMovie;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		AAC89F3A2DBB9F80008EBD92 /* Build configuration list for PBXProject "NABAMovie" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				AAC89F6B2DBB9F82008EBD92 /* Debug */,
+				AAC89F6C2DBB9F82008EBD92 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		AAC89F682DBB9F82008EBD92 /* Build configuration list for PBXNativeTarget "NABAMovie" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				AAC89F692DBB9F82008EBD92 /* Debug */,
+				AAC89F6A2DBB9F82008EBD92 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		AAC89F6D2DBB9F82008EBD92 /* Build configuration list for PBXNativeTarget "NABAMovieTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				AAC89F6E2DBB9F82008EBD92 /* Debug */,
+				AAC89F6F2DBB9F82008EBD92 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		AAC89F702DBB9F82008EBD92 /* Build configuration list for PBXNativeTarget "NABAMovieUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				AAC89F712DBB9F82008EBD92 /* Debug */,
+				AAC89F722DBB9F82008EBD92 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = AAC89F372DBB9F80008EBD92 /* Project object */;
+}
