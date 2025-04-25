@@ -6,6 +6,20 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		AAC89F752DBBA155008EBD92 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = AAC89F742DBBA155008EBD92 /* SnapKit */; };
+		AAC89F782DBBA185008EBD92 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = AAC89F772DBBA185008EBD92 /* Kingfisher */; };
+		AAC89F7A2DBBA1CF008EBD92 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = AAC89F792DBBA1CF008EBD92 /* GoogleService-Info.plist */; };
+		AAC89F7D2DBBA28A008EBD92 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = AAC89F7C2DBBA28A008EBD92 /* FirebaseAuth */; };
+		AAC89F7F2DBBA28A008EBD92 /* FirebaseAuthCombine-Community in Frameworks */ = {isa = PBXBuildFile; productRef = AAC89F7E2DBBA28A008EBD92 /* FirebaseAuthCombine-Community */; };
+		AAC89F812DBBA28A008EBD92 /* FirebaseCore in Frameworks */ = {isa = PBXBuildFile; productRef = AAC89F802DBBA28A008EBD92 /* FirebaseCore */; };
+		AAC89F832DBBA28A008EBD92 /* FirebaseDatabase in Frameworks */ = {isa = PBXBuildFile; productRef = AAC89F822DBBA28A008EBD92 /* FirebaseDatabase */; };
+		AAC89F852DBBA28A008EBD92 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = AAC89F842DBBA28A008EBD92 /* FirebaseFirestore */; };
+		AAC89F872DBBA28A008EBD92 /* FirebaseFirestoreCombine-Community in Frameworks */ = {isa = PBXBuildFile; productRef = AAC89F862DBBA28A008EBD92 /* FirebaseFirestoreCombine-Community */; };
+		AAC89F892DBBA28A008EBD92 /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = AAC89F882DBBA28A008EBD92 /* FirebaseStorage */; };
+		AAC89F8B2DBBA28A008EBD92 /* FirebaseStorageCombine-Community in Frameworks */ = {isa = PBXBuildFile; productRef = AAC89F8A2DBBA28A008EBD92 /* FirebaseStorageCombine-Community */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXContainerItemProxy section */
 		AAC89F562DBB9F82008EBD92 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -27,6 +41,7 @@
 		AAC89F3F2DBB9F80008EBD92 /* NABAMovie.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NABAMovie.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		AAC89F552DBB9F82008EBD92 /* NABAMovieTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = NABAMovieTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		AAC89F5F2DBB9F82008EBD92 /* NABAMovieUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = NABAMovieUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		AAC89F792DBBA1CF008EBD92 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -65,6 +80,16 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AAC89F832DBBA28A008EBD92 /* FirebaseDatabase in Frameworks */,
+				AAC89F872DBBA28A008EBD92 /* FirebaseFirestoreCombine-Community in Frameworks */,
+				AAC89F8B2DBBA28A008EBD92 /* FirebaseStorageCombine-Community in Frameworks */,
+				AAC89F892DBBA28A008EBD92 /* FirebaseStorage in Frameworks */,
+				AAC89F782DBBA185008EBD92 /* Kingfisher in Frameworks */,
+				AAC89F812DBBA28A008EBD92 /* FirebaseCore in Frameworks */,
+				AAC89F7D2DBBA28A008EBD92 /* FirebaseAuth in Frameworks */,
+				AAC89F752DBBA155008EBD92 /* SnapKit in Frameworks */,
+				AAC89F7F2DBBA28A008EBD92 /* FirebaseAuthCombine-Community in Frameworks */,
+				AAC89F852DBBA28A008EBD92 /* FirebaseFirestore in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -92,6 +117,7 @@
 				AAC89F582DBB9F82008EBD92 /* NABAMovieTests */,
 				AAC89F622DBB9F82008EBD92 /* NABAMovieUITests */,
 				AAC89F402DBB9F80008EBD92 /* Products */,
+				AAC89F792DBBA1CF008EBD92 /* GoogleService-Info.plist */,
 			);
 			sourceTree = "<group>";
 		};
@@ -125,6 +151,16 @@
 			);
 			name = NABAMovie;
 			packageProductDependencies = (
+				AAC89F742DBBA155008EBD92 /* SnapKit */,
+				AAC89F772DBBA185008EBD92 /* Kingfisher */,
+				AAC89F7C2DBBA28A008EBD92 /* FirebaseAuth */,
+				AAC89F7E2DBBA28A008EBD92 /* FirebaseAuthCombine-Community */,
+				AAC89F802DBBA28A008EBD92 /* FirebaseCore */,
+				AAC89F822DBBA28A008EBD92 /* FirebaseDatabase */,
+				AAC89F842DBBA28A008EBD92 /* FirebaseFirestore */,
+				AAC89F862DBBA28A008EBD92 /* FirebaseFirestoreCombine-Community */,
+				AAC89F882DBBA28A008EBD92 /* FirebaseStorage */,
+				AAC89F8A2DBBA28A008EBD92 /* FirebaseStorageCombine-Community */,
 			);
 			productName = NABAMovie;
 			productReference = AAC89F3F2DBB9F80008EBD92 /* NABAMovie.app */;
@@ -208,6 +244,11 @@
 			);
 			mainGroup = AAC89F362DBB9F80008EBD92;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				AAC89F732DBBA155008EBD92 /* XCRemoteSwiftPackageReference "SnapKit" */,
+				AAC89F762DBBA185008EBD92 /* XCRemoteSwiftPackageReference "Kingfisher" */,
+				AAC89F7B2DBBA28A008EBD92 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = AAC89F402DBB9F80008EBD92 /* Products */;
 			projectDirPath = "";
@@ -225,6 +266,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AAC89F7A2DBBA1CF008EBD92 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -293,9 +335,9 @@
 				INFOPLIST_FILE = NABAMovie/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UIMainStoryboardFile = Main;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				IPHONEOS_DEPLOYMENT_TARGET = 16;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -303,9 +345,13 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "master-sparta.NABAMovie";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -320,9 +366,9 @@
 				INFOPLIST_FILE = NABAMovie/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UIMainStoryboardFile = Main;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				IPHONEOS_DEPLOYMENT_TARGET = 16;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -330,9 +376,13 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "master-sparta.NABAMovie";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
@@ -563,6 +613,86 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		AAC89F732DBBA155008EBD92 /* XCRemoteSwiftPackageReference "SnapKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SnapKit/SnapKit.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.7.1;
+			};
+		};
+		AAC89F762DBBA185008EBD92 /* XCRemoteSwiftPackageReference "Kingfisher" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/onevcat/Kingfisher.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 8.3.2;
+			};
+		};
+		AAC89F7B2DBBA28A008EBD92 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 11.12.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		AAC89F742DBBA155008EBD92 /* SnapKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = AAC89F732DBBA155008EBD92 /* XCRemoteSwiftPackageReference "SnapKit" */;
+			productName = SnapKit;
+		};
+		AAC89F772DBBA185008EBD92 /* Kingfisher */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = AAC89F762DBBA185008EBD92 /* XCRemoteSwiftPackageReference "Kingfisher" */;
+			productName = Kingfisher;
+		};
+		AAC89F7C2DBBA28A008EBD92 /* FirebaseAuth */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = AAC89F7B2DBBA28A008EBD92 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAuth;
+		};
+		AAC89F7E2DBBA28A008EBD92 /* FirebaseAuthCombine-Community */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = AAC89F7B2DBBA28A008EBD92 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = "FirebaseAuthCombine-Community";
+		};
+		AAC89F802DBBA28A008EBD92 /* FirebaseCore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = AAC89F7B2DBBA28A008EBD92 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseCore;
+		};
+		AAC89F822DBBA28A008EBD92 /* FirebaseDatabase */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = AAC89F7B2DBBA28A008EBD92 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseDatabase;
+		};
+		AAC89F842DBBA28A008EBD92 /* FirebaseFirestore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = AAC89F7B2DBBA28A008EBD92 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseFirestore;
+		};
+		AAC89F862DBBA28A008EBD92 /* FirebaseFirestoreCombine-Community */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = AAC89F7B2DBBA28A008EBD92 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = "FirebaseFirestoreCombine-Community";
+		};
+		AAC89F882DBBA28A008EBD92 /* FirebaseStorage */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = AAC89F7B2DBBA28A008EBD92 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseStorage;
+		};
+		AAC89F8A2DBBA28A008EBD92 /* FirebaseStorageCombine-Community */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = AAC89F7B2DBBA28A008EBD92 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = "FirebaseStorageCombine-Community";
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = AAC89F372DBB9F80008EBD92 /* Project object */;
 }
