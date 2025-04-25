@@ -1,6 +1,6 @@
 ---
-name: KioskApp Feature Template
-about: KioskApp 기능 이슈 템플릿
+name: NABAMovie Feature Template
+about: NABAMovie 기능 이슈 템플릿
 title: 'feat '
 labels: "\U0001F41BBugFix"
 assignees: ''
