@@ -53,4 +53,9 @@ final class MovieRepositoryImpl: MovieRepository {
                 .map { $0.1 }
         }
     }
+    
+    func fetchMoviesStills(for movieID: Int) async throws -> [MovieStillsEntity] {
+        let dto = try await networkManager.fetchMovieImages(movieID: movieID)
+        return dto.toEntity()
+    }
 }

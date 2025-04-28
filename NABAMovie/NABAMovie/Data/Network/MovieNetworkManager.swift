@@ -103,7 +103,7 @@ final class MovieNetworkManager {
     // MARK: - 영화 상세정보 불러오기
     
     func fetchMovieDetail(movieID: Int) async throws -> MovieDetailDTO {
-        var components = URLComponents(string: TMDB.baseURL + TMDB.Detail.path + "\(movieID)")
+        var components = URLComponents(string: TMDB.baseURL + TMDB.Detail.path(movieID: movieID))
         components?.queryItems = [
             URLQueryItem(name: "api_key", value: TMDB.apiKey),
             URLQueryItem(name: "language", value: TMDB.language),
@@ -123,6 +123,33 @@ final class MovieNetworkManager {
         }
         
         guard let dto = try? JSONDecoder().decode(MovieDetailDTO.self, from: data) else {
+            throw NetworkError.decodingError
+        }
+        
+        return dto
+    }
+    
+    // MARK: - 영화 이미지 불러오기
+    
+    func fetchMovieImages(movieID: Int) async throws -> MovieImageDTO {
+        var components = URLComponents(string: TMDB.baseURL + TMDB.Images.path(movieID: movieID))
+        components?.queryItems = [
+            URLQueryItem(name: "api_key", value: TMDB.apiKey)
+        ]
+        
+        guard let urlString = components?.url?.absoluteString,
+              let url = URL(string: urlString)
+        else {
+            throw NetworkError.invalidURL
+        }
+        
+        let (data, response) = try await URLSession.shared.data(from: url)
+        
+        guard (response as? HTTPURLResponse)?.statusCode == 200 else {
+            throw NetworkError.responseError
+        }
+        
+        guard let dto = try? JSONDecoder().decode(MovieImageDTO.self, from: data) else {
             throw NetworkError.decodingError
         }
         
