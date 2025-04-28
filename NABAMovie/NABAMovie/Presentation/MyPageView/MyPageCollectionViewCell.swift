@@ -94,7 +94,7 @@ final class MyPageCollectionViewCell: UICollectionViewCell {
         let stackView = UIStackView()
         stackView.axis = .horizontal
         stackView.spacing = 12
-        stackView.alignment = .center
+        stackView.alignment = .top
         stackView.distribution = .fill
         stackView.isLayoutMarginsRelativeArrangement = true
         stackView.layoutMargins = UIEdgeInsets(top: 10, left: 15, bottom: 10, right: 15)
