@@ -100,8 +100,10 @@ extension MovieDetailDTO {
         let roundedVoteAverage = Double(round(100 * voteAverage) / 100)
         
         // 포스터 URL
-        let baseURL = "https://image.tmdb.org/t/p/w780"
-        let fullPosterURL = baseURL + posterPath
+        let fullPosterURL: String? = {
+            guard !posterPath.isEmpty else { return nil }
+            return TMDB.posterBaseURL + posterPath
+        }()
         
         // 관람등급 필터링
         let certification = {

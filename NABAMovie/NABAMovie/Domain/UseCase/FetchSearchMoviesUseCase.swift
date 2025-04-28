@@ -8,7 +8,7 @@
 import Foundation
 
 final class FetchSearchMoviesUseCase {
-    let repository: MovieRepository
+    private let repository: MovieRepository
     
     init(repository: MovieRepository) {
         self.repository = repository
