@@ -236,4 +236,14 @@ final class LoginView: UIView {
     @objc private func didTapSignupButton() {
         onSignupButtonTapped?()
     }
+    
+    // MARK: - Functions
+    
+    func getIdText() -> String? {
+        return idTextField.text
+    }
+    
+    func getPasswordText() -> String? {
+        return passwordTextField.text
+    }
 }
