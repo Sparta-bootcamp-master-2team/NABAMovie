@@ -8,12 +8,19 @@
 import UIKit
 import SnapKit
 
+protocol MyPageCollectionHeaderViewDelegate: AnyObject {
+    func moreButtonTapped(in index: Int)
+}
+
 final class MyPageCollectionHeaderView: UICollectionReusableView {
     
     static var elementKind: String {
         return UICollectionView.elementKindSectionHeader
     }
     
+    var sectionIndex: Int = 0
+    
+    weak var delegate: MyPageCollectionHeaderViewDelegate?
     private let titleLabel: UILabel = {
         let label = UILabel()
         label.font = .systemFont(ofSize: 20, weight: .bold)
@@ -21,7 +28,7 @@ final class MyPageCollectionHeaderView: UICollectionReusableView {
         return label
     }()
     
-    lazy var moreButton: UIButton = {
+    private lazy var moreButton: UIButton = {
         let button = UIButton()
         button.setTitle("더보기 >", for: .normal)
         button.setTitleColor(.systemGray, for: .normal)
@@ -58,6 +65,7 @@ final class MyPageCollectionHeaderView: UICollectionReusableView {
     
     @objc func moreButtonTapped() {
         print("moreButtonTapped")
+        delegate?.moreButtonTapped(in: self.sectionIndex)
     }
     
     func configure(section: MyPageCollectionSection, count: Int) {

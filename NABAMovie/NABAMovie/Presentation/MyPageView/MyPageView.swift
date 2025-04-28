@@ -85,9 +85,12 @@ final class MyPageView: UIView {
         {[unowned self] supplementaryView, elementKind, indexPath in
             if indexPath.section == MyPageCollectionSection.reservationIndex {
                 supplementaryView.configure(section: .reservation, count: self.item1.count)
+                supplementaryView.sectionIndex = MyPageCollectionSection.reservationIndex
             } else if indexPath.section == MyPageCollectionSection.favoriteIndex {
                 supplementaryView.configure(section: .favorite, count: self.item2.count)
+                supplementaryView.sectionIndex = MyPageCollectionSection.favoriteIndex
             }
+            supplementaryView.delegate = self
         }
         dataSource?.supplementaryViewProvider = { [unowned self] collectionView, elementKind, indexPath in
             return self.myPageCollectionView.dequeueConfiguredReusableSupplementary(using: headerRegistration, for: indexPath)
@@ -120,4 +123,15 @@ extension MyPageView: UICollectionViewDelegate {
         }
     }
 }
+
+// MARK: UICollectionHeaderViewDelegate
+extension MyPageView: MyPageCollectionHeaderViewDelegate {
+    // 헤더뷰의 더보기 버튼 클릭 이벤트
+    func moreButtonTapped(in index: Int) {
+        if index == MyPageCollectionSection.reservationIndex {
+            print("예매 내역 더보기")
+        } else if index == MyPageCollectionSection.favoriteIndex {
+            print("찜목록 더보기")
+        }
+    }
 }
