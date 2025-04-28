@@ -85,7 +85,19 @@ enum MockData {
                     voteCount: 291,
                     overview: "줄거리 정보 없음",
                     posterImageURL: "https://image.tmdb.org/t/p/w780/t6HJH3gXtUqVinyFKWi7Bjh73TM.jpg",
-                    certification: "관람 등급 정보 없음")
+                    certification: "관람 등급 정보 없음"),
+        MovieEntity(movieID: 668489,
+                    title: "해벅1",
+                    genre: ["액션", "범죄", "스릴러"],
+                    director: "가렛 에반스",
+                    actors: ["톰 하디", "제시 메이 리", "티모시 올리펀트"],
+                    releaseDate: "25.04.2025",
+                    runtime: 105,
+                    voteAverage: 6.7,
+                    voteCount: 222,
+                    overview: "마약 절도 사건이 통제 불능으로 치닫는 상황. 지칠 대로 지친 경찰이 정치가의 아들을 구하기 위해 부패한 도시의 지하 범죄 세계와 싸우며 길을 헤쳐 나간다.",
+                    posterImageURL: "https://image.tmdb.org/t/p/w780/oYUJsUlH0aoTNiKWJ78LD0cUVov.jpg",
+                    certification: "19")
         
     ]
 }
