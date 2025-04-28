@@ -11,14 +11,14 @@ final class HeaderView: UIView {
     
     private let titleLogoImageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.image = UIImage(named: "BrandTitleLogo(White)")
+        imageView.image = UIImage(named: "NABAMOVIE_LOGO(White)")
         imageView.contentMode = .scaleAspectFit
         return imageView
     }()
     
     private let logoImageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.image = UIImage(named: "BrandLogo")
+        imageView.image = UIImage(named: "NBC_Logo")
         imageView.contentMode = .scaleAspectFit
         return imageView
     }()
