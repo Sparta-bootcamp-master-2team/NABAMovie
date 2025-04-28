@@ -7,14 +7,106 @@
 
 import UIKit
 
-class MyPageView: UIView {
+// MyPageCollectionSection
+enum MyPageCollectionSection {
+    case reservation
+    case favorite
+    
+    static var reservationIndex = 0
+    static var favoriteIndex = 1
+}
 
-    /*
-    // Only override draw() if you perform custom drawing.
-    // An empty implementation adversely affects performance during animation.
-    override func draw(_ rect: CGRect) {
-        // Drawing code
+final class MyPageView: UIView {
+    
+    var myPageCollectionView = MyPageCollectionView()
+    var myInformationView = MyInformationView()
+    typealias DataSource = UICollectionViewDiffableDataSource<MyPageCollectionSection, MovieEntity>
+    typealias SnapShot = NSDiffableDataSourceSnapshot<MyPageCollectionSection, MovieEntity>
+    // DiffableDataSource
+    var dataSource: DataSource?
+    // item1: Reservation Items , item2: Favorite Items
+    var item1: [MovieEntity] = MockData.item1
+    var item2: [MovieEntity] = MockData.item2
+    
+    // 마이페이지에서 보이는 아이템은 최대 2개
+    var reservationItem: [MovieEntity] {
+        return Array(item1.prefix(2))
     }
-    */
+    var favoriteItem: [MovieEntity] {
+        return Array(item2.prefix(2))
+    }
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        myPageCollectionView.delegate = self
+        configureDataSource()
+        apply()
+        setUpUI()
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    // UI 설정
+    private func setUpUI() {
+        [myInformationView, myPageCollectionView].forEach { view in
+            addSubview(view)
+        }
+        
+        myInformationView.snp.makeConstraints {
+            $0.top.leading.trailing.equalToSuperview()
+            $0.height.equalToSuperview().dividedBy(5)
+        }
+        
+        myPageCollectionView.snp.makeConstraints{
+            $0.top.equalTo(myInformationView.snp.bottom)
+            $0.bottom.leading.trailing.equalToSuperview()
+        }
+    }
+    
+    private func configureDataSource() {
+        // DiffableDataSource Cell 설정
+        let cellRegistration = UICollectionView.CellRegistration
+        <MyPageCollectionViewCell, MovieEntity>{ [unowned self] cell, indexPath, movieEntity in
+            if indexPath.section == MyPageCollectionSection.reservationIndex {
+                cell.configure(model: self.reservationItem[indexPath.row])
+            } else if indexPath.section == MyPageCollectionSection.favoriteIndex {
+                cell.configure(model: self.favoriteItem[indexPath.row])
+            }
+        }
+        dataSource = DataSource(collectionView: myPageCollectionView) { collectionView, indexPath, movieEntity in
+            return collectionView.dequeueConfiguredReusableCell(using: cellRegistration, for: indexPath, item: movieEntity)
+        }
+        
+        // DiffableDataSource Header 설정
+        let headerRegistration = UICollectionView.SupplementaryRegistration
+        <MyPageCollectionHeaderView>(elementKind: MyPageCollectionHeaderView.elementKind)
+        {[unowned self] supplementaryView, elementKind, indexPath in
+            if indexPath.section == MyPageCollectionSection.reservationIndex {
+                supplementaryView.configure(section: .reservation, count: self.item1.count)
+            } else if indexPath.section == MyPageCollectionSection.favoriteIndex {
+                supplementaryView.configure(section: .favorite, count: self.item2.count)
+            }
+        }
+        dataSource?.supplementaryViewProvider = { [unowned self] collectionView, elementKind, indexPath in
+            return self.myPageCollectionView.dequeueConfiguredReusableSupplementary(using: headerRegistration, for: indexPath)
+        }
+    }
+    
+    // 스냅샷 생성
+    private func makeSnapshot() -> SnapShot {
+        var snapshot = SnapShot()
+        snapshot.appendSections([.reservation, .favorite])
+        snapshot.appendItems(reservationItem, toSection: .reservation)
+        snapshot.appendItems(favoriteItem, toSection: .favorite)
+        return snapshot
+    }
+    
+    // DataSource에 스냅샷 적용
+    private func apply() {
+        dataSource?.apply(makeSnapshot(), animatingDifferences: false)
+    }
+}
 
 }
