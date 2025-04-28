@@ -109,4 +109,15 @@ final class MyPageView: UIView {
     }
 }
 
+// MARK: UICollectionViewDelegate
+extension MyPageView: UICollectionViewDelegate {
+    // 셀 터치시 해당 셀의 데이터를 전달
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        if indexPath.section == MyPageCollectionSection.reservationIndex {
+            print(reservationItem[indexPath.row])
+        } else if indexPath.section == MyPageCollectionSection.favoriteIndex {
+            print(favoriteItem[indexPath.row])
+        }
+    }
+}
 }
