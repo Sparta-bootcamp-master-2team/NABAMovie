@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct MovieEntity {
+struct MovieEntity: Hashable {
     let movieID: Int                // 영화 ID
     let title: String               // 영화 제목
     let genre: [String]             // 장르
