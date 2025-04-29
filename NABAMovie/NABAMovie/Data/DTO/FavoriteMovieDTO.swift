@@ -38,3 +38,19 @@ struct FavoriteMovieDTO: Codable {
         )
     }
 }
+extension FavoriteMovieDTO {
+    init(entity: MovieEntity) {
+        self.movieID = entity.movieID
+        self.title = entity.title
+        self.genre = entity.genre
+        self.director = entity.director
+        self.actors = entity.actors
+        self.releaseDate = entity.releaseDate
+        self.runtime = entity.runtime
+        self.voteAverage = entity.voteAverage
+        self.voteCount = entity.voteCount
+        self.overview = entity.overview
+        self.posterImageURL = entity.posterImageURL
+        self.certification = entity.certification
+    }
+}

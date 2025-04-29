@@ -70,13 +70,33 @@ final class FirebaseService: FirebaseServiceProtocol {
             .document(userId)
             .collection("favoriteMovies")
             .getDocuments()
-
+        
         let favoriteMovies: [FavoriteMovieDTO] = snapshot.documents.compactMap { document in
             try? document.data(as: FavoriteMovieDTO.self)
         }
-
+        
         return favoriteMovies
     }
-
     
+    func addFavoriteMovie(for userId: String, movie: FavoriteMovieDTO) async throws {
+        try await Firestore.firestore()
+            .collection("users")
+            .document(userId)
+            .collection("favoriteMovies")
+            .document(String(movie.movieID))
+            .setData([
+                "movieID": movie.movieID,
+                "title": movie.title,
+                "genre": movie.genre,
+                "director": movie.director as Any,
+                "actors": movie.actors,
+                "releaseDate": movie.releaseDate as Any,
+                "runtime": movie.runtime,
+                "voteAverage": movie.voteAverage,
+                "voteCount": movie.voteCount,
+                "overview": movie.overview as Any,
+                "posterImageURL": movie.posterImageURL as Any,
+                "certification": movie.certification as Any
+            ])
+    }
 }
