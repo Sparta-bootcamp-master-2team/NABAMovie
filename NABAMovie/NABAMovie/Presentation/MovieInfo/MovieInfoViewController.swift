@@ -67,28 +67,28 @@ class MovieInfoViewController: UIViewController {
         return label
     }()
     
-    private let ratingStackView: UIStackView = {
+    private let voteAverageStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .vertical
         stackView.alignment = .center
         return stackView
     }()
     
-    private let ratingLabelAndImageStackView: UIStackView = {
+    private let voteAverageLabelAndImageStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .horizontal
         stackView.spacing = 2
         return stackView
     }()
     
-    private let ratingTitleLabel: UILabel = {
+    private let voteAverageTitleLabel: UILabel = {
         let label = UILabel()
         label.text = "평점"
         label.font = .systemFont(ofSize: 12)
         return label
     }()
     
-    private let ratingImage: UIImageView = {
+    private let voteAverageImage: UIImageView = {
         let imageView = UIImageView()
         imageView.image = UIImage(systemName: "star.fill")
         imageView.tintColor = .systemYellow
@@ -104,14 +104,14 @@ class MovieInfoViewController: UIViewController {
         return label
     }()
     
-    private let ageStackView: UIStackView = {
+    private let certificationStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .vertical
         stackView.alignment = .center
         return stackView
     }()
     
-    private let ageTitleLabel: UILabel = {
+    private let certificationTitleLabel: UILabel = {
         let label = UILabel()
         label.text = "관람등급"
         label.font = .systemFont(ofSize: 12)
@@ -169,7 +169,7 @@ class MovieInfoViewController: UIViewController {
         return label
     }()
     
-    private let descriptionTitleLabel: UILabel = {
+    private let overviewTitleLabel: UILabel = {
         let label = UILabel()
         label.text = "줄거리"
         label.font = .boldSystemFont(ofSize: 16)
@@ -253,14 +253,14 @@ class MovieInfoViewController: UIViewController {
             directorLabel,
             castTitleLabel,
             castLabel,
-            descriptionTitleLabel,
+            overviewTitleLabel,
             overviewLabel,
             stillCutTitleLabel,
             stillCutCollectionView
         ].forEach { contentView.addSubview($0) }
         
-        ratingAndAgeStackView.addArrangedSubview(ratingStackView)
-        ratingAndAgeStackView.addArrangedSubview(ageStackView)
+        ratingAndAgeStackView.addArrangedSubview(voteAverageStackView)
+        ratingAndAgeStackView.addArrangedSubview(certificationStackView)
         
         [
             posterImageView,
@@ -269,14 +269,14 @@ class MovieInfoViewController: UIViewController {
             infoLabel
         ].forEach { imageContainerView.addSubview($0) }
         
-        ratingStackView.addArrangedSubview(ratingLabelAndImageStackView)
-        ratingStackView.addArrangedSubview(ratingTitleLabel)
+        voteAverageStackView.addArrangedSubview(voteAverageLabelAndImageStackView)
+        voteAverageStackView.addArrangedSubview(voteAverageTitleLabel)
         
-        ratingLabelAndImageStackView.addArrangedSubview(ratingImage)
-        ratingLabelAndImageStackView.addArrangedSubview(voteAverageLabel)
+        voteAverageLabelAndImageStackView.addArrangedSubview(voteAverageImage)
+        voteAverageLabelAndImageStackView.addArrangedSubview(voteAverageLabel)
         
-        ageStackView.addArrangedSubview(certificationLabel)
-        ageStackView.addArrangedSubview(ageTitleLabel)
+        certificationStackView.addArrangedSubview(certificationLabel)
+        certificationStackView.addArrangedSubview(certificationTitleLabel)
         
         containerView.snp.makeConstraints {
             $0.edges.equalTo(view.safeAreaLayoutGuide)
@@ -351,13 +351,13 @@ class MovieInfoViewController: UIViewController {
             $0.leading.trailing.equalToSuperview().inset(24)
         }
         
-        descriptionTitleLabel.snp.makeConstraints {
+        overviewTitleLabel.snp.makeConstraints {
             $0.top.equalTo(castLabel.snp.bottom).offset(24)
             $0.leading.equalToSuperview().inset(24)
         }
         
         overviewLabel.snp.makeConstraints {
-            $0.top.equalTo(descriptionTitleLabel.snp.bottom).offset(8)
+            $0.top.equalTo(overviewTitleLabel.snp.bottom).offset(8)
             $0.leading.trailing.equalToSuperview().inset(24)
         }
         
@@ -370,7 +370,7 @@ class MovieInfoViewController: UIViewController {
             $0.top.equalTo(stillCutTitleLabel.snp.bottom).offset(8)
             $0.leading.equalToSuperview().inset(24)
             $0.trailing.equalToSuperview().inset(24)
-            $0.height.equalTo(100)
+            $0.height.equalTo(140)
             $0.bottom.equalToSuperview().inset(16)
         }
         
