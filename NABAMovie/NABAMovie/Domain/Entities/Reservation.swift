@@ -8,10 +8,9 @@
 import Foundation
 
 struct Reservation {
-    let id: String
-    let title: String
-    let genres: [String]
+    let genre: [String]
     let member: Int
     let posterURL: String
     let reservationTime: String
+    let title: String
 }
