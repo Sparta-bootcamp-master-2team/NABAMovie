@@ -198,7 +198,7 @@ class BookingPageViewController: UIViewController {
         selectedTimeButton = timeSelectionButton1
     }
     
-    override func viewDidAppear(_ animated: Bool) {
+    override func viewDidLayoutSubviews() {
         paymentButton.layer.cornerRadius = paymentButton.frame.height / 2
         timeSelectionButton1.layer.cornerRadius = timeSelectionButton1.frame.height / 2
         timeSelectionButton2.layer.cornerRadius = timeSelectionButton2.frame.height / 2

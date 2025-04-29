@@ -231,7 +231,7 @@ class MovieInfoViewController: UIViewController {
         }
     }
     
-    override func viewDidAppear(_ animated: Bool) {
+    override func viewDidLayoutSubviews() {
         reserveButton.layer.cornerRadius =  reserveButton.frame.height / 2
     }
     
