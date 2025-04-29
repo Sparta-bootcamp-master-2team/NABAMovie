@@ -119,15 +119,15 @@ extension MovieDetailDTO {
             movieID: id,
             title: title,
             genre: genreNames,
-            director: director ?? "감독 정보 없음",
+            director: director ?? "정보 없음",
             actors: actorsName,
-            releaseDate: findFormattedReleaseDate(from: releaseDates?.results) ?? "출시일 정보 없음",
+            releaseDate: findFormattedReleaseDate(from: releaseDates?.results) ?? "정보 없음",
             runtime: runtime,
             voteAverage: roundedVoteAverage,
             voteCount: voteCount,
-            overview: overview.isEmpty ? "줄거리 정보 없음" : overview,
+            overview: overview.isEmpty ? "정보 없음" : overview,
             posterImageURL: fullPosterURL ?? "",
-            certification: certification ?? "관람 등급 정보 없음",
+            certification: certification ?? "정보 없음",
         )
     }
     
