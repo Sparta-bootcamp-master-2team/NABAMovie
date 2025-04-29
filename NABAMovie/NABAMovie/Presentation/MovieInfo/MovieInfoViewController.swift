@@ -11,7 +11,7 @@ import Kingfisher
 
 class MovieInfoViewController: UIViewController {
     
-    let viewModel = MovieInfoViewModel()
+    var viewModel: MovieInfoViewModel
     
     var stillCutDataSource: UICollectionViewDiffableDataSource<StillCutSection, StillCutItem>!
     
@@ -96,7 +96,7 @@ class MovieInfoViewController: UIViewController {
         return imageView
     }()
     
-    private let ratingLabel: UILabel = {
+    private let voteAverageLabel: UILabel = {
         let label = UILabel()
         label.text = "4.8"
         label.largeContentImage = UIImage(systemName: "star.fill")
@@ -113,12 +113,12 @@ class MovieInfoViewController: UIViewController {
     
     private let ageTitleLabel: UILabel = {
         let label = UILabel()
-        label.text = "관련등급"
+        label.text = "관람등급"
         label.font = .systemFont(ofSize: 12)
         return label
     }()
     
-    private let ageLabel: UILabel = {
+    private let certificationLabel: UILabel = {
         let label = UILabel()
         label.font = .systemFont(ofSize: 20, weight: .bold)
         return label
@@ -176,7 +176,7 @@ class MovieInfoViewController: UIViewController {
         return label
     }()
     
-    private let descriptionLabel: UILabel = {
+    private let overviewLabel: UILabel = {
         let label = UILabel()
         label.font = .systemFont(ofSize: 14)
         label.numberOfLines = 0
@@ -195,7 +195,7 @@ class MovieInfoViewController: UIViewController {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
         layout.minimumLineSpacing = 8
-        layout.itemSize = CGSize(width: 150, height: 100)
+        layout.itemSize = CGSize(width: 210, height: 140)
         
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.backgroundColor = .clear
@@ -213,6 +213,15 @@ class MovieInfoViewController: UIViewController {
     }()
     
     // MARK: - Initializers
+    init(viewModel: MovieInfoViewModel) {
+        self.viewModel = viewModel
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
@@ -245,7 +254,7 @@ class MovieInfoViewController: UIViewController {
             castTitleLabel,
             castLabel,
             descriptionTitleLabel,
-            descriptionLabel,
+            overviewLabel,
             stillCutTitleLabel,
             stillCutCollectionView
         ].forEach { contentView.addSubview($0) }
@@ -264,9 +273,9 @@ class MovieInfoViewController: UIViewController {
         ratingStackView.addArrangedSubview(ratingTitleLabel)
         
         ratingLabelAndImageStackView.addArrangedSubview(ratingImage)
-        ratingLabelAndImageStackView.addArrangedSubview(ratingLabel)
+        ratingLabelAndImageStackView.addArrangedSubview(voteAverageLabel)
         
-        ageStackView.addArrangedSubview(ageLabel)
+        ageStackView.addArrangedSubview(certificationLabel)
         ageStackView.addArrangedSubview(ageTitleLabel)
         
         containerView.snp.makeConstraints {
@@ -318,7 +327,7 @@ class MovieInfoViewController: UIViewController {
         }
         
         favoriteButton.snp.makeConstraints {
-            $0.centerY.equalTo(ratingLabel)
+            $0.centerY.equalTo(voteAverageLabel)
             $0.trailing.equalToSuperview().inset(24)
         }
         
@@ -347,13 +356,13 @@ class MovieInfoViewController: UIViewController {
             $0.leading.equalToSuperview().inset(24)
         }
         
-        descriptionLabel.snp.makeConstraints {
+        overviewLabel.snp.makeConstraints {
             $0.top.equalTo(descriptionTitleLabel.snp.bottom).offset(8)
             $0.leading.trailing.equalToSuperview().inset(24)
         }
         
         stillCutTitleLabel.snp.makeConstraints {
-            $0.top.equalTo(descriptionLabel.snp.bottom).offset(24)
+            $0.top.equalTo(overviewLabel.snp.bottom).offset(24)
             $0.leading.equalToSuperview().inset(24)
         }
         
@@ -383,13 +392,15 @@ class MovieInfoViewController: UIViewController {
     
     // MARK: - Internal Methods
     func configure() {
-        titleLabel.text = viewModel.title
-        posterImageView.image = viewModel.movieImage
-        infoLabel.text = viewModel.info
-        ratingLabel.text = "\(viewModel.rating)"
-        ageLabel.text = "\(viewModel.age)세"
-        directorLabel.text = viewModel.director
-        castLabel.text = viewModel.cast
-        descriptionLabel.text = viewModel.description
+        titleLabel.text = viewModel.titleText
+        if let posterURL = viewModel.posterURL {
+            posterImageView.kf.setImage(with: posterURL)
+        }
+        infoLabel.text = viewModel.infoText
+        voteAverageLabel.text = viewModel.voteAverageText
+        certificationLabel.text = viewModel.certificationText
+        directorLabel.text = viewModel.directorText
+        castLabel.text = viewModel.castText
+        overviewLabel.text = viewModel.overviewText
     }
 }
