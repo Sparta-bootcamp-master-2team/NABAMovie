@@ -62,10 +62,8 @@ final class NowPlayingFooterView: UICollectionReusableView {
     func update(with movie: MovieEntity) {
         movieTitleLabel.text = movie.title
         
-        let hour = "\(movie.runtime / 60)h"
-        let minute = "\(movie.runtime % 60)m"
         let genreString = movie.genre.joined(separator: ",")
-        runtimeAndGenreLabel.text = "\(hour + minute) • \(genreString)"
+        runtimeAndGenreLabel.text = "\(movie.runtime)분 • \(genreString)"
         
         let numberFormatter: NumberFormatter = NumberFormatter()
         numberFormatter.numberStyle = .decimal

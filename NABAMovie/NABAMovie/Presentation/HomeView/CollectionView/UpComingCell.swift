@@ -53,30 +53,6 @@ final class UpComingCell: UICollectionViewCell {
         return label
     }()
     
-    private lazy var releaseDateStackView: UIStackView = {
-        let stackView = UIStackView(arrangedSubviews: [releaseDateImageView, releaseDateLabel])
-        stackView.axis = .horizontal
-        stackView.spacing = 10
-        return stackView
-    }()
-    
-    private let releaseDateImageView: UIImageView = {
-        let imageView = UIImageView()
-        imageView.image = UIImage(named: "calendar")?.withRenderingMode(.alwaysTemplate)
-        imageView.contentMode = .scaleAspectFit
-        imageView.tintColor = .label
-        imageView.setContentHuggingPriority(.required, for: .horizontal)
-        imageView.setContentHuggingPriority(.required, for: .horizontal)
-        return imageView
-    }()
-    
-    private let releaseDateLabel: UILabel = {
-        let label = UILabel()
-        label.font = .systemFont(ofSize: 10)
-        return label
-    }()
-    
-    
     override init(frame: CGRect) {
         super.init(frame: frame)
         configure()
@@ -92,7 +68,6 @@ final class UpComingCell: UICollectionViewCell {
         }
         movieTitleLabel.text = movie.title
         genreLabel.text = movie.genre.joined(separator: ", ")
-        releaseDateLabel.text = movie.releaseDate
     }
 }
 
@@ -107,7 +82,6 @@ private extension UpComingCell {
             posterImageView,
             movieTitleLabel,
             genreStackView,
-            releaseDateStackView
         ].forEach { contentView.addSubview($0) }
     }
     
@@ -125,11 +99,6 @@ private extension UpComingCell {
         
         genreStackView.snp.makeConstraints {
             $0.top.equalTo(movieTitleLabel.snp.bottom).offset(10)
-            $0.horizontalEdges.equalToSuperview()
-        }
-        
-        releaseDateStackView.snp.makeConstraints {
-            $0.top.equalTo(genreStackView.snp.bottom).offset(5)
             $0.horizontalEdges.equalToSuperview()
         }
     }

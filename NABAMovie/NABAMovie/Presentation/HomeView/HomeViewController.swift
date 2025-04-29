@@ -122,7 +122,7 @@ final class HomeViewController: UIViewController {
                 case .nowPlaying:
                     headerView?.update(with: "현재 상영작")
                 case .upComing:
-                    headerView?.update(with: "상영 예정")
+                    headerView?.update(with: "올해 상영 예정작")
                 }
                 
                 return headerView
@@ -281,7 +281,7 @@ final class HomeViewController: UIViewController {
         
         let groupSize = NSCollectionLayoutSize(
             widthDimension: .fractionalWidth(0.7),
-            heightDimension: .fractionalWidth(0.7)
+            heightDimension: .fractionalWidth(0.65)
         )
         
         let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
