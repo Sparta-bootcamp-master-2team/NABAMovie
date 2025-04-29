@@ -9,6 +9,6 @@ import Foundation
 import UIKit
 
 protocol FavoriteMovieRepository {
-    func fetchFavoriteMovies(userID: String) async throws -> [FavoriteMovie]
-    func addFavoriteMovie(userID: String, movie: FavoriteMovie) async throws
+    func fetchFavoriteMovies(userID: String) async throws -> [MovieEntity]
+    func addFavoriteMovie(userID: String, movie: MovieEntity) async throws
 }
