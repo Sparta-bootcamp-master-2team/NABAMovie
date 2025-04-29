@@ -49,4 +49,19 @@ final class FirebaseService: FirebaseServiceProtocol {
         
         return reservations
     }
+    
+    func makeReservation(for userId: String, reservation: ReservationDTO) async throws {
+        try await Firestore.firestore()
+            .collection("users")
+            .document(userId)
+            .collection("reservations")
+            .addDocument(data: [
+                "genre": reservation.genre,
+                "member": reservation.member,
+                "posterURL": reservation.posterURL,
+                "reservationTime": reservation.reservationTime,
+                "title": reservation.title
+            ])
+    }
+    
 }
