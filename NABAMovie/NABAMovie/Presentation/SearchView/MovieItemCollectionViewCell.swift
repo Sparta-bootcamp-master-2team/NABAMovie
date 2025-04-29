@@ -6,7 +6,52 @@
 //
 
 import UIKit
+import SnapKit
+import Kingfisher
 
-class MovieItemCollectionViewCell: UICollectionViewCell {
+final class MovieItemCollectionViewCell: UICollectionViewCell {
+    
+    static var identifier: String {
+        return String(describing: self)
+    }
+    
+    private let posterImageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.contentMode = .scaleToFill
+        imageView.image = .user
+        imageView.clipsToBounds = true
+        imageView.layer.cornerRadius = 16
+        return imageView
+    }()
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        contentView.backgroundColor = .white
+        setupUI()
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    override func prepareForReuse() {
+        self.posterImageView.image = .user
+    }
+    
+    private func setupUI() {
+        contentView.addSubview(posterImageView)
+        contentView.backgroundColor = .white
+        posterImageView.snp.makeConstraints {
+            $0.center.equalToSuperview()
+            $0.height.equalTo(posterImageView.snp.width).multipliedBy(1.5).priority(.low)
+            $0.edges.equalToSuperview()
+        }
+    }
+    
+    func configure(model: MovieEntity) {
+        guard let urlString = model.posterImageURL,
+              let url = URL(string: urlString) else { return }
+        self.posterImageView.kf.setImage(with: url)
+    }
     
 }
