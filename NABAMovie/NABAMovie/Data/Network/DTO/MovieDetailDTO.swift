@@ -16,7 +16,7 @@ struct MovieDetailDTO: Decodable {
     let credits: Credits
     let overview: String
     let popularity: Double
-    let posterPath: String
+    let posterPath: String?
     let releaseDate: String
     let runtime: Int
     let voteAverage: Double
@@ -101,8 +101,8 @@ extension MovieDetailDTO {
         
         // 포스터 URL
         let fullPosterURL: String? = {
-            guard !posterPath.isEmpty else { return nil }
-            return TMDB.posterBaseURL + posterPath
+            guard let path = posterPath, !path.isEmpty else { return nil }
+            return TMDB.posterBaseURL + path
         }()
         
         // 관람등급 필터링
