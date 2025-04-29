@@ -15,7 +15,7 @@ final class NowPlayingCell: UICollectionViewCell {
         String(describing: NowPlayingCell.self)
     }
 
-    private let imageView: UIImageView = {
+    private let posterImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFill
         imageView.clipsToBounds = true
@@ -34,7 +34,7 @@ final class NowPlayingCell: UICollectionViewCell {
     
     func update(movie: MovieEntity) {
         guard let url = URL(string: movie.posterImageURL) else { return }
-        imageView.kf.setImage(with: url)
+        posterImageView.kf.setImage(with: url)
     }
 }
 
@@ -45,11 +45,11 @@ private extension NowPlayingCell {
     }
     
     func setHierarchy() {
-        self.contentView.addSubview(imageView)
+        self.contentView.addSubview(posterImageView)
     }
     
     func setConstraints() {
-        imageView.snp.makeConstraints {
+        posterImageView.snp.makeConstraints {
             $0.edges.equalToSuperview()
         }
     }

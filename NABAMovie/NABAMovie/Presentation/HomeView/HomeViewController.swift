@@ -75,6 +75,11 @@ final class HomeViewController: UIViewController {
             forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
             withReuseIdentifier: HomeCollectionViewHeaderView.reuseIdentifier
         )
+        collectionView.register(
+            NowPlayingFooterView.self,
+            forSupplementaryViewOfKind: UICollectionView.elementKindSectionFooter,
+            withReuseIdentifier: NowPlayingFooterView.reuseIdentifier
+        )
     }
     
     // MARK: - DataSource
@@ -105,23 +110,34 @@ final class HomeViewController: UIViewController {
         }
         
         datasource?.supplementaryViewProvider = { collectionView, kind, indexPath in
-            guard kind == UICollectionView.elementKindSectionHeader else { return nil }
-            let headerView = collectionView.dequeueReusableSupplementaryView(
-                ofKind: kind,
-                withReuseIdentifier: HomeCollectionViewHeaderView.reuseIdentifier,
-                for: indexPath
-            ) as? HomeCollectionViewHeaderView
-            
-            if let section = Section(rawValue: indexPath.section) {
-                switch section {
-                case .nowPlaying:
-                    headerView?.update(with: "현재 상영작")
-                case .upComing:
-                    headerView?.update(with: "상영 예정")
+            if kind == UICollectionView.elementKindSectionHeader {
+                let headerView = collectionView.dequeueReusableSupplementaryView(
+                    ofKind: kind,
+                    withReuseIdentifier: HomeCollectionViewHeaderView.reuseIdentifier,
+                    for: indexPath
+                ) as? HomeCollectionViewHeaderView
+                
+                if let section = Section(rawValue: indexPath.section) {
+                    switch section {
+                    case .nowPlaying:
+                        headerView?.update(with: "현재 상영작")
+                    case .upComing:
+                        headerView?.update(with: "상영 예정")
+                    }
                 }
+                
+                return headerView
+            } else if kind == UICollectionView.elementKindSectionFooter,
+                      let section = Section(rawValue: indexPath.section),
+                      section == .nowPlaying {
+                let footerView = collectionView.dequeueReusableSupplementaryView(
+                    ofKind: kind,
+                    withReuseIdentifier: NowPlayingFooterView.reuseIdentifier,
+                    for: indexPath
+                ) as? NowPlayingFooterView
+                return footerView
             }
-            
-            return headerView
+            return nil
         }
     }
     
@@ -157,8 +173,8 @@ final class HomeViewController: UIViewController {
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
         
         let groupSize = NSCollectionLayoutSize(
-            widthDimension: .fractionalWidth(0.4),
-            heightDimension: .fractionalWidth(0.6)
+            widthDimension: .fractionalWidth(0.56),
+            heightDimension: .fractionalWidth(0.84)
         )
         let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
         
@@ -166,33 +182,56 @@ final class HomeViewController: UIViewController {
         section.orthogonalScrollingBehavior = .groupPagingCentered
         setupCollectionViewCarousel(to: section)
         
-        section.boundarySupplementaryItems = [makeHeaderItem(for: .nowPlaying)]
+        section.boundarySupplementaryItems = [
+            makeHeaderItem(for: .nowPlaying),
+            makeFooterItem()
+        ]
         
         return section
     }
     
     /// Carousel 을 적용하기 위해 셀 아이템에 중심부 부터의 거리를 계산 해 transform 을 적용
     private func setupCollectionViewCarousel(to section: NSCollectionLayoutSection) {
-        section.visibleItemsInvalidationHandler = { visibleItems, offset, environment in
+        section.visibleItemsInvalidationHandler = { [weak self] visibleItems, offset, environment in
             
-            // 헤더가 아닌 셀 아이템들
+            // 1. '헤더'와 '푸터' 제외한 '셀 아이템'만 걸러내기
             let cellItems = visibleItems.filter {
-                $0.representedElementKind != UICollectionView.elementKindSectionHeader
+                $0.representedElementKind == nil
             }
             let containerWidth = environment.container.contentSize.width
             
+            // 2. 셀 transform (셀만)
             cellItems.forEach { item in
                 let itemCenterRelativeToOffset = item.frame.midX - offset.x
-                
-                // 셀이 컬렉션 뷰의 중앙에서 얼마나 떨어져 있는지
                 let distanceFromCenter = abs(itemCenterRelativeToOffset - containerWidth / 2.0)
                 
-                // 셀이 커지고 작아질 때의 최대 스케일, 최소 스케일
                 let minScale: CGFloat = 0.8
                 let maxScale: CGFloat = 1.0
                 let scale = max(maxScale - (distanceFromCenter / containerWidth), minScale)
                 
                 item.transform = CGAffineTransform(scaleX: scale, y: scale)
+            }
+            
+            // 3. 중앙에 가장 가까운 셀 찾아서 푸터 업데이트
+            guard !cellItems.isEmpty else { return }
+            
+            let centerOffsets = cellItems.map { item -> (item: NSCollectionLayoutVisibleItem, distance: CGFloat) in
+                let center = item.frame.midX - offset.x
+                let distance = abs(center - containerWidth / 2.0)
+                return (item, distance)
+            }
+            
+            if let closestItem = centerOffsets.min(by: { $0.distance < $1.distance })?.item {
+                let indexPath = closestItem.indexPath
+                
+                if let item = self?.datasource?.itemIdentifier(for: indexPath),
+                   case let .nowPlaying(movie) = item,
+                   let footerView = self?.collectionView.supplementaryView(
+                       forElementKind: UICollectionView.elementKindSectionFooter,
+                       at: IndexPath(item: 0, section: Section.nowPlaying.rawValue)
+                   ) as? NowPlayingFooterView {
+                    footerView.update(with: movie)
+                }
             }
         }
     }
@@ -244,6 +283,18 @@ final class HomeViewController: UIViewController {
         return headerItem
     }
     
+    private func makeFooterItem() -> NSCollectionLayoutBoundarySupplementaryItem {
+        let footerItem = NSCollectionLayoutBoundarySupplementaryItem(
+            layoutSize: NSCollectionLayoutSize(
+                widthDimension: .fractionalWidth(1.0),
+                heightDimension: .absolute(100)
+            ),
+            elementKind: UICollectionView.elementKindSectionFooter,
+            alignment: .bottom
+        )
+        return footerItem
+    }
+    
     // MARK: - Snapshot
     
     private func updateSnapshot(nowPlaying: [MovieEntity], upComing: [MovieEntity]) {
@@ -257,6 +308,15 @@ final class HomeViewController: UIViewController {
         let upComingItems = upComing.map { Item.upcoming($0)}
         snapshot.appendItems(upComingItems, toSection: .upComing)
         datasource?.apply(snapshot, animatingDifferences: false)
+        
+        // 최초 푸터뷰 업데이트
+        if let firstNowPlayingMovie = nowPlaying.first,
+           let footerView = collectionView.supplementaryView(
+               forElementKind: UICollectionView.elementKindSectionFooter,
+               at: IndexPath(item: 0, section: Section.nowPlaying.rawValue)
+           ) as? NowPlayingFooterView {
+            footerView.update(with: firstNowPlayingMovie)
+        }
     }
     
 }
