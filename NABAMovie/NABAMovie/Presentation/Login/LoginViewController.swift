@@ -51,15 +51,17 @@ final class LoginViewController: UIViewController {
         viewModel.email = email
         viewModel.password = password
         
-        viewModel.login { [weak self] result in
-            DispatchQueue.main.async {
-                switch result {
-                case .success(let user):
-                    print("로그인 성공: \(user.username)")
-                    self?.navigateToHome()
-                case .failure(let error):
-                    self?.showErrorAlert(message: error.localizedDescription)
-                }
+        Task { [weak self] in
+            let result = await self?.viewModel.login()
+            
+            switch result {
+            case .success(let user):
+                print("로그인 성공: \(user.username)")
+                self?.navigateToHome()
+            case .failure(let error):
+                self?.showErrorAlert(message: error.localizedDescription)
+            case .none:
+                break
             }
         }
     }
