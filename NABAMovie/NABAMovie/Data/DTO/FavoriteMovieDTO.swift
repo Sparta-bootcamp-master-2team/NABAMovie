@@ -28,7 +28,7 @@ struct FavoriteMovieDTO: Codable {
             genre: genre,
             director: director,
             actors: actors,
-            releaseDate: releaseDate, // ← 오타 조심
+            releaseDate: releaseDate,
             runtime: runtime,
             voteAverage: voteAverage,
             voteCount: voteCount,
