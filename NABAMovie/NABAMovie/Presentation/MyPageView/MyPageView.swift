@@ -1,0 +1,137 @@
+//
+//  MyPageView.swift
+//  NABAMovie
+//
+//  Created by MJ Dev on 4/28/25.
+//
+
+import UIKit
+
+// MyPageCollectionSection
+enum MyPageCollectionSection {
+    case reservation
+    case favorite
+    
+    static var reservationIndex = 0
+    static var favoriteIndex = 1
+}
+
+final class MyPageView: UIView {
+    
+    var myPageCollectionView = MyPageCollectionView()
+    var myInformationView = MyInformationView()
+    typealias DataSource = UICollectionViewDiffableDataSource<MyPageCollectionSection, MyPageMovieEntity>
+    typealias SnapShot = NSDiffableDataSourceSnapshot<MyPageCollectionSection, MyPageMovieEntity>
+    // DiffableDataSource
+    var dataSource: DataSource?
+    // item1: Reservation Items , item2: Favorite Items
+    var item1: [MyPageMovieEntity] = MyPageMockData.item1
+    var item2: [MyPageMovieEntity] = MyPageMockData.item2
+    
+    // 마이페이지에서 보이는 아이템은 최대 2개
+    var reservationItem: [MyPageMovieEntity] {
+        return Array(item1.prefix(2))
+    }
+    var favoriteItem: [MyPageMovieEntity] {
+        return Array(item2.prefix(2))
+    }
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        myPageCollectionView.delegate = self
+        configureDataSource()
+        apply()
+        setUpUI()
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    // UI 설정
+    private func setUpUI() {
+        [myInformationView, myPageCollectionView].forEach { view in
+            addSubview(view)
+        }
+        
+        myInformationView.snp.makeConstraints {
+            $0.top.leading.trailing.equalToSuperview()
+            $0.height.equalToSuperview().dividedBy(5)
+        }
+        
+        myPageCollectionView.snp.makeConstraints{
+            $0.top.equalTo(myInformationView.snp.bottom)
+            $0.bottom.leading.trailing.equalToSuperview()
+        }
+    }
+    
+    private func configureDataSource() {
+        // DiffableDataSource Cell 설정
+        let cellRegistration = UICollectionView.CellRegistration
+        <MyPageCollectionViewCell, MyPageMovieEntity>{ [unowned self] cell, indexPath, movieEntity in
+            if indexPath.section == MyPageCollectionSection.reservationIndex {
+                cell.configure(model: self.reservationItem[indexPath.row])
+            } else if indexPath.section == MyPageCollectionSection.favoriteIndex {
+                cell.configure(model: self.favoriteItem[indexPath.row])
+            }
+        }
+        dataSource = DataSource(collectionView: myPageCollectionView) { collectionView, indexPath, movieEntity in
+            return collectionView.dequeueConfiguredReusableCell(using: cellRegistration, for: indexPath, item: movieEntity)
+        }
+        
+        // DiffableDataSource Header 설정
+        let headerRegistration = UICollectionView.SupplementaryRegistration
+        <MyPageCollectionHeaderView>(elementKind: MyPageCollectionHeaderView.elementKind)
+        {[unowned self] supplementaryView, elementKind, indexPath in
+            if indexPath.section == MyPageCollectionSection.reservationIndex {
+                supplementaryView.configure(section: .reservation, count: self.item1.count)
+                supplementaryView.sectionIndex = MyPageCollectionSection.reservationIndex
+            } else if indexPath.section == MyPageCollectionSection.favoriteIndex {
+                supplementaryView.configure(section: .favorite, count: self.item2.count)
+                supplementaryView.sectionIndex = MyPageCollectionSection.favoriteIndex
+            }
+            supplementaryView.delegate = self
+        }
+        dataSource?.supplementaryViewProvider = { [unowned self] collectionView, elementKind, indexPath in
+            return self.myPageCollectionView.dequeueConfiguredReusableSupplementary(using: headerRegistration, for: indexPath)
+        }
+    }
+    
+    // 스냅샷 생성
+    private func makeSnapshot() -> SnapShot {
+        var snapshot = SnapShot()
+        snapshot.appendSections([.reservation, .favorite])
+        snapshot.appendItems(reservationItem, toSection: .reservation)
+        snapshot.appendItems(favoriteItem, toSection: .favorite)
+        return snapshot
+    }
+    
+    // DataSource에 스냅샷 적용
+    private func apply() {
+        dataSource?.apply(makeSnapshot(), animatingDifferences: false)
+    }
+}
+
+// MARK: UICollectionViewDelegate
+extension MyPageView: UICollectionViewDelegate {
+    // 셀 터치시 해당 셀의 데이터를 전달
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        if indexPath.section == MyPageCollectionSection.reservationIndex {
+            print(reservationItem[indexPath.row])
+        } else if indexPath.section == MyPageCollectionSection.favoriteIndex {
+            print(favoriteItem[indexPath.row])
+        }
+    }
+}
+
+// MARK: UICollectionHeaderViewDelegate
+extension MyPageView: MyPageCollectionHeaderViewDelegate {
+    // 헤더뷰의 더보기 버튼 클릭 이벤트
+    func moreButtonTapped(in index: Int) {
+        if index == MyPageCollectionSection.reservationIndex {
+            print("예매 내역 더보기")
+        } else if index == MyPageCollectionSection.favoriteIndex {
+            print("찜목록 더보기")
+        }
+    }
+}
