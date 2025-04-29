@@ -337,24 +337,37 @@ class BookingPageViewController: UIViewController {
     }
     
     @objc private func resetButtonClicked() {
-        print(#function)
         viewModel.personnel = 1
     }
     
     @objc private func minusPersonnel() {
-        print(#function)
         if viewModel.personnel > 1 {
             viewModel.personnel -= 1
         }
     }
     
     @objc private func plusPersonnel() {
-        print(#function)
         viewModel.personnel += 1
     }
     
     @objc private func proceedToPayment() {
-        print(#function)
+        let paymentAlert = UIAlertController(title: "결제하시겠습니까?", message: nil, preferredStyle: .alert)
+        
+        paymentAlert.addAction(
+            UIAlertAction(title: "아니오", style: .destructive))
+        
+        paymentAlert.addAction(
+            UIAlertAction(title: "네", style: .default, handler: { [weak self] _ in
+                
+            let completionAlert = UIAlertController(title: "결제 완료", message: "결제가 완료되었습니다.", preferredStyle: .alert)
+                
+            completionAlert.addAction(
+                UIAlertAction(title: "확인", style: .default))
+                
+            self?.present(completionAlert, animated: true)
+        }))
+        
+        present(paymentAlert, animated: true)
     }
     
     
