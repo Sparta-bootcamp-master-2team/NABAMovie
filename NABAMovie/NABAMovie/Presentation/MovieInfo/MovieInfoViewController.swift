@@ -11,18 +11,9 @@ import Kingfisher
 
 class MovieInfoViewController: UIViewController {
     
-    private let viewModel = MovieInfoViewModel()
+    let viewModel = MovieInfoViewModel()
     
-    private enum StillCutSection {
-        case main
-    }
-    
-    private struct StillCutItem: Hashable {
-        let id = UUID()
-        let image: URL
-    }
-    
-    private var stillCutDataSource: UICollectionViewDiffableDataSource<StillCutSection, StillCutItem>!
+    var stillCutDataSource: UICollectionViewDiffableDataSource<StillCutSection, StillCutItem>!
     
     // MARK: - UI Components
     private let containerView: UIView = {
@@ -200,7 +191,7 @@ class MovieInfoViewController: UIViewController {
     }()
     
     // 스틸컷 콜렉션 뷰
-    private let stillCutCollectionView: UICollectionView = {
+    let stillCutCollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
         layout.minimumLineSpacing = 8
@@ -232,10 +223,8 @@ class MovieInfoViewController: UIViewController {
     }
     
     override func viewDidAppear(_ animated: Bool) {
-        reserveButton.layer.cornerRadius = reserveButton.frame.height / 2
+        reserveButton.layer.cornerRadius =  reserveButton.frame.height / 2
     }
-    
-    
     
     // MARK: - UI & Layout
     private func setupUI() {
@@ -379,26 +368,6 @@ class MovieInfoViewController: UIViewController {
         setupStillCutCollectionView()
     }
     
-    private func setupStillCutCollectionView() {
-        // 셀 등록
-        stillCutCollectionView.register(StillCutCell.self, forCellWithReuseIdentifier: StillCutCell.reuseIdentifier)
-        
-        // 데이터 소스 만들기
-        stillCutDataSource = UICollectionViewDiffableDataSource<StillCutSection, StillCutItem>(collectionView: stillCutCollectionView) { collectionView, indexPath, item in
-            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: StillCutCell.reuseIdentifier, for: indexPath) as? StillCutCell else {
-                return UICollectionViewCell()
-            }
-            cell.imageView.kf.setImage(with: item.image)
-            return cell
-        }
-        
-        var snapshot = NSDiffableDataSourceSnapshot<StillCutSection, StillCutItem>()
-        snapshot.appendSections([.main])
-        let items = viewModel.stillImages.map { StillCutItem(image: $0) }
-        snapshot.appendItems(items)
-        stillCutDataSource.apply(snapshot, animatingDifferences: true)
-    }
-    
     // MARK: - Action
     @objc func addFavorite(_ sender: UIButton) {
         viewModel.isFavorite.toggle()
@@ -412,15 +381,6 @@ class MovieInfoViewController: UIViewController {
         print(#function)
     }
     
-    // MARK: - Private Methods
-    private func updateStillCutCollectionView() {
-        var snapshot = NSDiffableDataSourceSnapshot<StillCutSection, StillCutItem>()
-        snapshot.appendSections([.main])
-        let items = viewModel.stillImages.map { StillCutItem(image: $0) }
-        snapshot.appendItems(items)
-        stillCutDataSource.apply(snapshot, animatingDifferences: true)
-    }
-    
     // MARK: - Internal Methods
     func configure() {
         titleLabel.text = viewModel.title
@@ -431,24 +391,5 @@ class MovieInfoViewController: UIViewController {
         directorLabel.text = viewModel.director
         castLabel.text = viewModel.cast
         descriptionLabel.text = viewModel.description
-    }
-}
-
-// MARK: - StillCutCell
-private class StillCutCell: UICollectionViewCell {
-    static let reuseIdentifier = "StillCutCell"
-    
-    let imageView = UIImageView()
-    
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        contentView.addSubview(imageView)
-        imageView.contentMode = .scaleAspectFill
-        imageView.clipsToBounds = true
-        imageView.snp.makeConstraints { $0.edges.equalToSuperview() }
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
     }
 }
