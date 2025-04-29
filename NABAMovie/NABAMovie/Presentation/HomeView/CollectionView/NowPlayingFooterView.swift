@@ -46,7 +46,6 @@ final class NowPlayingFooterView: UICollectionReusableView {
     
     private let ratingLabel: UILabel = {
         let label = UILabel()
-        label.font = .systemFont(ofSize: 14)
         return label
     }()
     
@@ -59,6 +58,30 @@ final class NowPlayingFooterView: UICollectionReusableView {
         fatalError("init(coder:) has not been implemented")
     }
     
+    private func updateRatingLabel(voteAverage: Double, voteCount: String) {
+        // 1. 문자열 조합
+        let avgText = String(voteAverage)                     // 예: "8.5"
+        let countText = "(\(voteCount))"                      // 예: "(1,234)"
+        let fullText = "\(avgText) \(countText)"              // 예: "8.5 (1234)"
+        
+        // 2. 기본 폰트로 NSAttributedString 생성
+        let defaultFont = UIFont.systemFont(ofSize: 16, weight: .medium)
+        let attributed = NSMutableAttributedString(
+            string: fullText,
+            attributes: [.font: defaultFont]
+        )
+        
+        // 3. voteCount 부분만 작은 폰트로 변경
+        if let range = fullText.range(of: countText) {
+            let nsRange = NSRange(range, in: fullText)
+            let smallFont = UIFont.systemFont(ofSize: 12)
+            attributed.addAttribute(.font, value: smallFont, range: nsRange)
+        }
+        
+        // 4. 레이블에 적용
+        ratingLabel.attributedText = attributed
+    }
+    
     func update(with movie: MovieEntity) {
         movieTitleLabel.text = movie.title
         
@@ -68,7 +91,7 @@ final class NowPlayingFooterView: UICollectionReusableView {
         let numberFormatter: NumberFormatter = NumberFormatter()
         numberFormatter.numberStyle = .decimal
         let voteCount = numberFormatter.string(for: movie.voteCount) ?? "0"
-        ratingLabel.text = "\(movie.voteAverage) (\(voteCount))"
+        updateRatingLabel(voteAverage: movie.voteAverage, voteCount: voteCount)
     }
 }
 
