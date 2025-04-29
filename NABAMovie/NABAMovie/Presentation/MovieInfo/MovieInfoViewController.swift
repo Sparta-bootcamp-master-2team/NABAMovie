@@ -7,6 +7,7 @@
 
 import UIKit
 import SnapKit
+import Kingfisher
 
 class MovieInfoViewController: UIViewController {
     
@@ -18,7 +19,7 @@ class MovieInfoViewController: UIViewController {
     
     private struct StillCutItem: Hashable {
         let id = UUID()
-        let image: UIImage
+        let image: URL
     }
     
     private var stillCutDataSource: UICollectionViewDiffableDataSource<StillCutSection, StillCutItem>!
@@ -32,6 +33,7 @@ class MovieInfoViewController: UIViewController {
     private let scrollView: UIScrollView = {
         let scrollView = UIScrollView()
         scrollView.isScrollEnabled = true
+        scrollView.showsVerticalScrollIndicator = false
         scrollView.contentInsetAdjustmentBehavior = .never
         return scrollView
     }()
@@ -197,11 +199,12 @@ class MovieInfoViewController: UIViewController {
         return label
     }()
     
+    // 스틸컷 콜렉션 뷰
     private let stillCutCollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
         layout.minimumLineSpacing = 8
-        layout.itemSize = CGSize(width: 120, height: 180)
+        layout.itemSize = CGSize(width: 150, height: 100)
         
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.backgroundColor = .clear
@@ -223,7 +226,7 @@ class MovieInfoViewController: UIViewController {
         super.viewDidLoad()
         setupUI()
         configure()
-        viewModel.configure { [weak self] in
+        viewModel.setStillImages { [weak self] in
             self?.updateStillCutCollectionView()
         }
     }
@@ -284,18 +287,17 @@ class MovieInfoViewController: UIViewController {
         reserveButton.snp.makeConstraints {
             $0.leading.trailing.equalToSuperview().inset(24)
             $0.height.equalTo(50)
-            $0.bottom.equalTo(view.safeAreaLayoutGuide).inset(16)
+            $0.bottom.equalToSuperview()
         }
         
         scrollView.snp.makeConstraints {
             $0.top.leading.trailing.equalToSuperview()
-            $0.bottom.equalTo(reserveButton.snp.top).offset(-8)
+            $0.bottom.equalTo(reserveButton.snp.top).offset(-24)
         }
         
         contentView.snp.makeConstraints {
-            $0.top.leading.trailing.equalTo(scrollView)
+            $0.edges.equalTo(scrollView)
             $0.width.equalTo(scrollView)
-            $0.bottom.equalTo(scrollView)
         }
         
         imageContainerView.snp.makeConstraints {
@@ -378,13 +380,15 @@ class MovieInfoViewController: UIViewController {
     }
     
     private func setupStillCutCollectionView() {
+        // 셀 등록
         stillCutCollectionView.register(StillCutCell.self, forCellWithReuseIdentifier: StillCutCell.reuseIdentifier)
         
+        // 데이터 소스 만들기
         stillCutDataSource = UICollectionViewDiffableDataSource<StillCutSection, StillCutItem>(collectionView: stillCutCollectionView) { collectionView, indexPath, item in
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: StillCutCell.reuseIdentifier, for: indexPath) as? StillCutCell else {
                 return UICollectionViewCell()
             }
-            cell.imageView.image = item.image
+            cell.imageView.kf.setImage(with: item.image)
             return cell
         }
         
@@ -393,24 +397,6 @@ class MovieInfoViewController: UIViewController {
         let items = viewModel.stillImages.map { StillCutItem(image: $0) }
         snapshot.appendItems(items)
         stillCutDataSource.apply(snapshot, animatingDifferences: true)
-    }
-    
-    private class StillCutCell: UICollectionViewCell {
-        static let reuseIdentifier = "StillCutCell"
-        
-        let imageView = UIImageView()
-        
-        override init(frame: CGRect) {
-            super.init(frame: frame)
-            contentView.addSubview(imageView)
-            imageView.contentMode = .scaleAspectFill
-            imageView.clipsToBounds = true
-            imageView.snp.makeConstraints { $0.edges.equalToSuperview() }
-        }
-        
-        required init?(coder: NSCoder) {
-            fatalError("init(coder:) has not been implemented")
-        }
     }
     
     // MARK: - Action
@@ -445,5 +431,24 @@ class MovieInfoViewController: UIViewController {
         directorLabel.text = viewModel.director
         castLabel.text = viewModel.cast
         descriptionLabel.text = viewModel.description
+    }
+}
+
+// MARK: - StillCutCell
+private class StillCutCell: UICollectionViewCell {
+    static let reuseIdentifier = "StillCutCell"
+    
+    let imageView = UIImageView()
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        contentView.addSubview(imageView)
+        imageView.contentMode = .scaleAspectFill
+        imageView.clipsToBounds = true
+        imageView.snp.makeConstraints { $0.edges.equalToSuperview() }
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
 }
