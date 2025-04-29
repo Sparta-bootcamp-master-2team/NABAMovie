@@ -13,7 +13,7 @@ final class FirebaseService: FirebaseServiceProtocol {
         let authResult = try await Auth.auth().signIn(withEmail: email, password: password)
         return try await fetchUser(uid: authResult.user.uid)
     }
-
+    
     func signUp(email: String, password: String, username: String) async throws -> User {
         let authResult = try await Auth.auth().createUser(withEmail: email, password: password)
         let uid = authResult.user.uid
@@ -22,11 +22,11 @@ final class FirebaseService: FirebaseServiceProtocol {
         ])
         return User(id: uid, username: username)
     }
-
+    
     func signOut() throws {
         try Auth.auth().signOut()
     }
-
+    
     func fetchUser(uid: String) async throws -> User {
         let snapshot = try await Firestore.firestore().collection("users").document(uid).getDocument()
         guard let data = snapshot.data(),
@@ -34,5 +34,19 @@ final class FirebaseService: FirebaseServiceProtocol {
             throw NSError(domain: "UserFetchError", code: 999, userInfo: [NSLocalizedDescriptionKey: "사용자 정보 없음"])
         }
         return User(id: uid, username: username)
+    }
+    
+    func fetchReservations(for userId: String) async throws -> [ReservationDTO] {
+        let snapshot = try await Firestore.firestore()
+            .collection("users")
+            .document(userId)
+            .collection("reservations")
+            .getDocuments()
+        
+        let reservations: [ReservationDTO] = snapshot.documents.compactMap { document in
+            try? document.data(as: ReservationDTO.self)
+        }
+        
+        return reservations
     }
 }
