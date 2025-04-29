@@ -13,6 +13,9 @@ class BookingPageViewController: UIViewController {
     
     var viewModel: BookingPageViewModel
     
+    /// #333333
+    private let paymentContainerViewColor = UIColor(red: 51/255, green: 51/255, blue: 51/255, alpha: 1)
+    
     // MARK: - UI Components
     private let containerView: UIView = {
         let view = UIView()
@@ -85,7 +88,7 @@ class BookingPageViewController: UIViewController {
     
     private lazy var paymentContainerView: UIView = {
         let view = UIView()
-        view.backgroundColor = UIColor(red: 51/255, green: 51/255, blue: 51/255, alpha: 1)
+        view.backgroundColor = paymentContainerViewColor
         return view
     }()
     
@@ -95,6 +98,7 @@ class BookingPageViewController: UIViewController {
         button.setImage(UIImage(systemName: "return.right"), for: .normal)
         button.titleLabel?.font = .systemFont(ofSize: 14, weight: .medium)
         button.tintColor = .systemGray
+        button.addTarget(self, action: #selector(resetButtonClicked), for: .touchUpInside)
         return button
     }()
     
@@ -135,7 +139,6 @@ class BookingPageViewController: UIViewController {
     
     private lazy var personnelCountLabel: UILabel = {
         let label = UILabel()
-        label.text = "1"
         label.font = .boldSystemFont(ofSize: 20)
         label.textColor = .white
         return label
@@ -151,8 +154,8 @@ class BookingPageViewController: UIViewController {
     
     private lazy var totalPriceLabel: UILabel = {
         let label = UILabel()
-        label.text = "36,000원"
         label.font = .boldSystemFont(ofSize: 24)
+        label.text = "12,000 원"
         label.textColor = .white
         return label
     }()
@@ -165,7 +168,7 @@ class BookingPageViewController: UIViewController {
         button.addTarget(self, action: #selector(proceedToPayment), for: .touchUpInside)
         return button
     }()
-
+    
     
     // MARK: - Initializers
     init(viewModel: BookingPageViewModel) {
@@ -186,6 +189,9 @@ class BookingPageViewController: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         paymentButton.layer.cornerRadius = paymentButton.frame.height / 2
+        timeSelectionButton1.layer.cornerRadius = timeSelectionButton1.frame.height / 2
+        timeSelectionButton2.layer.cornerRadius = timeSelectionButton2.frame.height / 2
+        timeSelectionButton3.layer.cornerRadius = timeSelectionButton3.frame.height / 2
     }
     
     // MARK: - UI & Layout
@@ -239,12 +245,19 @@ class BookingPageViewController: UIViewController {
             $0.centerX.equalToSuperview()
         }
         
-        minusButton.snp.makeConstraints {
-            $0.height.equalTo(20)
+        timeSelectionButton1.snp.makeConstraints {
+            $0.width.equalTo(80)
+            $0.height.equalTo(50)
         }
         
-        plusButton.snp.makeConstraints {
-            $0.height.equalTo(20)
+        timeSelectionButton2.snp.makeConstraints {
+            $0.width.equalTo(80)
+            $0.height.equalTo(50)
+        }
+        
+        timeSelectionButton3.snp.makeConstraints {
+            $0.width.equalTo(80)
+            $0.height.equalTo(50)
         }
         
         screenImageView.snp.makeConstraints {
@@ -258,7 +271,7 @@ class BookingPageViewController: UIViewController {
         }
         
         resetButton.snp.makeConstraints {
-            $0.top.equalToSuperview().inset(8)
+            $0.top.equalToSuperview().inset(16)
             $0.trailing.equalToSuperview().inset(24)
         }
         
@@ -270,6 +283,14 @@ class BookingPageViewController: UIViewController {
         personnelStackView.snp.makeConstraints {
             $0.centerY.equalTo(personnelTitle)
             $0.trailing.equalToSuperview().inset(24)
+        }
+        
+        minusButton.snp.makeConstraints {
+            $0.height.equalTo(20)
+        }
+        
+        plusButton.snp.makeConstraints {
+            $0.height.equalTo(20)
         }
         
         totalPriceTitle.snp.makeConstraints {
@@ -292,6 +313,7 @@ class BookingPageViewController: UIViewController {
     // MARK: - Action
     @objc private func resetButtonClicked() {
         print(#function)
+        viewModel.personnel = 1
     }
     
     @objc private func minusPersonnel() {
@@ -320,7 +342,13 @@ class BookingPageViewController: UIViewController {
         titleLabel.text = viewModel.titleText
         theaterLabel.text = viewModel.theaterText
         notificationLabel.text = viewModel.notificationTexts.joined(separator: "\n")
-        personnelCountLabel.text = viewModel.personnel.description
-        totalPriceLabel.text = viewModel.moviePrice.formatted(.currency(code: "KRW"))
+        
+        viewModel.onPersonnelChanged = { [weak self] count, _ in
+            self?.personnelCountLabel.text = "\(count)"
+        }
+        
+        viewModel.onTotalPriceChanged = { [weak self] total in
+            self?.totalPriceLabel.text = total
+        }
     }
 }
