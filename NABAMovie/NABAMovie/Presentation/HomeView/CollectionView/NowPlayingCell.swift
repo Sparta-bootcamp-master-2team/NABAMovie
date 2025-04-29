@@ -51,7 +51,7 @@ final class NowPlayingCell: UICollectionViewCell {
         if index < 2 {
             number = index + 9
         } else if index > 11 {
-            number = index - 10
+            number = index - 11
         } else {
             number = index - 1
         }
