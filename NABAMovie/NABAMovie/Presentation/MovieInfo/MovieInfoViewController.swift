@@ -388,6 +388,16 @@ class MovieInfoViewController: UIViewController {
     
     @objc func transitToBookingPage() {
         print(#function)
+        let bottomSheet = BookingPageViewController(viewModel: BookingPageViewModel(movieDetail: viewModel.movieDetail))
+        if let sheet = bottomSheet.sheetPresentationController {
+            sheet.detents = [.custom(resolver: { context in
+                return context.maximumDetentValue * 0.9
+            })]
+            sheet.preferredCornerRadius = 20
+            sheet.prefersGrabberVisible = true
+        }
+        
+        present(bottomSheet, animated: true)
     }
     
     // MARK: - Internal Methods
