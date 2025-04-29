@@ -23,6 +23,17 @@ final class NowPlayingCell: UICollectionViewCell {
         return imageView
     }()
     
+    private let numberLabel: UILabel = {
+        let label = UILabel()
+        label.font = .systemFont(ofSize: 20, weight: .medium)
+        label.textAlignment = .center
+        label.textColor = .black
+        label.backgroundColor = .white
+        label.clipsToBounds = true
+        label.layer.cornerRadius = 15
+        return label
+    }()
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         configure()
@@ -32,9 +43,20 @@ final class NowPlayingCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func update(movie: MovieEntity) {
+    func update(movie: MovieEntity, index: Int) {
         guard let url = URL(string: movie.posterImageURL) else { return }
         posterImageView.kf.setImage(with: url)
+        
+        let number: Int
+        if index < 2 {
+            number = index + 9
+        } else if index > 11 {
+            number = index - 10
+        } else {
+            number = index - 1
+        }
+        
+        numberLabel.text = "\(number)"
     }
 }
 
@@ -46,11 +68,18 @@ private extension NowPlayingCell {
     
     func setHierarchy() {
         self.contentView.addSubview(posterImageView)
+        self.contentView.addSubview(numberLabel)
     }
     
     func setConstraints() {
         posterImageView.snp.makeConstraints {
             $0.edges.equalToSuperview()
+        }
+        
+        numberLabel.snp.makeConstraints {
+            $0.top.equalTo(posterImageView).inset(10)
+            $0.leading.equalTo(posterImageView).inset(10)
+            $0.size.equalTo(30)
         }
     }
 }
