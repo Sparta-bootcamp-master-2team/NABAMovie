@@ -16,6 +16,8 @@ class BookingPageViewController: UIViewController {
     /// #333333
     private let paymentContainerViewColor = UIColor(red: 51/255, green: 51/255, blue: 51/255, alpha: 1)
     
+    private var selectedTimeButton: UIButton?
+    
     // MARK: - UI Components
     private let containerView: UIView = {
         let view = UIView()
@@ -47,8 +49,11 @@ class BookingPageViewController: UIViewController {
         let button = UIButton()
         button.setTitle("12:25", for: .normal)
         button.titleLabel?.font = .boldSystemFont(ofSize: 14)
+        button.setTitleColor(.white, for: .normal)
+        button.layer.borderWidth = 1
+        button.layer.borderColor = UIColor.lightGray.cgColor
         button.backgroundColor = UIColor(named: "brandColor")
-        button.layer.cornerRadius = 64
+        button.addTarget(self, action: #selector(timeButtonTapped(_:)), for: .touchUpInside)
         return button
     }()
     
@@ -56,8 +61,10 @@ class BookingPageViewController: UIViewController {
         let button = UIButton()
         button.setTitle("15:55", for: .normal)
         button.titleLabel?.font = .boldSystemFont(ofSize: 14)
-        button.backgroundColor = UIColor(named: "brandColor")
-        button.layer.cornerRadius = 64
+        button.setTitleColor(.black, for: .normal)
+        button.layer.borderWidth = 1
+        button.layer.borderColor = UIColor.lightGray.cgColor
+        button.addTarget(self, action: #selector(timeButtonTapped(_:)), for: .touchUpInside)
         return button
     }()
     
@@ -65,8 +72,10 @@ class BookingPageViewController: UIViewController {
         let button = UIButton()
         button.setTitle("18:35", for: .normal)
         button.titleLabel?.font = .boldSystemFont(ofSize: 14)
-        button.backgroundColor = UIColor(named: "brandColor")
-        button.layer.cornerRadius = 64
+        button.setTitleColor(.black, for: .normal)
+        button.layer.borderWidth = 1
+        button.layer.borderColor = UIColor.lightGray.cgColor
+        button.addTarget(self, action: #selector(timeButtonTapped(_:)), for: .touchUpInside)
         return button
     }()
     
@@ -140,6 +149,7 @@ class BookingPageViewController: UIViewController {
     private lazy var personnelCountLabel: UILabel = {
         let label = UILabel()
         label.font = .boldSystemFont(ofSize: 20)
+        label.text = "1"
         label.textColor = .white
         return label
     }()
@@ -185,6 +195,7 @@ class BookingPageViewController: UIViewController {
         
         setupUI()
         configure()
+        selectedTimeButton = timeSelectionButton1
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -311,6 +322,20 @@ class BookingPageViewController: UIViewController {
     }
     
     // MARK: - Action
+    @objc private func timeButtonTapped(_ sender: UIButton) {
+        print(sender.titleLabel?.text)
+        guard sender != selectedTimeButton else { return }
+        
+        selectedTimeButton?.backgroundColor = .clear
+        selectedTimeButton?.layer.borderColor = UIColor.lightGray.cgColor
+        selectedTimeButton?.setTitleColor(.black, for: .normal)
+        
+        sender.backgroundColor = UIColor(named: "brandColor")
+        sender.layer.borderColor = UIColor.clear.cgColor
+        sender.setTitleColor(.white, for: .normal)
+        selectedTimeButton = sender
+    }
+    
     @objc private func resetButtonClicked() {
         print(#function)
         viewModel.personnel = 1
