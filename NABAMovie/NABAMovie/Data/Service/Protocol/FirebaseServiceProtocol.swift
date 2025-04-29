@@ -13,4 +13,5 @@ protocol FirebaseServiceProtocol {
     func fetchUser(uid: String) async throws -> User
     func fetchReservations(for userId: String) async throws -> [ReservationDTO]
     func makeReservation(for userId: String, reservation: ReservationDTO) async throws
+    func fetchFavoritMovies(for userID: String) async throws -> [FavoriteMovieDTO]
 }

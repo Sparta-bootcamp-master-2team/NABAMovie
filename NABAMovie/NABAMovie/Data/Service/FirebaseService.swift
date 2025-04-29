@@ -64,4 +64,19 @@ final class FirebaseService: FirebaseServiceProtocol {
             ])
     }
     
+    func fetchFavoriteMovies(for userId: String) async throws -> [FavoriteMovieDTO] {
+        let snapshot = try await Firestore.firestore()
+            .collection("users")
+            .document(userId)
+            .collection("favoriteMovies")
+            .getDocuments()
+
+        let favoriteMovies: [FavoriteMovieDTO] = snapshot.documents.compactMap { document in
+            try? document.data(as: FavoriteMovieDTO.self)
+        }
+
+        return favoriteMovies
+    }
+
+    
 }
