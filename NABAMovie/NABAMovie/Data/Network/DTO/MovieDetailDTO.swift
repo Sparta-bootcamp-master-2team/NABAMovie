@@ -127,7 +127,7 @@ extension MovieDetailDTO {
             voteCount: voteCount,
             overview: overview.isEmpty ? nil : overview,
             posterImageURL: fullPosterURL,
-            certification: certification,
+            certification: certification
         )
     }
     

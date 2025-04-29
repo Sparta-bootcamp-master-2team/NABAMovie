@@ -20,19 +20,19 @@ final class MyPageView: UIView {
     
     var myPageCollectionView = MyPageCollectionView()
     var myInformationView = MyInformationView()
-    typealias DataSource = UICollectionViewDiffableDataSource<MyPageCollectionSection, MovieEntity>
-    typealias SnapShot = NSDiffableDataSourceSnapshot<MyPageCollectionSection, MovieEntity>
+    typealias DataSource = UICollectionViewDiffableDataSource<MyPageCollectionSection, MyPageMovieEntity>
+    typealias SnapShot = NSDiffableDataSourceSnapshot<MyPageCollectionSection, MyPageMovieEntity>
     // DiffableDataSource
     var dataSource: DataSource?
     // item1: Reservation Items , item2: Favorite Items
-    var item1: [MovieEntity] = MockData.item1
-    var item2: [MovieEntity] = MockData.item2
+    var item1: [MyPageMovieEntity] = MyPageMockData.item1
+    var item2: [MyPageMovieEntity] = MyPageMockData.item2
     
     // 마이페이지에서 보이는 아이템은 최대 2개
-    var reservationItem: [MovieEntity] {
+    var reservationItem: [MyPageMovieEntity] {
         return Array(item1.prefix(2))
     }
-    var favoriteItem: [MovieEntity] {
+    var favoriteItem: [MyPageMovieEntity] {
         return Array(item2.prefix(2))
     }
     
@@ -68,7 +68,7 @@ final class MyPageView: UIView {
     private func configureDataSource() {
         // DiffableDataSource Cell 설정
         let cellRegistration = UICollectionView.CellRegistration
-        <MyPageCollectionViewCell, MovieEntity>{ [unowned self] cell, indexPath, movieEntity in
+        <MyPageCollectionViewCell, MyPageMovieEntity>{ [unowned self] cell, indexPath, movieEntity in
             if indexPath.section == MyPageCollectionSection.reservationIndex {
                 cell.configure(model: self.reservationItem[indexPath.row])
             } else if indexPath.section == MyPageCollectionSection.favoriteIndex {

@@ -126,7 +126,7 @@ final class MyPageCollectionViewCell: UICollectionViewCell {
         }
     }
     
-    func configure(model: MovieEntity) {
+    func configure(model: MyPageMovieEntity) {
         self.movieTitleLabel.text = model.title
         self.timeLabel.text = model.releaseDate
         self.genreLabel.text = model.genre.joined(separator: ",")
