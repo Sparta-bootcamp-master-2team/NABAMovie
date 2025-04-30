@@ -8,9 +8,9 @@
 import UIKit
 
 final class LoginCoordinator: Coordinator {
-    private var parentCoordinator: AppCoordinator
     private let window: UIWindow
     private let diContainer: AppDIContainer
+    private var parentCoordinator: AppCoordinator
 
     init(window: UIWindow, diContainer: AppDIContainer, parent: AppCoordinator) {
         self.window = window
@@ -19,7 +19,7 @@ final class LoginCoordinator: Coordinator {
     }
     
     deinit {
-        print("로그인 코디네이터 메모리 해제")
+        print("\(String(describing: Self.self)) 메모리 해제")
     }
 
     func start() {

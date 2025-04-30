@@ -8,7 +8,7 @@
 import UIKit
 
 final class AppDIContainer {
-
+    
     func makeLoginViewController(coordinator: LoginCoordinator) -> LoginViewController {
         let firebaseService = FirebaseService()
         let repository = FirebaseAuthRepositoryImpl(firebaseService: firebaseService)
@@ -16,8 +16,9 @@ final class AppDIContainer {
         let viewModel = LoginViewModel(loginUseCase: useCase)
         return LoginViewController(viewModel: viewModel, coordinator: coordinator)
     }
-
+    
     func makeTabBarCoordinator() -> TabBarCoordinator {
         let tabBarDIContainer = TabBarDIContainer()
         return TabBarCoordinator(tabBarDIContainer: tabBarDIContainer)
-    }}
+    }
+}

@@ -18,6 +18,9 @@ final class AppCoordinator {
         self.diContainer = diContainer
     }
     
+    deinit {
+        print("\(String(describing: Self.self)) 메모리 해제")
+    }
 
     func start() {
         if isLoggedIn() {

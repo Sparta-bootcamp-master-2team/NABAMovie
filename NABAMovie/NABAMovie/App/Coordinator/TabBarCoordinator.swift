@@ -16,6 +16,10 @@ final class TabBarCoordinator: Coordinator {
     init(tabBarDIContainer: TabBarDIContainer) {
         self.tabBarDIContainer = tabBarDIContainer
     }
+    
+    deinit {
+        print("\(String(describing: Self.self)) 메모리 해제")
+    }
 
     func start() {
         // 각 탭의 navigationController
@@ -26,7 +30,8 @@ final class TabBarCoordinator: Coordinator {
         // 탭별 Coordinator 생성 및 DI 주입
         let homeCoordinator = HomeCoordinator(
             navigationController: homeNav,
-            diContainer: tabBarDIContainer.makeHomeDIContainer()
+            diContainer: tabBarDIContainer.makeHomeDIContainer(),
+            parent: self
         )
 
         let searchCoordinator = SearchCoordinator(
