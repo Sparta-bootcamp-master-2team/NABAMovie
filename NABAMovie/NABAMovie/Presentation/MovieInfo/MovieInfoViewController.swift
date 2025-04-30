@@ -138,10 +138,10 @@ final class MovieInfoViewController: UIViewController {
     
     private lazy var favoriteButton: UIButton = {
         let button = UIButton()
-        let largeConfig = UIImage.SymbolConfiguration(pointSize: 24)
-        button.setImage(UIImage(systemName: "heart")?.withConfiguration(largeConfig), for: .normal)
+        let config = UIImage.SymbolConfiguration(pointSize: 24)
+        button.setImage(UIImage(systemName: "heart")?.withConfiguration(config), for: .normal)
         button.tintColor = UIColor(named: "brandColor")
-        button.addTarget(self, action: #selector(addFavorite(_:)), for: .touchUpInside)
+        button.addTarget(self, action: #selector(favoriteButtonClicked(_:)), for: .touchUpInside)
         return button
     }()
     
@@ -433,12 +433,14 @@ final class MovieInfoViewController: UIViewController {
     }
     
     // MARK: - Action
-    @objc func addFavorite(_ sender: UIButton) {
+    @objc func favoriteButtonClicked(_ sender: UIButton) {
+        
         viewModel.isFavorite.toggle()
-        let imageName = viewModel.isFavorite ? "heart.fill" : "heart"
-        let largeConfig = UIImage.SymbolConfiguration(pointSize: 24)
-        favoriteButton.setImage(UIImage(systemName: imageName)?.withConfiguration(largeConfig), for: .normal)
-        print("Favorite status: \(viewModel.isFavorite)")
+        let image = viewModel.isFavorite ? "heart.fill" : "heart"
+        let config = UIImage.SymbolConfiguration(pointSize: 24)
+        self.favoriteButton.setImage(UIImage(systemName: image)?.withConfiguration(config), for: .normal)
+        
+        viewModel.isFavorite ? viewModel.addFavoriteMovie() : viewModel.removeFavoriteMovie()
     }
     
     @objc func transitToBookingPage() {
