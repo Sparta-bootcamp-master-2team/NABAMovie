@@ -16,24 +16,29 @@ enum MyPageCollectionSection {
     static var favoriteIndex = 1
 }
 
+enum MyPageCellWrapper: Hashable {
+    case favorite(MovieEntity)
+    case reservation(Reservation)
+}
+
 final class MyPageView: UIView {
     
     var myPageCollectionView = MyPageCollectionView()
     var myInformationView = MyInformationView()
-    typealias DataSource = UICollectionViewDiffableDataSource<MyPageCollectionSection, MyPageMovieEntity>
-    typealias SnapShot = NSDiffableDataSourceSnapshot<MyPageCollectionSection, MyPageMovieEntity>
+    typealias DataSource = UICollectionViewDiffableDataSource<MyPageCollectionSection, MyPageCellWrapper>
+    typealias SnapShot = NSDiffableDataSourceSnapshot<MyPageCollectionSection, MyPageCellWrapper>
     // DiffableDataSource
     var dataSource: DataSource?
-    // item1: Reservation Items , item2: Favorite Items
-    var item1: [MyPageMovieEntity] = MyPageMockData.item1
-    var item2: [MyPageMovieEntity] = MyPageMockData.item2
+    //Reservation Items ,Favorite Items
+    var reservations: [Reservation] = []
+    var favorites: [MovieEntity] = []
     
     // 마이페이지에서 보이는 아이템은 최대 2개
-    var reservationItem: [MyPageMovieEntity] {
-        return Array(item1.prefix(2))
+    var displayedReservationItem: [Reservation] {
+        return Array(reservations.prefix(2))
     }
-    var favoriteItem: [MyPageMovieEntity] {
-        return Array(item2.prefix(2))
+    var displayedFavoritesItem: [MovieEntity] {
+        return Array(favorites.prefix(2))
     }
     
     override init(frame: CGRect) {
@@ -68,11 +73,12 @@ final class MyPageView: UIView {
     private func configureDataSource() {
         // DiffableDataSource Cell 설정
         let cellRegistration = UICollectionView.CellRegistration
-        <MyPageCollectionViewCell, MyPageMovieEntity>{ [unowned self] cell, indexPath, movieEntity in
-            if indexPath.section == MyPageCollectionSection.reservationIndex {
-                cell.configure(model: self.reservationItem[indexPath.row])
-            } else if indexPath.section == MyPageCollectionSection.favoriteIndex {
-                cell.configure(model: self.favoriteItem[indexPath.row])
+        <MyPageCollectionViewCell, MyPageCellWrapper>{ cell, indexPath, item in
+            switch item {
+            case .favorite(let movie):
+                cell.configure(model: movie)
+            case .reservation(let movie):
+                cell.configure(model: movie)
             }
         }
         dataSource = DataSource(collectionView: myPageCollectionView) { collectionView, indexPath, movieEntity in
@@ -84,10 +90,10 @@ final class MyPageView: UIView {
         <MyPageCollectionHeaderView>(elementKind: MyPageCollectionHeaderView.elementKind)
         {[unowned self] supplementaryView, elementKind, indexPath in
             if indexPath.section == MyPageCollectionSection.reservationIndex {
-                supplementaryView.configure(section: .reservation, count: self.item1.count)
+                supplementaryView.configure(section: .reservation, count: self.reservations.count)
                 supplementaryView.sectionIndex = MyPageCollectionSection.reservationIndex
             } else if indexPath.section == MyPageCollectionSection.favoriteIndex {
-                supplementaryView.configure(section: .favorite, count: self.item2.count)
+                supplementaryView.configure(section: .favorite, count: self.favorites.count)
                 supplementaryView.sectionIndex = MyPageCollectionSection.favoriteIndex
             }
             supplementaryView.delegate = self
@@ -101,14 +107,20 @@ final class MyPageView: UIView {
     private func makeSnapshot() -> SnapShot {
         var snapshot = SnapShot()
         snapshot.appendSections([.reservation, .favorite])
-        snapshot.appendItems(reservationItem, toSection: .reservation)
-        snapshot.appendItems(favoriteItem, toSection: .favorite)
+        snapshot.appendItems(displayedReservationItem.map{ MyPageCellWrapper.reservation($0)}, toSection: .reservation)
+        snapshot.appendItems(displayedFavoritesItem.map{ MyPageCellWrapper.favorite($0)}, toSection: .favorite)
         return snapshot
     }
     
     // DataSource에 스냅샷 적용
     private func apply() {
         dataSource?.apply(makeSnapshot(), animatingDifferences: false)
+    }
+    
+    func fetchItems(reservations: [Reservation], favorites: [MovieEntity]) {
+        self.reservations = reservations
+        self.favorites = favorites
+        apply()
     }
 }
 
@@ -117,9 +129,9 @@ extension MyPageView: UICollectionViewDelegate {
     // 셀 터치시 해당 셀의 데이터를 전달
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if indexPath.section == MyPageCollectionSection.reservationIndex {
-            print(reservationItem[indexPath.row])
+            print(displayedReservationItem[indexPath.row])
         } else if indexPath.section == MyPageCollectionSection.favoriteIndex {
-            print(favoriteItem[indexPath.row])
+            print(displayedFavoritesItem[indexPath.row])
         }
     }
 }
