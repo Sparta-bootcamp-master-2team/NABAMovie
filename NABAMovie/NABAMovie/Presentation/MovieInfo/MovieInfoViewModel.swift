@@ -13,6 +13,7 @@ final class MovieInfoViewModel {
     let movieDetail: MovieEntity
     
     private let firebaseService = FirebaseService()
+    
     private let movieStillsUseCase: FetchMovieStillsUseCase
     private let addFavoriteMovieUseCase: AddFavoriteMovieUseCase
     private let removeFavoriteMovieUseCase: RemoveFavoriteMovieUseCase
@@ -22,6 +23,7 @@ final class MovieInfoViewModel {
         self.movieStillsUseCase = movieStillsUseCase
         self.addFavoriteMovieUseCase = addFavoriteMovieUseCase
         self.removeFavoriteMovieUseCase = removeFavoriteMovieUseCase
+        self.setFavoriteStatus()
     }
     
     var stillImages: [URL] = []
@@ -78,6 +80,7 @@ final class MovieInfoViewModel {
         }
     }
     
+    /// 즐겨찾기 추가
     func addFavoriteMovie() {
         Task {
             let userId = try firebaseService.getCurrentUserId()
@@ -91,6 +94,7 @@ final class MovieInfoViewModel {
         }
     }
     
+    /// 즐겨찾기 삭제
     func removeFavoriteMovie() {
         Task {
             let userId = try firebaseService.getCurrentUserId()
@@ -100,6 +104,17 @@ final class MovieInfoViewModel {
                 print("찜 삭제 성공")
             case .failure(let error):
                 print("찜 삭제 에러: \(error.localizedDescription)")
+            }
+        }
+    }
+    
+    // 즐겨찾기 상태 설정
+    private func setFavoriteStatus() {
+        Task {
+            let userId = try firebaseService.getCurrentUserId()
+            let favoriteMovies = try await firebaseService.fetchFavoriteMovies(for: userId)
+            if favoriteMovies.contains(where: { $0.movieID == movieDetail.movieID }) {
+                isFavorite = true
             }
         }
     }
