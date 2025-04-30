@@ -231,7 +231,7 @@ class BookingPageViewController: UIViewController {
         containerView.snp.makeConstraints {
             $0.top.equalToSuperview().inset(40)
             $0.bottom.equalTo(paymentContainerView.snp.top)
-            $0.horizontalEdges.equalTo(view.safeAreaLayoutGuide).inset(24)
+            $0.horizontalEdges.equalTo(view.safeAreaLayoutGuide).inset(20)
         }
         
         paymentContainerView.snp.makeConstraints {
@@ -283,17 +283,17 @@ class BookingPageViewController: UIViewController {
         
         resetButton.snp.makeConstraints {
             $0.top.equalToSuperview().inset(16)
-            $0.trailing.equalToSuperview().inset(24)
+            $0.trailing.equalToSuperview().inset(20)
         }
         
         personnelTitle.snp.makeConstraints {
             $0.top.equalTo(resetButton.snp.bottom).offset(16)
-            $0.leading.equalToSuperview().inset(24)
+            $0.leading.equalToSuperview().inset(20)
         }
         
         personnelStackView.snp.makeConstraints {
             $0.centerY.equalTo(personnelTitle)
-            $0.trailing.equalToSuperview().inset(24)
+            $0.trailing.equalToSuperview().inset(20)
         }
         
         minusButton.snp.makeConstraints {
@@ -306,17 +306,17 @@ class BookingPageViewController: UIViewController {
         
         totalPriceTitle.snp.makeConstraints {
             $0.top.equalTo(personnelTitle.snp.bottom).offset(16)
-            $0.leading.equalToSuperview().inset(24)
+            $0.leading.equalToSuperview().inset(20)
         }
         
         totalPriceLabel.snp.makeConstraints {
             $0.top.equalTo(personnelTitle.snp.bottom).offset(16)
-            $0.trailing.equalToSuperview().inset(24)
+            $0.trailing.equalToSuperview().inset(20)
         }
         
         paymentButton.snp.makeConstraints {
             $0.top.equalTo(totalPriceTitle.snp.bottom).offset(20)
-            $0.leading.trailing.equalToSuperview().inset(24)
+            $0.leading.trailing.equalToSuperview().inset(20)
             $0.height.equalTo(50)
         }
     }
