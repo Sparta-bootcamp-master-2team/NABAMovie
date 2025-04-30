@@ -17,7 +17,9 @@ final class MovieInfoViewModel {
     
     var isFavorite: Bool = false
     
-    private let usecase = FetchMovieStillsUseCase(repository: MovieRepositoryImpl(networkManager: MovieNetworkManager()))
+//    private let fetchUserUseCase
+    private let movieStillsUseCase = FetchMovieStillsUseCase(repository: MovieRepositoryImpl(networkManager: MovieNetworkManager()))
+    private let addFavoriteMovieUseCase = AddFavoriteMovieUseCase(repository: FavoriteMovieRepositoryImpl(firebaseService: FirebaseService()))
     
     init(movieDetail: MovieEntity) {
         self.movieDetail = movieDetail
@@ -55,7 +57,7 @@ final class MovieInfoViewModel {
     /// 스틸컷 받아오기
     func setStillImages(completion: @escaping () -> Void) {
         Task {
-            let result = await usecase.execute(for: movieDetail.movieID)
+            let result = await movieStillsUseCase.execute(for: movieDetail.movieID)
             await MainActor.run {
                 switch result {
                 case .success(let movies):
@@ -66,10 +68,31 @@ final class MovieInfoViewModel {
                     firstStillImageUrl = stillImages.first
                     completion()
                 case .failure(let error):
-                    print("에러 발생: \(error.localizedDescription)")
+                    print("스틸 컷 저장 에러: \(error.localizedDescription)")
                 }
             }
         }
-        
+    }
+    
+    
+    /// let movie = MovieEntity(...)
+    /// let result = await addFavoriteMovieUseCase.execute(userId: "user-uid", movie: movie)
+    /// switch result {
+    /// case .success:
+    ///     print("찜 추가 성공")
+    /// case .failure(let error):
+    ///     print(error.localizedDescription)
+    /// }
+
+    func setFavoriteMovie(completion: @escaping () -> Void) {
+        Task {
+            let result = await addFavoriteMovieUseCase.execute(userId: "user-uid", movie: movieDetail)
+            switch result {
+            case .success(let success):
+                print("찜 추가 성공")
+            case .failure(let error):
+                print("찜 추가 에러: \(error.localizedDescription)")
+            }
+        }
     }
 }
