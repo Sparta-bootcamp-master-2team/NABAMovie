@@ -13,6 +13,9 @@ final class MyPageViewModel {
     private let fetchReservationUseCase: FetchReservationsUseCase
     private let logoutUseCase: LogoutUseCase
     
+    var favorites: [MovieEntity] = []
+    var reservations: [Reservation] = []
+    
     var successFetchMyPageItem: (@MainActor ([Reservation],[MovieEntity]) -> Void)?
     var failedFetchMyPageItem: (@MainActor () -> Void)?
     var failedLogout: (@MainActor () -> Void)?
@@ -37,6 +40,11 @@ final class MyPageViewModel {
                 await failedFetchMyPageItem?()
             }
         }
+    }
+    
+    func savePageItems(reseravations: [Reservation], favorites: [MovieEntity]) {
+        self.favorites = favorites
+        self.reservations = reseravations
     }
     
     func logout() {

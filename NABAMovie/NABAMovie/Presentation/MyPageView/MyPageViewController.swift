@@ -53,6 +53,7 @@ final class MyPageViewController: UIViewController {
     private func bind() {
         viewModel.successFetchMyPageItem = { [weak self] reservations, favorites  in
             self?.myPageView.fetchItems(reservations: reservations, favorites: favorites)
+            self?.viewModel.savePageItems(reseravations: reservations, favorites: favorites)
         }
         viewModel.failedFetchMyPageItem = { [weak self] in
             self?.showAlert(title: "오류", message: "내 정보 불러오기 실패하였습니다.\n네트워크를 확인해주세요.")
@@ -67,11 +68,15 @@ final class MyPageViewController: UIViewController {
 extension MyPageViewController: MyPageViewDelegate {
     // 예매 내역 더보기 버튼 클릭 시
     func reservationMoreButtonTapped() {
-        print(#function)
+        let listVM = MovieListViewModel(item: self.viewModel.reservations)
+        let listVC = MovieListViewController(viewModel: listVM)
+        self.present(listVC, animated: true)
     }
     // 찜 목록 더보기 버튼 클릭 시
     func favoriteMoreButtonTapped() {
-        print(#function)
+        let listVM = MovieListViewModel(item: self.viewModel.favorites)
+        let listVC = MovieListViewController(viewModel: listVM)
+        self.present(listVC, animated: true)
     }
     
     // 로그아웃 버튼 클릭 시
