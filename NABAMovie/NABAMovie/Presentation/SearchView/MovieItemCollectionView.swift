@@ -10,9 +10,12 @@ import UIKit
 final class MovieItemCollectionView: UICollectionView {
     
     enum Section { case main }
-    
-    typealias DataSource = UICollectionViewDiffableDataSource<Section, MovieEntity>
-    typealias SnapShot = NSDiffableDataSourceSnapshot<Section, MovieEntity>
+    enum ItemWrapper: Hashable {
+        case movieEntity(MovieEntity)
+        case reservationEntity(Reservation)
+    }
+    typealias DataSource = UICollectionViewDiffableDataSource<Section, ItemWrapper>
+    typealias SnapShot = NSDiffableDataSourceSnapshot<Section, ItemWrapper>
     
     private(set) var movieItemCollectionDataSource: DataSource?
     
@@ -54,29 +57,40 @@ final class MovieItemCollectionView: UICollectionView {
     
     // DiffableDataSource 구성
     private func configureDataSource() {
-        let cellRegistration = UICollectionView.CellRegistration<MovieItemCollectionViewCell, [MovieEntity]> { cell,indexPath,itemIdentifier in }
+        let cellRegistration = UICollectionView.CellRegistration<MovieItemCollectionViewCell, [ItemWrapper]> { cell,indexPath,itemIdentifier in }
         
         movieItemCollectionDataSource = DataSource(collectionView: self) { collectionView, indexPath, item in
-            
             let cell = collectionView.dequeueConfiguredReusableCell(using: cellRegistration, for: indexPath, item: [item])
-            cell.configure(model: item)
+            switch item {
+            case .movieEntity(let movieEntity):
+                cell.configure(model: movieEntity)
+            case .reservationEntity(let reservationEntity):
+                cell.configure(model: reservationEntity)
+            }
+//            cell.configure(model: item)
             return cell
         }
     }
     
     // Item 스냅샷 생성
-    private func makeSnapShot(item: [MovieEntity]) -> SnapShot {
+    private func makeSnapShot(item: [CellConfigurable]) -> SnapShot {
         var snapshot = SnapShot()
         snapshot.appendSections([.main])
-        snapshot.appendItems(item)
+        if item is [MovieEntity] {
+            snapshot.appendItems(item.map{ItemWrapper.movieEntity($0 as! MovieEntity)})
+        }
+        if item is [Reservation] {
+            snapshot.appendItems(item.map{ItemWrapper.reservationEntity($0 as! Reservation)})
+        }
+        
         return snapshot
     }
     // Item 스냅샷 적용
-    private func apply(item: [MovieEntity]) {
+    private func apply(item: [CellConfigurable]) {
         movieItemCollectionDataSource?.apply(makeSnapShot(item: item), animatingDifferences: true)
     }
     // 키워드에 맞는 영화 적용
-    func fetchCellItems(item: [MovieEntity]) {
+    func fetchCellItems(item: [CellConfigurable]) {
         apply(item: item)
     }
     
