@@ -12,19 +12,21 @@ final class MovieInfoViewModel {
     
     let movieDetail: MovieEntity
     
+    private let firebaseService = FirebaseService()
+    private let movieStillsUseCase: FetchMovieStillsUseCase
+    private let addFavoriteMovieUseCase: AddFavoriteMovieUseCase
+    
+    init(movieDetail: MovieEntity, movieStillsUseCase: FetchMovieStillsUseCase, addFavoriteMovieUseCase: AddFavoriteMovieUseCase) {
+        self.movieDetail = movieDetail
+        self.movieStillsUseCase = movieStillsUseCase
+        self.addFavoriteMovieUseCase = addFavoriteMovieUseCase
+    }
+    
     var stillImages: [URL] = []
     var firstStillImageUrl: URL?
     
     var isFavorite: Bool = false
-    
-//    private let fetchUserUseCase
-    private let movieStillsUseCase = FetchMovieStillsUseCase(repository: MovieRepositoryImpl(networkManager: MovieNetworkManager()))
-    private let addFavoriteMovieUseCase = AddFavoriteMovieUseCase(repository: FavoriteMovieRepositoryImpl(firebaseService: FirebaseService()))
-    
-    init(movieDetail: MovieEntity) {
-        self.movieDetail = movieDetail
-    }
-    
+
     var titleText: String {
         movieDetail.title
     }
@@ -73,16 +75,6 @@ final class MovieInfoViewModel {
             }
         }
     }
-    
-    
-    /// let movie = MovieEntity(...)
-    /// let result = await addFavoriteMovieUseCase.execute(userId: "user-uid", movie: movie)
-    /// switch result {
-    /// case .success:
-    ///     print("찜 추가 성공")
-    /// case .failure(let error):
-    ///     print(error.localizedDescription)
-    /// }
 
     func setFavoriteMovie(completion: @escaping () -> Void) {
         Task {
