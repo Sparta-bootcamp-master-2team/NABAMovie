@@ -127,7 +127,7 @@ extension MovieDetailDTO {
             voteCount: voteCount,
             overview: overview.isEmpty ? "정보 없음" : overview,
             posterImageURL: fullPosterURL ?? "",
-            certification: certification ?? "정보 없음",
+            certification: certification ?? "정보 없음"
         )
     }
     
