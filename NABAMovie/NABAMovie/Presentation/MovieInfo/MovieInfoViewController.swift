@@ -15,6 +15,9 @@ final class MovieInfoViewController: UIViewController {
     
     var stillCutDataSource: UICollectionViewDiffableDataSource<StillCutSection, StillCutItem>!
     
+    private let heightMargin: CGFloat = 40
+    private let dividerInset: CGFloat = 15
+    
     // MARK: - UI Components
     private lazy var containerView: UIView = {
         let view = UIView()
@@ -34,7 +37,7 @@ final class MovieInfoViewController: UIViewController {
         return view
     }()
     
-    private lazy var imageContainerView: UIView = {
+    private lazy var firstImageContainerView: UIView = {
         let view = UIView()
         return view
     }()
@@ -71,13 +74,14 @@ final class MovieInfoViewController: UIViewController {
         let stackView = UIStackView()
         stackView.axis = .vertical
         stackView.alignment = .center
+        stackView.spacing = 10
         return stackView
     }()
     
     private lazy var voteAverageLabelAndImageStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .horizontal
-        stackView.spacing = 2
+        stackView.spacing = 4
         return stackView
     }()
     
@@ -107,6 +111,7 @@ final class MovieInfoViewController: UIViewController {
         let stackView = UIStackView()
         stackView.axis = .vertical
         stackView.alignment = .center
+        stackView.spacing = 10
         return stackView
     }()
     
@@ -126,7 +131,7 @@ final class MovieInfoViewController: UIViewController {
     private lazy var ratingAndAgeStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .horizontal
-        stackView.spacing = 24
+        stackView.spacing = 30
         stackView.alignment = .center
         return stackView
     }()
@@ -212,29 +217,13 @@ final class MovieInfoViewController: UIViewController {
     }()
     
     // MARK: - Dividers
-    private lazy var ratingDivider: UIView = {
-        let view = UIView()
-        view.backgroundColor = UIColor.separator
-        return view
-    }()
+    private lazy var ratingDivider = Divider()
     
-    private lazy var directorDivider: UIView = {
-        let view = UIView()
-        view.backgroundColor = UIColor.separator
-        return view
-    }()
+    private lazy var directorDivider = Divider()
     
-    private lazy var castDivider: UIView = {
-        let view = UIView()
-        view.backgroundColor = UIColor.separator
-        return view
-    }()
+    private lazy var castDivider = Divider()
     
-    private lazy var overviewDivider: UIView = {
-        let view = UIView()
-        view.backgroundColor = UIColor.separator
-        return view
-    }()
+    private lazy var overviewDivider = Divider()
     
     private lazy var shadowDivider: UIView = {
         let view = UIView()
@@ -280,7 +269,7 @@ final class MovieInfoViewController: UIViewController {
         scrollView.addSubview(contentView)
         
         [
-            imageContainerView,
+            firstImageContainerView,
             ratingAndAgeStackView,
             favoriteButton,
             directorTitleLabel,
@@ -305,7 +294,7 @@ final class MovieInfoViewController: UIViewController {
             darkOverlayView,
             titleLabel,
             infoLabel
-        ].forEach { imageContainerView.addSubview($0) }
+        ].forEach { firstImageContainerView.addSubview($0) }
         
         voteAverageStackView.addArrangedSubview(voteAverageLabelAndImageStackView)
         voteAverageStackView.addArrangedSubview(voteAverageTitleLabel)
@@ -316,6 +305,9 @@ final class MovieInfoViewController: UIViewController {
         certificationStackView.addArrangedSubview(certificationLabel)
         certificationStackView.addArrangedSubview(certificationTitleLabel)
         
+        setupStillCutCollectionView()
+        
+
         containerView.snp.makeConstraints {
             $0.edges.equalTo(view.safeAreaLayoutGuide)
         }
@@ -331,20 +323,14 @@ final class MovieInfoViewController: UIViewController {
             $0.height.equalTo(0.2)
         }
         
-        reserveButton.snp.makeConstraints {
-            $0.leading.trailing.equalToSuperview().inset(20)
-            $0.height.equalTo(50)
-            $0.bottom.equalToSuperview()
-        }
-        
         contentView.snp.makeConstraints {
             $0.edges.equalTo(scrollView)
             $0.width.equalTo(scrollView)
         }
         
-        imageContainerView.snp.makeConstraints {
+        firstImageContainerView.snp.makeConstraints {
             $0.top.leading.trailing.equalToSuperview()
-            $0.height.equalTo(imageContainerView.snp.width).multipliedBy(2.0 / 3.0)
+            $0.height.equalTo(firstImageContainerView.snp.width).multipliedBy(2.0 / 3.0)
         }
         
         firstStillImageView.snp.makeConstraints {
@@ -356,93 +342,93 @@ final class MovieInfoViewController: UIViewController {
         }
         
         titleLabel.snp.makeConstraints {
-            $0.leading.trailing.equalToSuperview().inset(16)
-            $0.bottom.equalTo(infoLabel.snp.top).offset(-8)
+            $0.leading.trailing.equalToSuperview().inset(20)
+            $0.bottom.equalTo(infoLabel.snp.top).offset(-10)
         }
         
         infoLabel.snp.makeConstraints {
-            $0.leading.trailing.equalToSuperview().inset(16)
-            $0.bottom.equalToSuperview().inset(16)
+            $0.leading.trailing.equalToSuperview().inset(20)
+            $0.bottom.equalToSuperview().inset(20)
         }
         
         ratingAndAgeStackView.snp.makeConstraints {
-            $0.top.equalTo(imageContainerView.snp.bottom).offset(20)
+            $0.centerY.equalTo(favoriteButton)
             $0.leading.equalToSuperview().inset(20)
         }
         
         favoriteButton.snp.makeConstraints {
-            $0.centerY.equalTo(voteAverageLabel)
+            $0.top.equalTo(firstStillImageView.snp.bottom).offset(heightMargin)
             $0.trailing.equalToSuperview().inset(20)
         }
         
         directorTitleLabel.snp.makeConstraints {
-            $0.top.equalTo(ratingAndAgeStackView.snp.bottom).offset(20)
+            $0.top.equalTo(ratingAndAgeStackView.snp.bottom).offset(heightMargin)
             $0.leading.equalToSuperview().inset(20)
         }
         
         directorLabel.snp.makeConstraints {
-            $0.top.equalTo(directorTitleLabel.snp.bottom).offset(8)
+            $0.top.equalTo(directorTitleLabel.snp.bottom).offset(10)
             $0.leading.trailing.equalToSuperview().inset(20)
         }
         
         castTitleLabel.snp.makeConstraints {
-            $0.top.equalTo(directorLabel.snp.bottom).offset(20)
+            $0.top.equalTo(directorLabel.snp.bottom).offset(heightMargin)
             $0.leading.equalToSuperview().inset(20)
         }
         
         castLabel.snp.makeConstraints {
-            $0.top.equalTo(castTitleLabel.snp.bottom).offset(8)
+            $0.top.equalTo(castTitleLabel.snp.bottom).offset(10)
             $0.leading.trailing.equalToSuperview().inset(20)
         }
         
         overviewTitleLabel.snp.makeConstraints {
-            $0.top.equalTo(castLabel.snp.bottom).offset(20)
+            $0.top.equalTo(castLabel.snp.bottom).offset(heightMargin)
             $0.leading.equalToSuperview().inset(20)
         }
         
         overviewLabel.snp.makeConstraints {
-            $0.top.equalTo(overviewTitleLabel.snp.bottom).offset(8)
+            $0.top.equalTo(overviewTitleLabel.snp.bottom).offset(10)
             $0.leading.trailing.equalToSuperview().inset(20)
         }
         
         stillCutTitleLabel.snp.makeConstraints {
-            $0.top.equalTo(overviewLabel.snp.bottom).offset(20)
+            $0.top.equalTo(overviewLabel.snp.bottom).offset(heightMargin)
             $0.leading.equalToSuperview().inset(20)
         }
         
         stillCutCollectionView.snp.makeConstraints {
-            $0.top.equalTo(stillCutTitleLabel.snp.bottom).offset(8)
+            $0.top.equalTo(stillCutTitleLabel.snp.bottom).offset(10)
             $0.leading.equalToSuperview().inset(20)
             $0.trailing.equalToSuperview().inset(20)
             $0.height.equalTo(140)
-            $0.bottom.equalToSuperview().inset(16)
+            $0.bottom.equalToSuperview().inset(20)
         }
-        
-        setupStillCutCollectionView()
+                
+        reserveButton.snp.makeConstraints {
+            $0.leading.trailing.equalToSuperview().inset(20)
+            $0.height.equalTo(50)
+            $0.bottom.equalToSuperview()
+        }
         
         // Divider 제약
         ratingDivider.snp.makeConstraints {
-            $0.horizontalEdges.equalToSuperview().inset(20)
-            $0.top.equalTo(ratingAndAgeStackView.snp.bottom).offset(12)
-            $0.height.equalTo(0.5)
+            $0.horizontalEdges.equalToSuperview().inset(dividerInset)
+            $0.top.equalTo(ratingAndAgeStackView.snp.bottom).offset(heightMargin/2)
         }
         
         directorDivider.snp.makeConstraints {
-            $0.horizontalEdges.equalToSuperview().inset(20)
-            $0.top.equalTo(directorLabel.snp.bottom).offset(12)
-            $0.height.equalTo(0.5)
+            $0.horizontalEdges.equalToSuperview().inset(dividerInset)
+            $0.top.equalTo(directorLabel.snp.bottom).offset(heightMargin/2)
         }
         
         castDivider.snp.makeConstraints {
-            $0.horizontalEdges.equalToSuperview().inset(20)
-            $0.top.equalTo(castLabel.snp.bottom).offset(12)
-            $0.height.equalTo(0.5)
+            $0.horizontalEdges.equalToSuperview().inset(dividerInset)
+            $0.top.equalTo(castLabel.snp.bottom).offset(heightMargin/2)
         }
         
         overviewDivider.snp.makeConstraints {
-            $0.horizontalEdges.equalToSuperview().inset(20)
-            $0.top.equalTo(overviewLabel.snp.bottom).offset(12)
-            $0.height.equalTo(0.5)
+            $0.horizontalEdges.equalToSuperview().inset(dividerInset)
+            $0.top.equalTo(overviewLabel.snp.bottom).offset(heightMargin/2)
         }
     }
     
