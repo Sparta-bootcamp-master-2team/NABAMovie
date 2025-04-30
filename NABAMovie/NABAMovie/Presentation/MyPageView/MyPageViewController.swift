@@ -6,24 +6,55 @@
 //
 
 import UIKit
+import SnapKit
 
-class MyPageViewController: UIViewController {
-
-    override func viewDidLoad() {
-        super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
+final class MyPageViewController: UIViewController {
+    
+    private let headerView = HeaderView()
+    private let myPageView = MyPageView()
+    private let viewModel: MyPageViewModel
+    
+    init(viewModel: MyPageViewModel) {
+        self.viewModel = viewModel
+        super.init(nibName: nil, bundle: nil)
+        bind()
+    }   
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
     
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+    override func viewWillAppear(_ animated: Bool) {
+        navigationController?.setNavigationBarHidden(true, animated: false) // 뷰 컨트롤러가 나타날 때 숨기기
+        tabBarController?.tabBar.isHidden = false
+        viewModel.fetchMyPageItem()
     }
-    */
-
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        view.addSubviews([headerView, myPageView])
+        view.backgroundColor = .white
+        configureLayout()
+    }
+    
+    private func configureLayout() {
+        headerView.snp.makeConstraints {
+            $0.leading.trailing.equalTo(view.safeAreaLayoutGuide)
+            $0.top.equalToSuperview()
+        }
+        
+        myPageView.snp.makeConstraints {
+            $0.leading.trailing.bottom.equalTo(view.safeAreaLayoutGuide)
+            $0.top.equalTo(headerView.snp.bottom)
+        }
+    }
+    // ViewModel 클로저 바인딩
+    private func bind() {
+        viewModel.successFetchMyPageItem = { [weak self] reservations, favorites  in
+            self?.myPageView.fetchItems(reservations: reservations, favorites: favorites)
+        }
+        viewModel.failedFetchMyPageItem = { [weak self] in
+            self?.showAlert(title: "오류", message: "내 정보 불러오기 실패하였습니다.\n네트워크를 확인해주세요.")
+        }
+    }
 }
