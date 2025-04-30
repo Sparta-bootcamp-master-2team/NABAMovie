@@ -98,7 +98,6 @@ final class MovieInfoViewController: UIViewController {
     
     private lazy var voteAverageLabel: UILabel = {
         let label = UILabel()
-        label.text = "4.8"
         label.largeContentImage = UIImage(systemName: "star.fill")
         label.font = .systemFont(ofSize: 20, weight: .bold)
         return label
@@ -212,6 +211,40 @@ final class MovieInfoViewController: UIViewController {
         return button
     }()
     
+    // MARK: - Dividers
+    private lazy var ratingDivider: UIView = {
+        let view = UIView()
+        view.backgroundColor = UIColor.separator
+        return view
+    }()
+    
+    private lazy var directorDivider: UIView = {
+        let view = UIView()
+        view.backgroundColor = UIColor.separator
+        return view
+    }()
+    
+    private lazy var castDivider: UIView = {
+        let view = UIView()
+        view.backgroundColor = UIColor.separator
+        return view
+    }()
+    
+    private lazy var overviewDivider: UIView = {
+        let view = UIView()
+        view.backgroundColor = UIColor.separator
+        return view
+    }()
+    
+    private lazy var shadowDivider: UIView = {
+        let view = UIView()
+        view.backgroundColor = .systemBackground
+        view.layer.shadowColor = UIColor.label.cgColor
+        view.layer.shadowOpacity = 0.5
+        view.layer.shadowOffset = CGSize(width: 0, height: -3)
+        return view
+    }()
+    
     // MARK: - Initializers
     init(viewModel: MovieInfoViewModel) {
         self.viewModel = viewModel
@@ -224,8 +257,8 @@ final class MovieInfoViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupUI()
         configure()
+        setupUI()
     }
     
     override func viewDidLayoutSubviews() {
@@ -238,8 +271,11 @@ final class MovieInfoViewController: UIViewController {
         view.backgroundColor = .systemBackground
         
         view.addSubview(containerView)
+        view.addSubview(shadowDivider)
+        
         containerView.addSubview(scrollView)
         containerView.addSubview(reserveButton)
+        
         scrollView.addSubview(contentView)
         
         [
@@ -253,7 +289,11 @@ final class MovieInfoViewController: UIViewController {
             overviewTitleLabel,
             overviewLabel,
             stillCutTitleLabel,
-            stillCutCollectionView
+            stillCutCollectionView,
+            ratingDivider,
+            directorDivider,
+            castDivider,
+            overviewDivider
         ].forEach { contentView.addSubview($0) }
         
         ratingAndAgeStackView.addArrangedSubview(voteAverageStackView)
@@ -279,15 +319,21 @@ final class MovieInfoViewController: UIViewController {
             $0.edges.equalTo(view.safeAreaLayoutGuide)
         }
         
+        scrollView.snp.makeConstraints {
+            $0.top.leading.trailing.equalToSuperview()
+            $0.bottom.equalTo(reserveButton.snp.top).offset(-24)
+        }
+        
+        shadowDivider.snp.makeConstraints {
+            $0.horizontalEdges.equalToSuperview()
+            $0.top.equalTo(scrollView.snp.bottom)
+            $0.height.equalTo(0.2)
+        }
+        
         reserveButton.snp.makeConstraints {
             $0.leading.trailing.equalToSuperview().inset(24)
             $0.height.equalTo(50)
             $0.bottom.equalToSuperview()
-        }
-        
-        scrollView.snp.makeConstraints {
-            $0.top.leading.trailing.equalToSuperview()
-            $0.bottom.equalTo(reserveButton.snp.top).offset(-24)
         }
         
         contentView.snp.makeConstraints {
@@ -372,6 +418,30 @@ final class MovieInfoViewController: UIViewController {
         }
         
         setupStillCutCollectionView()
+        
+        ratingDivider.snp.makeConstraints {
+            $0.horizontalEdges.equalToSuperview()
+            $0.top.equalTo(ratingAndAgeStackView.snp.bottom).offset(12)
+            $0.height.equalTo(0.5)
+        }
+        
+        directorDivider.snp.makeConstraints {
+            $0.horizontalEdges.equalToSuperview()
+            $0.top.equalTo(directorLabel.snp.bottom).offset(12)
+            $0.height.equalTo(0.5)
+        }
+        
+        castDivider.snp.makeConstraints {
+            $0.horizontalEdges.equalToSuperview()
+            $0.top.equalTo(castLabel.snp.bottom).offset(12)
+            $0.height.equalTo(0.5)
+        }
+        
+        overviewDivider.snp.makeConstraints {
+            $0.horizontalEdges.equalToSuperview()
+            $0.top.equalTo(overviewLabel.snp.bottom).offset(12)
+            $0.height.equalTo(0.5)
+        }
     }
     
     // MARK: - Action
