@@ -8,9 +8,12 @@
 import UIKit
 
 extension UIViewController {
-    func showAlert(title: String, message: String, completionHandler: @escaping () -> Void = { }) {
+    func showAlert(title: String, message: String, cancellable: Bool = false, completionHandler: @escaping () -> Void = { }) {
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "확인", style: .default, handler: { _ in completionHandler() }))
+        if cancellable {
+            alert.addAction(UIAlertAction(title: "취소", style: .default, handler: nil))
+        }
         self.present(alert, animated: true)
     }
     
