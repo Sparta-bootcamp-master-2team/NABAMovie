@@ -54,7 +54,7 @@ final class ReservationDetailViewController: UIViewController {
 extension ReservationDetailViewController: ReservationDetailViewDelegate {
     func reservationCancelButtonTapped() {
         self.showAlert(title: "취소 확인", message: "예매 취소하시겠습니까?", cancellable: true) { [unowned self] in
-            viewModel.cancelReservation(userID: "임시문자열 (수정에정)", reservationID: reservationItem.reservationID)
+            viewModel.cancelReservation()
         }
     }
 }
