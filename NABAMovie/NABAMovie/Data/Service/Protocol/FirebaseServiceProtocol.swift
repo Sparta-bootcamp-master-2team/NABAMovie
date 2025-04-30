@@ -59,6 +59,13 @@ protocol FirebaseServiceProtocol {
     /// - Parameters:
     ///   - userID: 사용자 고유 식별자 (UID)
     ///   - movie: 추가할 영화 정보 (FavoriteMovieDTO)
-    func addFavoriteMovie(userID: String, movie: FavoriteMovieDTO) async throws
+    func addFavoriteMovie(for userId: String, movie: FavoriteMovieDTO) async throws
+    
+    func removeFavoriteMovie(for userId: String, movieID: Int) async throws
+    func removeAllFavoriteMovies(for userID: String) async throws
+    
+    func cancelReservation(for userID: String, reservationID: String) async throws
+
+
 }
 

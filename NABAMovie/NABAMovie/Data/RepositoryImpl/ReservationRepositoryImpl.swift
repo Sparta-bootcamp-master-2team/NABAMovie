@@ -35,6 +35,7 @@ final class ReservationRepositoryImpl: ReservationRepository {
     ///   - reservation: 추가할 예약 정보 (Reservation)
     func makeReservation(userID userId: String, reservation: Reservation) async throws {
         let dto = ReservationDTO(
+            reservationID: reservation.reservationID,
             genre: reservation.genre,
             member: reservation.member,
             posterURL: reservation.posterURL,
@@ -43,5 +44,10 @@ final class ReservationRepositoryImpl: ReservationRepository {
         )
         try await firebaseService.makeReservation(for: userId, reservation: dto)
     }
+    
+    func cancelReservation(userID userId: String, reservationID: String) async throws {
+        try await firebaseService.cancelReservation(for: userId, reservationID: reservationID)
+    }
+
 }
 

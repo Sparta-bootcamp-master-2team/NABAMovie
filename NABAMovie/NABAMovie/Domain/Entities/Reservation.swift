@@ -8,6 +8,7 @@
 import Foundation
 
 struct Reservation {
+    let reservationID: String
     let genre: [String]
     let member: Int
     let posterURL: String

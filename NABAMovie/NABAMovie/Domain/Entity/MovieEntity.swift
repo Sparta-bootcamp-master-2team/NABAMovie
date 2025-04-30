@@ -17,7 +17,7 @@ struct MovieEntity {
     let runtime: Int                // 상영시간
     let voteAverage: Double         // 평점(소수점 두자리만 사용)
     let voteCount: Int              // 평가 인원 수
-    let overview: String?           // 줄거리
-    let posterImageURL: String?      // 포스터 이미지 URL
+    let overview: String?          // 줄거리
+    let posterImageURL: String      // 포스터 이미지 URL
     let certification: String?      // 관람 등급
 }

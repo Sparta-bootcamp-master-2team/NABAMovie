@@ -123,18 +123,29 @@ final class FirebaseService: FirebaseServiceProtocol {
     /// try await firebaseService.makeReservation(for: "user-uid", reservation: newReservation)
     /// ```
     func makeReservation(for userId: String, reservation: ReservationDTO) async throws {
+        let reservationID = generateReservationID()
+
         try await Firestore.firestore()
             .collection("users")
             .document(userId)
             .collection("reservations")
-            .addDocument(data: [
+            .document(reservationID)
+            .setData([
+                "reservationID": reservationID,
+                "title": reservation.title,
                 "genre": reservation.genre,
-                "member": reservation.member,
                 "posterURL": reservation.posterURL,
-                "reservationTime": reservation.reservationTime,
-                "title": reservation.title
+                "member": reservation.member,
+                "reservationTime": reservation.reservationTime
             ])
     }
+    
+    func generateReservationID() -> String {
+        let uuid = UUID().uuidString.prefix(8)
+        let timestamp = Int(Date().timeIntervalSince1970)
+        return "R\(uuid)_\(timestamp)"
+    }
+
     
     // MARK: - 찜 목록 조회
     /// 사용자 ID를 기반으로 찜한 영화 목록을 조회하는 메소드
@@ -173,7 +184,7 @@ final class FirebaseService: FirebaseServiceProtocol {
     /// let favoriteMovie = FavoriteMovieDTO(...)
     /// try await firebaseService.addFavoriteMovie(userID: "user-uid", movie: favoriteMovie)
     /// ```
-    func addFavoriteMovie(userID userId: String, movie: FavoriteMovieDTO) async throws {
+    func addFavoriteMovie(for userId: String, movie: FavoriteMovieDTO) async throws {
         try await Firestore.firestore()
             .collection("users")
             .document(userId)
@@ -203,9 +214,9 @@ final class FirebaseService: FirebaseServiceProtocol {
     /// ```
     //// let userId = try firebaseService.getCurrentUserId()
     // if let userId = userId {
-    //     print("✅ 현재 로그인된 사용자 ID: \(userId)")
+    //     print("현재 로그인된 사용자 ID: \(userId)")
     // } else {
-    //     print("❗ 로그인된 사용자가 없습니다.")
+    //     print("로그인된 사용자가 없습니다.")
     // }
     /// ```
     func getCurrentUserId() throws -> String {
@@ -215,5 +226,37 @@ final class FirebaseService: FirebaseServiceProtocol {
             throw NSError(domain: "AuthError", code: 401, userInfo: [NSLocalizedDescriptionKey: "로그인된 사용자가 없습니다."])
         }
     }
+    
+    func removeFavoriteMovie(for userID: String, movieID: Int) async throws {
+        try await Firestore.firestore()
+            .collection("users")
+            .document(userID)
+            .collection("favoriteMovies")
+            .document(String(movieID))
+            .delete()
+    }
+
+    func removeAllFavoriteMovies(for userID: String) async throws {
+        let collectionRef = Firestore.firestore()
+            .collection("users")
+            .document(userID)
+            .collection("favoriteMovies")
+
+        let snapshot = try await collectionRef.getDocuments()
+        for doc in snapshot.documents {
+            try await doc.reference.delete()
+        }
+    }
+
+    
+    func cancelReservation(for userID: String, reservationID: String) async throws {
+        try await Firestore.firestore()
+            .collection("users")
+            .document(userID)
+            .collection("reservations")
+            .document(reservationID)
+            .delete()
+    }
+
 
 }

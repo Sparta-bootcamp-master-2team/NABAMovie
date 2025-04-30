@@ -24,5 +24,9 @@ protocol ReservationRepository {
     ///   - userID: 사용자 고유 식별자 (UID)
     ///   - reservation: 추가할 예약 정보 (Reservation)
     func makeReservation(userID: String, reservation: Reservation) async throws
+    
+    
+    func cancelReservation(userID: String, reservationID: String) async throws
+
 }
 

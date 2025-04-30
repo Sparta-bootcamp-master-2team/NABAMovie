@@ -35,7 +35,15 @@ final class FavoriteMovieRepositoryImpl: FavoriteMovieRepository {
     ///   - movie: 추가할 영화 정보 (MovieEntity)
     func addFavoriteMovie(userID: String, movie: MovieEntity) async throws {
         let dto = FavoriteMovieDTO(entity: movie)
-        try await firebaseService.addFavoriteMovie(userID: userID, movie: dto)
+        try await firebaseService.addFavoriteMovie(for: userID, movie: dto)
+    }
+    
+    func removeFavoriteMovie(userID: String, movieID: Int) async throws {
+        try await firebaseService.removeFavoriteMovie(for: userID, movieID: movieID)
+    }
+    
+    func removeAllFavoriteMovies(userID: String) async throws {
+        try await firebaseService.removeAllFavoriteMovies(for: userID)
     }
 }
 
