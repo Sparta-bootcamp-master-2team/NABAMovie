@@ -51,15 +51,17 @@ final class LoginViewController: UIViewController {
         viewModel.email = email
         viewModel.password = password
         
-        viewModel.login { [weak self] result in
-            DispatchQueue.main.async {
-                switch result {
-                case .success(let user):
-                    print("로그인 성공: \(user.username)")
-                    self?.navigateToHome()
-                case .failure(let error):
-                    self?.showErrorAlert(message: error.localizedDescription)
-                }
+        Task { [weak self] in
+            let result = await self?.viewModel.login()
+            
+            switch result {
+            case .success(let user):
+                print("로그인 성공: \(user.username)")
+                self?.navigateToHome()
+            case .failure(let error):
+                self?.showErrorAlert(message: error.localizedDescription)
+            case .none:
+                break
             }
         }
     }
@@ -68,14 +70,7 @@ final class LoginViewController: UIViewController {
         // TODO: 회원가입 화면 이동 로직 추가
         print("회원가입 버튼 눌림")
     }
-
-    private func navigateToHome() {
-        // TODO: 홈 화면으로 이동
-        let alert = UIAlertController(title: "로그인 성공", message: "환영합니다!", preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "확인", style: .default))
-        present(alert, animated: true)
-    }
-
+    
     private func showErrorAlert(message: String) {
         let alert = UIAlertController(title: "오류", message: message, preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "확인", style: .default))
