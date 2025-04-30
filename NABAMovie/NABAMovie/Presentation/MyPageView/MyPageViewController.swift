@@ -88,12 +88,17 @@ extension MyPageViewController: MyPageViewDelegate {
         // 찜 항목 셀 선택한 경우
         if item is MovieEntity {
             let item = item as! MovieEntity
-            print(item)
+            let movieInfoViewModel = MovieInfoViewModel(movieDetail: item)
+            let movieInfoVC = MovieInfoViewController(viewModel: movieInfoViewModel)
+            self.present(movieInfoVC, animated: true)
         }
         // 예매 내역 셀 선택한 경우
         if item is Reservation {
             let item = item as! Reservation
-            print(item)
+            let usecase = CancelReservationUseCase(repository: ReservationRepositoryImpl(firebaseService: FirebaseService()))
+            let reservationDetailViewModel = ReservationDetailViewModel(cancelReservationUseCase: usecase, reservationItem: item)
+            let reservationDetailVC = ReservationDetailViewController(viewModel: reservationDetailViewModel)
+            self.present(reservationDetailVC, animated: true)
         }
     }
     
