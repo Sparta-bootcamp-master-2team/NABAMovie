@@ -39,7 +39,7 @@ final class UpComingCell: UICollectionViewCell {
     
     private let genreImageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.image = UIImage(named: "video")?.withRenderingMode(.alwaysTemplate)
+        imageView.image = UIImage(named: "videoImage")?.withRenderingMode(.alwaysTemplate)
         imageView.contentMode = .scaleAspectFit
         imageView.tintColor = .label
         imageView.setContentHuggingPriority(.required, for: .horizontal)

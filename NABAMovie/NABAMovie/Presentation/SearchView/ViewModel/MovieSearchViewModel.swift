@@ -17,5 +17,4 @@ final class MovieSearchViewModel {
     func fetchSearchItem(text: String) async throws -> [MovieEntity] {
         return try await fetchSearchUseCase.execute(for: text).get()
     }
-        
 }

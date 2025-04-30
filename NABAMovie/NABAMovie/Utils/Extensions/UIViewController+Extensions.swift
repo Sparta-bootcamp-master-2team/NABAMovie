@@ -29,4 +29,26 @@ extension UIViewController {
         
         showAlert(title: "네트워크 오류", message: message)
     }
+    
+    func changeRootViewController(to viewController: UIViewController) {
+        guard let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
+              let window = windowScene.windows.first else { return }
+        
+        window.rootViewController = viewController
+        window.makeKeyAndVisible()
+    }
+
+    func navigateToHome() {
+        let repository = MovieRepositoryImpl(networkManager: MovieNetworkManager())
+        let usecase = FetchHomeScreenMoviesUseCase(repository: repository)
+        let homeVM = HomeViewModel(usecase: usecase)
+        let homeVC = HomeViewController(viewModel: homeVM)
+        
+        changeRootViewController(to: homeVC)
+    }
+
+    func navigateToLogin() {
+        let loginVM = LoginViewModel(loginUseCase: LoginUseCase(repository: FirebaseAuthRepositoryImpl(firebaseService: FirebaseService())))
+        changeRootViewController(to: LoginViewController(viewModel: loginVM))
+    }
 }

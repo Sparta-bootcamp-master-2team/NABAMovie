@@ -28,13 +28,12 @@ class MovieInfoViewModel {
     }
     
     var posterURL: URL? {
-        guard let posterURLString = movieDetail.posterImageURL else { return nil }
-        return URL(string: posterURLString)
+        return URL(string: movieDetail.posterImageURL)
     }
     
     var infoText: String {
         let runtime = "\(Int(movieDetail.runtime) / 60)시간 \(Int(movieDetail.runtime) % 60)분"
-        return "\(movieDetail.releaseDate!) · \(runtime) · \(movieDetail.genre.joined(separator: ", "))"
+        return "\(movieDetail.releaseDate) · \(runtime) · \(movieDetail.genre.joined(separator: ", "))"
     }
     
     var voteAverageText: String {
@@ -42,11 +41,11 @@ class MovieInfoViewModel {
     }
     
     var certificationText: String {
-        movieDetail.certification ?? "정보 없음"
+        movieDetail.certification
     }
     
     var directorText: String {
-        movieDetail.director ?? "정보 없음"
+        movieDetail.director
     }
     
     var castText: String {
@@ -54,7 +53,7 @@ class MovieInfoViewModel {
     }
     
     var overviewText: String {
-        movieDetail.overview ?? "정보 없음"
+        movieDetail.overview
     }
     
     func setStillImages(completion: @escaping () -> Void) {

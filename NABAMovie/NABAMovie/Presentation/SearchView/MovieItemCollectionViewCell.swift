@@ -49,8 +49,7 @@ final class MovieItemCollectionViewCell: UICollectionViewCell {
     }
     
     func configure(model: MovieEntity) {
-        guard let urlString = model.posterImageURL,
-              let url = URL(string: urlString) else { return }
+        guard let url = URL(string: model.posterImageURL) else { return }
         self.posterImageView.kf.setImage(with: url)
     }
     
