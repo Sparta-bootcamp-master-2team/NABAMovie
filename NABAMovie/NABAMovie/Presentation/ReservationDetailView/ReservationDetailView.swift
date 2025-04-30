@@ -9,8 +9,14 @@ import UIKit
 import SnapKit
 import Kingfisher
 
+protocol ReservationDetailViewDelegate: AnyObject {
+    func reservationCancelButtonTapped()
+}
+
 final class ReservationDetailView: UIView {
 
+    weak var delegate: ReservationDetailViewDelegate?
+    
     private let posterImageView: UIImageView = {
         let imageView = UIImageView()
 //        imageView.contentMode = .scaleAspectFill
@@ -41,7 +47,7 @@ final class ReservationDetailView: UIView {
         return label
     }()
     
-    private let reservationCancelButton: UIButton = {
+    private lazy var reservationCancelButton: UIButton = {
         let button = UIButton()
         button.setTitle("예매취소", for: .normal)
         button.titleLabel?.font = .boldSystemFont(ofSize: 20)
@@ -49,6 +55,7 @@ final class ReservationDetailView: UIView {
         button.setTitleColor(.white, for: .normal)
         button.clipsToBounds = true
         button.layer.cornerRadius = 16
+        button.addTarget(self, action: #selector(reservationCancelButtonTapped), for: .touchUpInside)
         return button
     }()
     
@@ -69,6 +76,10 @@ final class ReservationDetailView: UIView {
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    @objc func reservationCancelButtonTapped() {
+        delegate?.reservationCancelButtonTapped()
     }
     
     private func configureLayout() {
