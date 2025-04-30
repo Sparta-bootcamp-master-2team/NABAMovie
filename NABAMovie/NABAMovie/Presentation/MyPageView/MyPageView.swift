@@ -53,8 +53,6 @@ final class MyPageView: UIView {
         super.init(frame: frame)
         myPageCollectionView.delegate = self
         myInformationView.delegate = self
-        configureDataSource()
-        apply()
         setUpUI()
     }
     
@@ -129,6 +127,7 @@ final class MyPageView: UIView {
     func fetchItems(reservations: [Reservation], favorites: [MovieEntity]) {
         self.reservations = reservations
         self.favorites = favorites
+        configureDataSource()
         apply()
     }
 }
