@@ -19,8 +19,7 @@ final class ReservationDetailView: UIView {
     
     private let posterImageView: UIImageView = {
         let imageView = UIImageView()
-//        imageView.contentMode = .scaleAspectFill
-        imageView.contentMode = .scaleToFill
+        imageView.contentMode = .scaleAspectFill
         imageView.clipsToBounds = true
         imageView.layer.cornerRadius = 8
         return imageView
@@ -54,7 +53,7 @@ final class ReservationDetailView: UIView {
         button.backgroundColor = .brand
         button.setTitleColor(.white, for: .normal)
         button.clipsToBounds = true
-        button.layer.cornerRadius = 16
+        button.layer.cornerRadius = 25
         button.addTarget(self, action: #selector(reservationCancelButtonTapped), for: .touchUpInside)
         return button
     }()
@@ -114,8 +113,9 @@ final class ReservationDetailView: UIView {
         }
         reservationCancelButton.snp.makeConstraints {
             $0.centerX.equalToSuperview()
-            $0.leading.trailing.equalToSuperview().inset(10)
+            $0.leading.trailing.equalToSuperview().inset(20)
             $0.bottom.equalTo(self.safeAreaLayoutGuide).inset(20)
+            $0.height.equalTo(50)
         }
     }
     

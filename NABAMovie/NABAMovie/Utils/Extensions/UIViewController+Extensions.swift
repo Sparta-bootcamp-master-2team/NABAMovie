@@ -12,7 +12,7 @@ extension UIViewController {
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "확인", style: .default, handler: { _ in completionHandler() }))
         if cancellable {
-            alert.addAction(UIAlertAction(title: "취소", style: .default, handler: nil))
+            alert.addAction(UIAlertAction(title: "취소", style: .destructive, handler: nil))
         }
         self.present(alert, animated: true)
     }
