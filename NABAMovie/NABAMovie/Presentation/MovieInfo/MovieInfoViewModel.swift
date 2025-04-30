@@ -15,11 +15,13 @@ final class MovieInfoViewModel {
     private let firebaseService = FirebaseService()
     private let movieStillsUseCase: FetchMovieStillsUseCase
     private let addFavoriteMovieUseCase: AddFavoriteMovieUseCase
+    private let removeFavoriteMovieUseCase: RemoveFavoriteMovieUseCase
     
-    init(movieDetail: MovieEntity, movieStillsUseCase: FetchMovieStillsUseCase, addFavoriteMovieUseCase: AddFavoriteMovieUseCase) {
+    init(movieDetail: MovieEntity, movieStillsUseCase: FetchMovieStillsUseCase, addFavoriteMovieUseCase: AddFavoriteMovieUseCase, removeFavoriteMovieUseCase: RemoveFavoriteMovieUseCase) {
         self.movieDetail = movieDetail
         self.movieStillsUseCase = movieStillsUseCase
         self.addFavoriteMovieUseCase = addFavoriteMovieUseCase
+        self.removeFavoriteMovieUseCase = removeFavoriteMovieUseCase
     }
     
     var stillImages: [URL] = []
@@ -75,15 +77,29 @@ final class MovieInfoViewModel {
             }
         }
     }
-
-    func setFavoriteMovie(completion: @escaping () -> Void) {
+    
+    func addFavoriteMovie() {
         Task {
-            let result = await addFavoriteMovieUseCase.execute(userId: "user-uid", movie: movieDetail)
+            let userId = try firebaseService.getCurrentUserId()
+            let result = await addFavoriteMovieUseCase.execute(userId: userId, movie: movieDetail)
             switch result {
-            case .success(let success):
+            case .success(_):
                 print("찜 추가 성공")
             case .failure(let error):
                 print("찜 추가 에러: \(error.localizedDescription)")
+            }
+        }
+    }
+    
+    func removeFavoriteMovie() {
+        Task {
+            let userId = try firebaseService.getCurrentUserId()
+            let result = await removeFavoriteMovieUseCase.execute(userID: userId, movieID: movieDetail.movieID)
+            switch result {
+            case .success(_):
+                print("찜 삭제 성공")
+            case .failure(let error):
+                print("찜 삭제 에러: \(error.localizedDescription)")
             }
         }
     }
