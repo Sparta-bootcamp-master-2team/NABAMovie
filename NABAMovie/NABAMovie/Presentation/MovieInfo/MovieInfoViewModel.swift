@@ -7,13 +7,13 @@
 
 import Foundation
 import UIKit
-import Kingfisher
 
 final class MovieInfoViewModel {
     
     let movieDetail: MovieEntity
     
     var stillImages: [URL] = []
+    var firstStillImageUrl: URL?
     
     var isFavorite: Bool = false
     
@@ -26,11 +26,7 @@ final class MovieInfoViewModel {
     var titleText: String {
         movieDetail.title
     }
-    
-    var posterURL: URL? {
-        return URL(string: movieDetail.posterImageURL)
-    }
-    
+        
     var infoText: String {
         let runtime = "\(Int(movieDetail.runtime) / 60)시간 \(Int(movieDetail.runtime) % 60)분"
         return "\(movieDetail.releaseDate) · \(runtime) · \(movieDetail.genre.joined(separator: ", "))"
@@ -56,19 +52,24 @@ final class MovieInfoViewModel {
         movieDetail.overview
     }
     
+    /// 스틸컷 받아오기
     func setStillImages(completion: @escaping () -> Void) {
         Task {
             let result = await usecase.execute(for: movieDetail.movieID)
-            switch result {
-            case .success(let movies):
-                print(movies.count)
-                stillImages = movies.map { $0.imageURL }
-                await MainActor.run {
+            await MainActor.run {
+                switch result {
+                case .success(let movies):
+                    print(movies.count)
+                    // 스틸컷 저장
+                    stillImages = movies.map { $0.imageURL }
+                    // 첫 번째 스틸컷 저장
+                    firstStillImageUrl = stillImages.first
                     completion()
+                case .failure(let error):
+                    print("에러 발생: \(error.localizedDescription)")
                 }
-            case .failure(let error):
-                print("에러 발생: \(error.localizedDescription)")
             }
         }
+        
     }
 }

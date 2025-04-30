@@ -39,7 +39,7 @@ final class MovieInfoViewController: UIViewController {
         return view
     }()
     
-    private lazy var posterImageView: UIImageView = {
+    private lazy var firstStillImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFill
         imageView.clipsToBounds = true
@@ -226,9 +226,6 @@ final class MovieInfoViewController: UIViewController {
         super.viewDidLoad()
         setupUI()
         configure()
-        viewModel.setStillImages { [weak self] in
-            self?.updateStillCutCollectionView()
-        }
     }
     
     override func viewDidLayoutSubviews() {
@@ -263,7 +260,7 @@ final class MovieInfoViewController: UIViewController {
         ratingAndAgeStackView.addArrangedSubview(certificationStackView)
         
         [
-            posterImageView,
+            firstStillImageView,
             darkOverlayView,
             titleLabel,
             infoLabel
@@ -303,7 +300,7 @@ final class MovieInfoViewController: UIViewController {
             $0.height.equalTo(imageContainerView.snp.width).multipliedBy(2.0 / 3.0)
         }
         
-        posterImageView.snp.makeConstraints {
+        firstStillImageView.snp.makeConstraints {
             $0.edges.equalToSuperview()
         }
         
@@ -402,10 +399,11 @@ final class MovieInfoViewController: UIViewController {
     
     // MARK: - Internal Methods
     func configure() {
-        titleLabel.text = viewModel.titleText
-        if let posterURL = viewModel.posterURL {
-            posterImageView.kf.setImage(with: posterURL)
+        viewModel.setStillImages { [weak self] in
+            self?.updateStillCutCollectionView()
+            self?.firstStillImageView.kf.setImage(with: self?.viewModel.firstStillImageUrl)
         }
+        titleLabel.text = viewModel.titleText
         infoLabel.text = viewModel.infoText
         voteAverageLabel.text = viewModel.voteAverageText
         certificationLabel.text = viewModel.certificationText
