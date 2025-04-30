@@ -21,3 +21,5 @@ struct MovieEntity: Hashable {
     let posterImageURL: String      // 포스터 이미지 URL
     let certification: String       // 관람 등급
 }
+
+extension MovieEntity: CellConfigurable { }
