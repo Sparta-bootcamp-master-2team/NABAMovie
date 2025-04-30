@@ -14,13 +14,14 @@ final class MovieItemCollectionView: UICollectionView {
     typealias DataSource = UICollectionViewDiffableDataSource<Section, MovieEntity>
     typealias SnapShot = NSDiffableDataSourceSnapshot<Section, MovieEntity>
     
-    private var movieItemCollectionDataSource: DataSource?
+    private(set) var movieItemCollectionDataSource: DataSource?
     
     override init(frame: CGRect, collectionViewLayout layout: UICollectionViewLayout) {
         super.init(frame: frame, collectionViewLayout: UICollectionViewFlowLayout())
         self.backgroundColor = .white
         configureDataSource()
         self.configureFlowLayout(with: UIScreen.main.bounds.width)
+        self.keyboardDismissMode = .onDrag
     }
     
     required init?(coder: NSCoder) {
@@ -33,7 +34,7 @@ final class MovieItemCollectionView: UICollectionView {
         newLayout.sectionInset = UIEdgeInsets(top: 10, left: 20, bottom: 10, right: 20)
         newLayout.scrollDirection = .vertical
         let width = collectionViewWidth(width: width, layout: newLayout)
-        newLayout.itemSize = CGSize(width: width, height: width * 1.8)
+        newLayout.itemSize = CGSize(width: width, height: width * 1.5)
         self.collectionViewLayout = newLayout
         self.reloadData()
     }
