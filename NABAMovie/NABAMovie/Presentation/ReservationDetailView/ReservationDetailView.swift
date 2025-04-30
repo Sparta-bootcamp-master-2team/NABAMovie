@@ -9,6 +9,7 @@ import UIKit
 import SnapKit
 import Kingfisher
 
+// Delegate
 protocol ReservationDetailViewDelegate: AnyObject {
     func reservationCancelButtonTapped()
 }
@@ -17,6 +18,7 @@ final class ReservationDetailView: UIView {
 
     weak var delegate: ReservationDetailViewDelegate?
     
+    // MARK: UI Property
     private let posterImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFill
@@ -77,6 +79,7 @@ final class ReservationDetailView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
+    // MARK: Methods
     @objc func reservationCancelButtonTapped() {
         delegate?.reservationCancelButtonTapped()
     }
