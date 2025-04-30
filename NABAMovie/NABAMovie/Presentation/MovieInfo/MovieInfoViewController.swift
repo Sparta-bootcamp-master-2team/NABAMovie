@@ -240,8 +240,9 @@ final class MovieInfoViewController: UIViewController {
         let view = UIView()
         view.backgroundColor = .systemBackground
         view.layer.shadowColor = UIColor.label.cgColor
-        view.layer.shadowOpacity = 0.5
+        view.layer.shadowOpacity = 1
         view.layer.shadowOffset = CGSize(width: 0, height: -3)
+        view.layer.shadowRadius = 2
         return view
     }()
     
@@ -321,7 +322,7 @@ final class MovieInfoViewController: UIViewController {
         
         scrollView.snp.makeConstraints {
             $0.top.leading.trailing.equalToSuperview()
-            $0.bottom.equalTo(reserveButton.snp.top).offset(-24)
+            $0.bottom.equalTo(reserveButton.snp.top).offset(-20)
         }
         
         shadowDivider.snp.makeConstraints {
@@ -331,7 +332,7 @@ final class MovieInfoViewController: UIViewController {
         }
         
         reserveButton.snp.makeConstraints {
-            $0.leading.trailing.equalToSuperview().inset(24)
+            $0.leading.trailing.equalToSuperview().inset(20)
             $0.height.equalTo(50)
             $0.bottom.equalToSuperview()
         }
@@ -365,80 +366,81 @@ final class MovieInfoViewController: UIViewController {
         }
         
         ratingAndAgeStackView.snp.makeConstraints {
-            $0.top.equalTo(imageContainerView.snp.bottom).offset(24)
-            $0.leading.equalToSuperview().inset(24)
+            $0.top.equalTo(imageContainerView.snp.bottom).offset(20)
+            $0.leading.equalToSuperview().inset(20)
         }
         
         favoriteButton.snp.makeConstraints {
             $0.centerY.equalTo(voteAverageLabel)
-            $0.trailing.equalToSuperview().inset(24)
+            $0.trailing.equalToSuperview().inset(20)
         }
         
         directorTitleLabel.snp.makeConstraints {
-            $0.top.equalTo(ratingAndAgeStackView.snp.bottom).offset(24)
-            $0.leading.equalToSuperview().inset(24)
+            $0.top.equalTo(ratingAndAgeStackView.snp.bottom).offset(20)
+            $0.leading.equalToSuperview().inset(20)
         }
         
         directorLabel.snp.makeConstraints {
             $0.top.equalTo(directorTitleLabel.snp.bottom).offset(8)
-            $0.leading.trailing.equalToSuperview().inset(24)
+            $0.leading.trailing.equalToSuperview().inset(20)
         }
         
         castTitleLabel.snp.makeConstraints {
-            $0.top.equalTo(directorLabel.snp.bottom).offset(24)
-            $0.leading.equalToSuperview().inset(24)
+            $0.top.equalTo(directorLabel.snp.bottom).offset(20)
+            $0.leading.equalToSuperview().inset(20)
         }
         
         castLabel.snp.makeConstraints {
             $0.top.equalTo(castTitleLabel.snp.bottom).offset(8)
-            $0.leading.trailing.equalToSuperview().inset(24)
+            $0.leading.trailing.equalToSuperview().inset(20)
         }
         
         overviewTitleLabel.snp.makeConstraints {
-            $0.top.equalTo(castLabel.snp.bottom).offset(24)
-            $0.leading.equalToSuperview().inset(24)
+            $0.top.equalTo(castLabel.snp.bottom).offset(20)
+            $0.leading.equalToSuperview().inset(20)
         }
         
         overviewLabel.snp.makeConstraints {
             $0.top.equalTo(overviewTitleLabel.snp.bottom).offset(8)
-            $0.leading.trailing.equalToSuperview().inset(24)
+            $0.leading.trailing.equalToSuperview().inset(20)
         }
         
         stillCutTitleLabel.snp.makeConstraints {
-            $0.top.equalTo(overviewLabel.snp.bottom).offset(24)
-            $0.leading.equalToSuperview().inset(24)
+            $0.top.equalTo(overviewLabel.snp.bottom).offset(20)
+            $0.leading.equalToSuperview().inset(20)
         }
         
         stillCutCollectionView.snp.makeConstraints {
             $0.top.equalTo(stillCutTitleLabel.snp.bottom).offset(8)
-            $0.leading.equalToSuperview().inset(24)
-            $0.trailing.equalToSuperview().inset(24)
+            $0.leading.equalToSuperview().inset(20)
+            $0.trailing.equalToSuperview().inset(20)
             $0.height.equalTo(140)
             $0.bottom.equalToSuperview().inset(16)
         }
         
         setupStillCutCollectionView()
         
+        // Divider 제약
         ratingDivider.snp.makeConstraints {
-            $0.horizontalEdges.equalToSuperview()
+            $0.horizontalEdges.equalToSuperview().inset(20)
             $0.top.equalTo(ratingAndAgeStackView.snp.bottom).offset(12)
             $0.height.equalTo(0.5)
         }
         
         directorDivider.snp.makeConstraints {
-            $0.horizontalEdges.equalToSuperview()
+            $0.horizontalEdges.equalToSuperview().inset(20)
             $0.top.equalTo(directorLabel.snp.bottom).offset(12)
             $0.height.equalTo(0.5)
         }
         
         castDivider.snp.makeConstraints {
-            $0.horizontalEdges.equalToSuperview()
+            $0.horizontalEdges.equalToSuperview().inset(20)
             $0.top.equalTo(castLabel.snp.bottom).offset(12)
             $0.height.equalTo(0.5)
         }
         
         overviewDivider.snp.makeConstraints {
-            $0.horizontalEdges.equalToSuperview()
+            $0.horizontalEdges.equalToSuperview().inset(20)
             $0.top.equalTo(overviewLabel.snp.bottom).offset(12)
             $0.height.equalTo(0.5)
         }
@@ -461,7 +463,6 @@ final class MovieInfoViewController: UIViewController {
                 return context.maximumDetentValue * 0.9
             })]
             sheet.preferredCornerRadius = 20
-            sheet.prefersGrabberVisible = true
         }
         
         present(bottomSheet, animated: true)
