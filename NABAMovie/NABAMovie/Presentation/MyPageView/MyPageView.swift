@@ -21,6 +21,13 @@ enum MyPageCellWrapper: Hashable {
     case reservation(Reservation)
 }
 
+protocol MyPageViewDelegate: AnyObject {
+    func reservationMoreButtonTapped()
+    func favoriteMoreButtonTapped()
+    func logoutButtonTapped()
+    func didSelectedItem(item: CellConfigurable)
+}
+
 final class MyPageView: UIView {
     
     var myPageCollectionView = MyPageCollectionView()
@@ -29,6 +36,7 @@ final class MyPageView: UIView {
     typealias SnapShot = NSDiffableDataSourceSnapshot<MyPageCollectionSection, MyPageCellWrapper>
     // DiffableDataSource
     var dataSource: DataSource?
+    var delegate: MyPageViewDelegate?
     //Reservation Items ,Favorite Items
     var reservations: [Reservation] = []
     var favorites: [MovieEntity] = []
@@ -44,6 +52,7 @@ final class MyPageView: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         myPageCollectionView.delegate = self
+        myInformationView.delegate = self
         configureDataSource()
         apply()
         setUpUI()
@@ -129,9 +138,11 @@ extension MyPageView: UICollectionViewDelegate {
     // 셀 터치시 해당 셀의 데이터를 전달
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if indexPath.section == MyPageCollectionSection.reservationIndex {
-            print(displayedReservationItem[indexPath.row])
+            delegate?.didSelectedItem(item: displayedReservationItem[indexPath.row])
+//            print(displayedReservationItem[indexPath.row])
         } else if indexPath.section == MyPageCollectionSection.favoriteIndex {
-            print(displayedFavoritesItem[indexPath.row])
+//            print(displayedFavoritesItem[indexPath.row])
+            delegate?.didSelectedItem(item: displayedFavoritesItem[indexPath.row])
         }
     }
 }
@@ -141,9 +152,16 @@ extension MyPageView: MyPageCollectionHeaderViewDelegate {
     // 헤더뷰의 더보기 버튼 클릭 이벤트
     func moreButtonTapped(in index: Int) {
         if index == MyPageCollectionSection.reservationIndex {
-            print("예매 내역 더보기")
+            delegate?.reservationMoreButtonTapped()
         } else if index == MyPageCollectionSection.favoriteIndex {
-            print("찜목록 더보기")
+            delegate?.favoriteMoreButtonTapped()
         }
+    }
+}
+
+// MARK: MyInformationViewDelegate
+extension MyPageView: MyInformationViewDelegate {
+    func logoutButtonTapped() {
+        delegate?.logoutButtonTapped()
     }
 }

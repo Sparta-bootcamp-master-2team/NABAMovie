@@ -17,6 +17,7 @@ final class MyPageViewController: UIViewController {
     init(viewModel: MyPageViewModel) {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
+        myPageView.delegate = self
         bind()
     }   
     
@@ -56,5 +57,44 @@ final class MyPageViewController: UIViewController {
         viewModel.failedFetchMyPageItem = { [weak self] in
             self?.showAlert(title: "오류", message: "내 정보 불러오기 실패하였습니다.\n네트워크를 확인해주세요.")
         }
+        viewModel.failedLogout = { [weak self] in
+            self?.showAlert(title: "로그아웃 실패", message: "로그아웃에 실패하였습니다.")
+        }
     }
+}
+
+// MARK: MyPageViewDelegate
+extension MyPageViewController: MyPageViewDelegate {
+    // 예매 내역 더보기 버튼 클릭 시
+    func reservationMoreButtonTapped() {
+        print(#function)
+    }
+    // 찜 목록 더보기 버튼 클릭 시
+    func favoriteMoreButtonTapped() {
+        print(#function)
+    }
+    
+    // 로그아웃 버튼 클릭 시
+    func logoutButtonTapped() {
+        DispatchQueue.main.async { [weak self] in
+            self?.showAlert(title: "로그아웃", message: "정말 로그아웃 하시겠습니까?", cancellable: true, completionHandler: {
+                self?.viewModel.logout()
+            })
+        }
+    }
+    
+    // 셀 선택 시
+    func didSelectedItem(item: any CellConfigurable) {
+        // 찜 항목 셀 선택한 경우
+        if item is MovieEntity {
+            let item = item as! MovieEntity
+            print(item)
+        }
+        // 예매 내역 셀 선택한 경우
+        if item is Reservation {
+            let item = item as! Reservation
+            print(item)
+        }
+    }
+    
 }
