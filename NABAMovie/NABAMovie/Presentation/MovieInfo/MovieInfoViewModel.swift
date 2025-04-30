@@ -9,7 +9,7 @@ import Foundation
 import UIKit
 import Kingfisher
 
-class MovieInfoViewModel {
+final class MovieInfoViewModel {
     
     let movieDetail: MovieEntity
     

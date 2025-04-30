@@ -9,19 +9,19 @@ import UIKit
 import SnapKit
 import Kingfisher
 
-class MovieInfoViewController: UIViewController {
+final class MovieInfoViewController: UIViewController {
     
     var viewModel: MovieInfoViewModel
     
     var stillCutDataSource: UICollectionViewDiffableDataSource<StillCutSection, StillCutItem>!
     
     // MARK: - UI Components
-    private let containerView: UIView = {
+    private lazy var containerView: UIView = {
         let view = UIView()
         return view
     }()
     
-    private let scrollView: UIScrollView = {
+    private lazy var scrollView: UIScrollView = {
         let scrollView = UIScrollView()
         scrollView.isScrollEnabled = true
         scrollView.showsVerticalScrollIndicator = false
@@ -29,30 +29,30 @@ class MovieInfoViewController: UIViewController {
         return scrollView
     }()
     
-    private let contentView: UIView = {
+    private lazy var contentView: UIView = {
         let view = UIView()
         return view
     }()
     
-    private let imageContainerView: UIView = {
+    private lazy var imageContainerView: UIView = {
         let view = UIView()
         return view
     }()
     
-    private let posterImageView: UIImageView = {
+    private lazy var posterImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFill
         imageView.clipsToBounds = true
         return imageView
     }()
     
-    private let darkOverlayView: UIView = {
+    private lazy var darkOverlayView: UIView = {
         let view = UIView()
         view.backgroundColor = UIColor.black.withAlphaComponent(0.5)
         return view
     }()
     
-    private let titleLabel: UILabel = {
+    private lazy var titleLabel: UILabel = {
         let label = UILabel()
         label.font = .boldSystemFont(ofSize: 24)
         label.textColor = .white
@@ -60,35 +60,35 @@ class MovieInfoViewController: UIViewController {
         return label
     }()
     
-    private let infoLabel: UILabel = {
+    private lazy var infoLabel: UILabel = {
         let label = UILabel()
         label.font = .systemFont(ofSize: 14)
         label.textColor = .white
         return label
     }()
     
-    private let voteAverageStackView: UIStackView = {
+    private lazy var voteAverageStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .vertical
         stackView.alignment = .center
         return stackView
     }()
     
-    private let voteAverageLabelAndImageStackView: UIStackView = {
+    private lazy var voteAverageLabelAndImageStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .horizontal
         stackView.spacing = 2
         return stackView
     }()
     
-    private let voteAverageTitleLabel: UILabel = {
+    private lazy var voteAverageTitleLabel: UILabel = {
         let label = UILabel()
         label.text = "평점"
         label.font = .systemFont(ofSize: 12)
         return label
     }()
     
-    private let voteAverageImage: UIImageView = {
+    private lazy var voteAverageImage: UIImageView = {
         let imageView = UIImageView()
         imageView.image = UIImage(systemName: "star.fill")
         imageView.tintColor = .systemYellow
@@ -96,7 +96,7 @@ class MovieInfoViewController: UIViewController {
         return imageView
     }()
     
-    private let voteAverageLabel: UILabel = {
+    private lazy var voteAverageLabel: UILabel = {
         let label = UILabel()
         label.text = "4.8"
         label.largeContentImage = UIImage(systemName: "star.fill")
@@ -104,27 +104,27 @@ class MovieInfoViewController: UIViewController {
         return label
     }()
     
-    private let certificationStackView: UIStackView = {
+    private lazy var certificationStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .vertical
         stackView.alignment = .center
         return stackView
     }()
     
-    private let certificationTitleLabel: UILabel = {
+    private lazy var certificationTitleLabel: UILabel = {
         let label = UILabel()
         label.text = "관람등급"
         label.font = .systemFont(ofSize: 12)
         return label
     }()
     
-    private let certificationLabel: UILabel = {
+    private lazy var certificationLabel: UILabel = {
         let label = UILabel()
         label.font = .systemFont(ofSize: 20, weight: .bold)
         return label
     }()
     
-    private let ratingAndAgeStackView: UIStackView = {
+    private lazy var ratingAndAgeStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .horizontal
         stackView.spacing = 24
@@ -132,7 +132,7 @@ class MovieInfoViewController: UIViewController {
         return stackView
     }()
     
-    private let favoriteButton: UIButton = {
+    private lazy var favoriteButton: UIButton = {
         let button = UIButton()
         let largeConfig = UIImage.SymbolConfiguration(pointSize: 24)
         button.setImage(UIImage(systemName: "heart")?.withConfiguration(largeConfig), for: .normal)
@@ -141,49 +141,49 @@ class MovieInfoViewController: UIViewController {
         return button
     }()
     
-    private let directorTitleLabel: UILabel = {
+    private lazy var directorTitleLabel: UILabel = {
         let label = UILabel()
         label.text = "감독"
         label.font = .boldSystemFont(ofSize: 16)
         return label
     }()
     
-    private let directorLabel: UILabel = {
+    private lazy var directorLabel: UILabel = {
         let label = UILabel()
         label.font = .systemFont(ofSize: 14)
         label.numberOfLines = 0
         return label
     }()
     
-    private let castTitleLabel: UILabel = {
+    private lazy var castTitleLabel: UILabel = {
         let label = UILabel()
         label.text = "출연"
         label.font = .boldSystemFont(ofSize: 16)
         return label
     }()
     
-    private let castLabel: UILabel = {
+    private lazy var castLabel: UILabel = {
         let label = UILabel()
         label.font = .systemFont(ofSize: 14)
         label.numberOfLines = 0
         return label
     }()
     
-    private let overviewTitleLabel: UILabel = {
+    private lazy var overviewTitleLabel: UILabel = {
         let label = UILabel()
         label.text = "줄거리"
         label.font = .boldSystemFont(ofSize: 16)
         return label
     }()
     
-    private let overviewLabel: UILabel = {
+    private lazy var overviewLabel: UILabel = {
         let label = UILabel()
         label.font = .systemFont(ofSize: 14)
         label.numberOfLines = 0
         return label
     }()
     
-    private let stillCutTitleLabel: UILabel = {
+    private lazy var stillCutTitleLabel: UILabel = {
         let label = UILabel()
         label.text = "스틸컷"
         label.font = .boldSystemFont(ofSize: 16)
@@ -191,7 +191,7 @@ class MovieInfoViewController: UIViewController {
     }()
     
     // 스틸컷 콜렉션 뷰
-    let stillCutCollectionView: UICollectionView = {
+    lazy var stillCutCollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
         layout.minimumLineSpacing = 8
@@ -203,7 +203,7 @@ class MovieInfoViewController: UIViewController {
         return collectionView
     }()
     
-    private let reserveButton: UIButton = {
+    private lazy var reserveButton: UIButton = {
         let button = UIButton()
         button.setTitle("예매하기", for: .normal)
         button.titleLabel?.font = .boldSystemFont(ofSize: 20)
