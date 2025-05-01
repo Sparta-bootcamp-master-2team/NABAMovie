@@ -8,13 +8,18 @@
 import UIKit
 
 final class TabBarCoordinator: Coordinator {
+    var parentCoordinator: AppCoordinator
     var childCoordinators: [Coordinator] = []
 
     let tabBarController = UITabBarController()
-    private let tabBarDIContainer: TabBarDIContainer
+    private let TabBarFactory: TabBarFactory
 
-    init(tabBarDIContainer: TabBarDIContainer) {
-        self.tabBarDIContainer = tabBarDIContainer
+    init(
+        TabBarFactory: TabBarFactory,
+        parent: AppCoordinator
+    ) {
+        self.TabBarFactory = TabBarFactory
+        self.parentCoordinator = parent
     }
     
     deinit {
@@ -26,23 +31,37 @@ final class TabBarCoordinator: Coordinator {
         let homeNav = UINavigationController()
         let searchNav = UINavigationController()
         let myPageNav = UINavigationController()
+        
+        let appearance = UINavigationBarAppearance()
+        appearance.configureWithOpaqueBackground()
+        appearance.backgroundColor = .brand
+        appearance.titleTextAttributes = [
+            .foregroundColor: UIColor.white
+        ]
+        
+        [homeNav, searchNav, myPageNav].forEach { nav in
+            nav.navigationBar.tintColor = .white
+            nav.navigationBar.standardAppearance = appearance
+            nav.navigationBar.scrollEdgeAppearance = appearance
+            nav.navigationItem.backButtonTitle = ""
+        }
 
         // 탭별 Coordinator 생성 및 DI 주입
         let homeCoordinator = HomeCoordinator(
             navigationController: homeNav,
-            diContainer: tabBarDIContainer.makeHomeDIContainer(),
+            diContainer: TabBarFactory.makeHomeFactory(),
             parent: self
         )
 
         let searchCoordinator = SearchCoordinator(
             navigationController: searchNav,
-            diContainer: tabBarDIContainer.makeSearchDIContainer(),
+            diContainer: TabBarFactory.makeSearchFactory(),
             parent: self
         )
 
         let myPageCoordinator = MyPageCoordinator(
             navigationController: myPageNav,
-            diContainer: tabBarDIContainer.makeMyPageDIContainer(),
+            diContainer: TabBarFactory.makeMyPageFactory(),
             parent: self
         )
 

@@ -9,18 +9,19 @@ import UIKit
 
 protocol MyPageCoordinatorProtocol: Coordinator {
     func showMovieInfo(movie: MovieEntity)
-    func showReservation(movie: Reservation)
     func showMore(item: [CellConfigurable])
+    func didLogout()
 }
 
-final class MyPageCoordinator: Coordinator {
+final class MyPageCoordinator: MyPageCoordinatorProtocol {
     private let navigationController: UINavigationController
-    private let diContainer: MyPageDIContainer
+    private let diContainer: MyPageFactory
     private let parentCoordinator: TabBarCoordinator
+    private var currentCoordinators: [Coordinator] = []
 
     init(
         navigationController: UINavigationController,
-        diContainer: MyPageDIContainer,
+        diContainer: MyPageFactory,
         parent: TabBarCoordinator
     ) {
         self.navigationController = navigationController
@@ -38,17 +39,24 @@ final class MyPageCoordinator: Coordinator {
     }
     
     func showMovieInfo(movie: MovieEntity) {
-        let vc = diContainer.makeMovieInfoController(movie: movie)
-        navigationController.pushViewController(vc, animated: true)
-    }
-    
-    func showReservation(movie: Reservation) {
-        print(1)
+        let movieInfoCoordinator = MovieInfoCoordinator(
+            navigationController: self.navigationController,
+            diContainer: MovieInfoFactory(),
+            parentCoordinator: self,
+            movie: movie
+        )
+        
+        currentCoordinators = [movieInfoCoordinator]
+        movieInfoCoordinator.start()
     }
     
     func showMore(item: [any CellConfigurable]) {
         let vc = diContainer.makeMovieListViewController(item: item, coordinator: self)
         navigationController.pushViewController(vc, animated: true)
+    }
+    
+    func didLogout() {
+        parentCoordinator.parentCoordinator.start()
     }
 
 }

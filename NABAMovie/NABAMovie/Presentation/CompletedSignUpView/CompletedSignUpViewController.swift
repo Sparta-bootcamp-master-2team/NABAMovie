@@ -9,6 +9,8 @@ import UIKit
 import SnapKit
 
 final class CompletedSignUpViewController: UIViewController {
+    
+    private weak var coordinator: LoginCoordinatorProtocol?
 
     private let logoImageView = UIImageView(image: .NABAMOVIE_LOGO)
     private let welcomeLabel: UILabel = {
@@ -43,9 +45,10 @@ final class CompletedSignUpViewController: UIViewController {
         return button
     }()
     
-    init(username: String) {
+    init(username: String, coordinator: LoginCoordinatorProtocol) {
         super.init(nibName: nil, bundle: nil)
         self.welcomeLabel.text = "\(username)님, 환영합니다!"
+        self.coordinator = coordinator
     }
     
     required init?(coder: NSCoder) {
@@ -60,10 +63,7 @@ final class CompletedSignUpViewController: UIViewController {
     }
     // 회원가입 완료 버튼 클릭 시
     @objc func completeSignUpButtonTapped() {
-//        let vm = HomeViewModel(usecase: FetchHomeScreenMoviesUseCase(repository: MovieRepositoryImpl(networkManager: MovieNetworkManager())))
-//        let vc = HomeViewController(viewModel: vm)
-//        vc.modalPresentationStyle = .fullScreen
-//        self.present(vc, animated: true)
+        coordinator?.didLogin()
     }
     
     private func configureLayout() {

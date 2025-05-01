@@ -5,7 +5,7 @@ final class HomeViewController: UIViewController {
     
     // MARK: - Properties
     
-    private weak var coordinator: HomeCoordinator?
+    private weak var coordinator: HomeCoordinatorProtocol?
     
     private let viewModel: HomeViewModel
     
@@ -34,7 +34,7 @@ final class HomeViewController: UIViewController {
     
     // MARK: - Initailizer
     
-    init(viewModel: HomeViewModel, coordinator: HomeCoordinator) {
+    init(viewModel: HomeViewModel, coordinator: HomeCoordinatorProtocol) {
         self.viewModel = viewModel
         self.coordinator = coordinator
         super.init(nibName: nil, bundle: nil)

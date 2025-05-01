@@ -10,12 +10,12 @@ import SnapKit
 
 class MovieListViewController: UIViewController {
     
-    private weak var coordinator: MyPageCoordinator?
+    private weak var coordinator: MyPageCoordinatorProtocol?
     
     private let collectionView = MovieItemCollectionView()
     private let viewModel: MovieListViewModel
     
-    init(viewModel: MovieListViewModel, coordinator: MyPageCoordinator) {
+    init(viewModel: MovieListViewModel, coordinator: MyPageCoordinatorProtocol) {
         self.viewModel = viewModel
         self.coordinator = coordinator
         super.init(nibName: nil, bundle: nil)

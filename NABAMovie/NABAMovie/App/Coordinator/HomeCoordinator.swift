@@ -13,13 +13,13 @@ protocol HomeCoordinatorProtocol: Coordinator {
 
 final class HomeCoordinator: HomeCoordinatorProtocol {
     private let navigationController: UINavigationController
-    private let diContainer: HomeDIContainer
+    private let diContainer: HomeFactory
     private let parentCoordinator: TabBarCoordinator
-    private let childCoordinators: [Coordinator] = []
+    private var currentCoordinators: [Coordinator] = []
 
     init(
         navigationController: UINavigationController,
-        diContainer: HomeDIContainer,
+        diContainer: HomeFactory,
         parent: TabBarCoordinator
     ) {
         self.navigationController = navigationController
@@ -37,8 +37,14 @@ final class HomeCoordinator: HomeCoordinatorProtocol {
     }
     
     func showMovieInfo(movie: MovieEntity) {
-        let vc = diContainer.makeMovieInfoController(movie: movie)
-        navigationController.pushViewController(vc, animated: true)
+        let movieInfoCoordinator = MovieInfoCoordinator(
+            navigationController: self.navigationController,
+            diContainer: MovieInfoFactory(),
+            parentCoordinator: self,
+            movie: movie
+        )
+        
+        currentCoordinators = [movieInfoCoordinator]
+        movieInfoCoordinator.start()
     }
-    
 }

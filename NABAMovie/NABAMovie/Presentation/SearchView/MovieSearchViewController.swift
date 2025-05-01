@@ -10,7 +10,7 @@ import SnapKit
 
 final class MovieSearchViewController: UIViewController {
     
-    private weak var coordinator: SearchCoordinator?
+    private weak var coordinator: SearchCoordinatorProtocol?
 
     private lazy var searchBar: UISearchBar = {
         let searchBar = UISearchBar()
@@ -25,7 +25,7 @@ final class MovieSearchViewController: UIViewController {
     private let collectionView = MovieItemCollectionView()
     private let viewModel: MovieSearchViewModel
     
-    init(viewModel: MovieSearchViewModel, coordinator: SearchCoordinator) {
+    init(viewModel: MovieSearchViewModel, coordinator: SearchCoordinatorProtocol) {
         self.viewModel = viewModel
         self.coordinator = coordinator
         super.init(nibName: nil, bundle: nil)
@@ -43,7 +43,7 @@ final class MovieSearchViewController: UIViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        navigationController?.setNavigationBarHidden(true, animated: false) // 뷰 컨트롤러가 나타날 때 숨기기
+        navigationController?.setNavigationBarHidden(false, animated: false) // 뷰 컨트롤러가 나타날 때 숨기기
         tabBarController?.tabBar.isHidden = false
     }
     private func setupUI() {
