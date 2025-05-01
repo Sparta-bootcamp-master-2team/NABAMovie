@@ -21,6 +21,7 @@ class BookingPageViewController: UIViewController {
     // MARK: - UI Components
     private let containerView: UIView = {
         let view = UIView()
+        view.backgroundColor = .systemBackground
         return view
     }()
     
@@ -34,7 +35,6 @@ class BookingPageViewController: UIViewController {
     private lazy var theaterLabel: UILabel = {
         let label = UILabel()
         label.textAlignment = .center
-        label.font = .systemFont(ofSize: 14, weight: .medium)
         return label
     }()
     
@@ -47,19 +47,13 @@ class BookingPageViewController: UIViewController {
     
     private lazy var timeSelectionButton1: UIButton = {
         let button = UIButton()
-        button.setTitle("12:25", for: .normal)
         button.titleLabel?.font = .boldSystemFont(ofSize: 14)
-        button.setTitleColor(.white, for: .normal)
-        button.layer.borderWidth = 1
-        button.layer.borderColor = UIColor.lightGray.cgColor
-        button.backgroundColor = UIColor(named: "brandColor")
         button.addTarget(self, action: #selector(timeButtonTapped(_:)), for: .touchUpInside)
         return button
     }()
     
     private lazy var timeSelectionButton2: UIButton = {
         let button = UIButton()
-        button.setTitle("15:55", for: .normal)
         button.titleLabel?.font = .boldSystemFont(ofSize: 14)
         button.setTitleColor(.black, for: .normal)
         button.layer.borderWidth = 1
@@ -70,7 +64,6 @@ class BookingPageViewController: UIViewController {
     
     private lazy var timeSelectionButton3: UIButton = {
         let button = UIButton()
-        button.setTitle("18:35", for: .normal)
         button.titleLabel?.font = .boldSystemFont(ofSize: 14)
         button.setTitleColor(.black, for: .normal)
         button.layer.borderWidth = 1
@@ -89,7 +82,6 @@ class BookingPageViewController: UIViewController {
     private lazy var notificationLabel: UILabel = {
         let label = UILabel()
         label.textAlignment = .center
-        label.font = .systemFont(ofSize: 10, weight: .medium)
         label.numberOfLines = 0
         label.textAlignment = .left
         return label
@@ -103,7 +95,7 @@ class BookingPageViewController: UIViewController {
     
     private lazy var resetButton: UIButton = {
         let button = UIButton()
-        button.setTitle("초기화", for: .normal)
+        button.setTitle(" 초기화", for: .normal)
         button.setImage(UIImage(systemName: "return.right"), for: .normal)
         button.titleLabel?.font = .systemFont(ofSize: 14, weight: .medium)
         button.tintColor = .systemGray
@@ -129,7 +121,7 @@ class BookingPageViewController: UIViewController {
     private lazy var minusButton: UIButton = {
         let button = UIButton()
         button.setTitle("-", for: .normal)
-        button.titleLabel?.font = .boldSystemFont(ofSize: 20)
+        button.titleLabel?.font = .boldSystemFont(ofSize: 18)
         button.backgroundColor = UIColor(named: "brandColor")
         button.layer.cornerRadius = 5
         button.addTarget(self, action: #selector(minusPersonnel), for: .touchUpInside)
@@ -139,7 +131,7 @@ class BookingPageViewController: UIViewController {
     private lazy var plusButton: UIButton = {
         let button = UIButton()
         button.setTitle("+", for: .normal)
-        button.titleLabel?.font = .boldSystemFont(ofSize: 20)
+        button.titleLabel?.font = .boldSystemFont(ofSize: 18)
         button.backgroundColor = UIColor(named: "brandColor")
         button.layer.cornerRadius = 5
         button.addTarget(self, action: #selector(plusPersonnel), for: .touchUpInside)
@@ -195,7 +187,6 @@ class BookingPageViewController: UIViewController {
         
         setupUI()
         configure()
-        selectedTimeButton = timeSelectionButton1
     }
     
     override func viewDidLayoutSubviews() {
@@ -207,7 +198,7 @@ class BookingPageViewController: UIViewController {
     
     // MARK: - UI & Layout
     private func setupUI() {
-        view.backgroundColor = .systemBackground
+        view.backgroundColor = paymentContainerViewColor
         
         view.addSubview(containerView)
         view.addSubview(paymentContainerView)
@@ -229,30 +220,30 @@ class BookingPageViewController: UIViewController {
         }
         
         containerView.snp.makeConstraints {
-            $0.top.equalToSuperview().inset(40)
+            $0.top.equalToSuperview()
+            $0.horizontalEdges.equalToSuperview()
+            $0.height.equalToSuperview().multipliedBy(0.7)
             $0.bottom.equalTo(paymentContainerView.snp.top)
-            $0.horizontalEdges.equalTo(view.safeAreaLayoutGuide).inset(20)
         }
         
         paymentContainerView.snp.makeConstraints {
             $0.top.equalTo(containerView.snp.bottom)
-            $0.height.equalToSuperview().multipliedBy(0.3)
             $0.horizontalEdges.equalTo(view.safeAreaLayoutGuide)
-            $0.bottom.equalToSuperview()
+            $0.bottom.equalTo(view.safeAreaLayoutGuide)
         }
         
         titleLabel.snp.makeConstraints {
-            $0.top.equalToSuperview()
+            $0.top.equalToSuperview().offset(40)
             $0.centerX.equalToSuperview()
         }
         
         theaterLabel.snp.makeConstraints {
-            $0.top.equalTo(titleLabel.snp.bottom).offset(16)
+            $0.top.equalTo(titleLabel.snp.bottom).offset(14)
             $0.centerX.equalToSuperview()
         }
         
         buttonStackView.snp.makeConstraints {
-            $0.top.equalTo(theaterLabel.snp.bottom).offset(32)
+            $0.top.equalTo(theaterLabel.snp.bottom).offset(28)
             $0.centerX.equalToSuperview()
         }
         
@@ -272,22 +263,22 @@ class BookingPageViewController: UIViewController {
         }
         
         screenImageView.snp.makeConstraints {
-            $0.top.equalTo(buttonStackView.snp.bottom).offset(32)
+            $0.top.equalTo(buttonStackView.snp.bottom).offset(28)
             $0.centerX.equalToSuperview()
         }
         
         notificationLabel.snp.makeConstraints {
-            $0.top.equalTo(screenImageView.snp.bottom).offset(32)
-            $0.horizontalEdges.equalToSuperview()
+            $0.top.equalTo(screenImageView.snp.bottom).offset(28)
+            $0.horizontalEdges.equalTo(buttonStackView)
         }
         
         resetButton.snp.makeConstraints {
-            $0.top.equalToSuperview().inset(16)
+            $0.bottom.equalTo(personnelStackView.snp.top).offset(-16)
             $0.trailing.equalToSuperview().inset(20)
         }
         
         personnelTitle.snp.makeConstraints {
-            $0.top.equalTo(resetButton.snp.bottom).offset(16)
+            $0.bottom.equalTo(totalPriceTitle.snp.top).offset(-16)
             $0.leading.equalToSuperview().inset(20)
         }
         
@@ -297,41 +288,43 @@ class BookingPageViewController: UIViewController {
         }
         
         minusButton.snp.makeConstraints {
-            $0.height.equalTo(20)
+            $0.height.equalTo(22)
         }
         
         plusButton.snp.makeConstraints {
-            $0.height.equalTo(20)
+            $0.height.equalTo(22)
         }
         
         totalPriceTitle.snp.makeConstraints {
-            $0.top.equalTo(personnelTitle.snp.bottom).offset(16)
+            $0.centerY.equalTo(totalPriceLabel)
             $0.leading.equalToSuperview().inset(20)
         }
         
         totalPriceLabel.snp.makeConstraints {
-            $0.top.equalTo(personnelTitle.snp.bottom).offset(16)
+            $0.bottom.equalTo(paymentButton.snp.top).offset(-16)
             $0.trailing.equalToSuperview().inset(20)
         }
         
         paymentButton.snp.makeConstraints {
-            $0.top.equalTo(totalPriceTitle.snp.bottom).offset(20)
             $0.leading.trailing.equalToSuperview().inset(20)
             $0.height.equalTo(50)
+            $0.bottom.equalToSuperview()
         }
     }
     
     // MARK: - Action
     @objc private func timeButtonTapped(_ sender: UIButton) {
-        print(sender.titleLabel?.text)
+        viewModel.selectedTime = (sender.titleLabel?.text)!
         guard sender != selectedTimeButton else { return }
         
         selectedTimeButton?.backgroundColor = .clear
+        selectedTimeButton?.layer.borderWidth = 1
         selectedTimeButton?.layer.borderColor = UIColor.lightGray.cgColor
         selectedTimeButton?.setTitleColor(.black, for: .normal)
         
         sender.backgroundColor = UIColor(named: "brandColor")
         sender.layer.borderColor = UIColor.clear.cgColor
+        sender.layer.borderWidth = 0
         sender.setTitleColor(.white, for: .normal)
         selectedTimeButton = sender
     }
@@ -359,27 +352,89 @@ class BookingPageViewController: UIViewController {
         paymentAlert.addAction(
             UIAlertAction(title: "네", style: .default, handler: { [weak self] _ in
                 
-            let completionAlert = UIAlertController(title: "결제 완료", message: "결제가 완료되었습니다.", preferredStyle: .alert)
+                self?.viewModel.makeReservation()
+                let completionAlert = UIAlertController(title: "결제 완료", message: "결제가 완료되었습니다.", preferredStyle: .alert)
                 
-            completionAlert.addAction(
-                UIAlertAction(title: "확인", style: .default))
+                completionAlert.addAction(
+                    UIAlertAction(title: "확인", style: .default))
                 
-            self?.present(completionAlert, animated: true)
-        }))
+                self?.present(completionAlert, animated: true)
+            }))
         
         present(paymentAlert, animated: true)
     }
     
     
     // MARK: - Private Methods
+    /// 알림 텍스트 변형
+    private func transformNotificationTexts() {
+        let attributedText = NSMutableAttributedString()
+        
+        for text in viewModel.notificationTexts {
+            let bullet = "·  "
+            let paragraphStyle = NSMutableParagraphStyle()
+            paragraphStyle.headIndent = (bullet as NSString).size(withAttributes: [.font: UIFont.systemFont(ofSize: 10, weight: .black)]).width
+            
+            let bulletAttr = NSAttributedString(string: bullet, attributes: [
+                .font: UIFont.systemFont(ofSize: 10, weight: .black),
+                .paragraphStyle: paragraphStyle
+            ])
+            let messageAttr = NSAttributedString(string: text + "\n", attributes: [
+                .font: UIFont.systemFont(ofSize: 10),
+                .paragraphStyle: paragraphStyle
+            ])
+            
+            attributedText.append(bulletAttr)
+            attributedText.append(messageAttr)
+        }
+        
+        notificationLabel.attributedText = attributedText
+    }
     
+    /// 극장 텍스트 변형
+    private func transformTheaterText() {
+        let attributedText = NSMutableAttributedString()
+        
+        let fullText = viewModel.theaterText
+        guard let brandText = fullText.split(separator: " ").first else { return }
+        let otherText = fullText.dropFirst(brandText.count)
+        
+        let brandAttr = NSAttributedString(string: String(brandText), attributes: [
+            .font: UIFont.systemFont(ofSize: 16, weight: .bold)
+        ])
+        let otherAttr = NSAttributedString(string: String(otherText), attributes: [
+            .font: UIFont.systemFont(ofSize: 16)
+        ])
+        
+        attributedText.append(brandAttr)
+        attributedText.append(otherAttr)
+        
+        theaterLabel.attributedText = attributedText
+    }
     
-    
-    // MARK: - Internal Methods
-    func configure() {
+    /// 버튼 초기 설정
+    private func setButtonStatus() {
+        timeSelectionButton1.setTitle(viewModel.movieTimes[0], for: .normal)
+        timeSelectionButton2.setTitle(viewModel.movieTimes[1], for: .normal)
+        timeSelectionButton3.setTitle(viewModel.movieTimes[2], for: .normal)
+        
+        // 기본 설정 시간 첫번째로 설정
+        selectedTimeButton = timeSelectionButton1
+        
+        viewModel.selectedTime = (selectedTimeButton?.titleLabel!.text)!
+        selectedTimeButton?.setTitleColor(.white, for: .normal)
+        selectedTimeButton?.backgroundColor = UIColor(named: "brandColor")
+    }
+        
+    private func configure() {
         titleLabel.text = viewModel.titleText
         theaterLabel.text = viewModel.theaterText
-        notificationLabel.text = viewModel.notificationTexts.joined(separator: "\n")
+        notificationLabel.text = viewModel.notificationTexts.joined()
+        
+        transformTheaterText()
+        transformNotificationTexts()
+        
+        setButtonStatus()
         
         viewModel.onPersonnelChanged = { [weak self] count, _ in
             self?.personnelCountLabel.text = "\(count)"
