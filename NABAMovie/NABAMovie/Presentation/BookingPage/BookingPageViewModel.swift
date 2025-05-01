@@ -44,6 +44,26 @@ class BookingPageViewModel {
     var titleText: String {
         movieDetail.title
     }
+
+    func makeReservation() {
+        let reservation = Reservation(
+            reservationID: "1",
+            genre: movieDetail.genre,
+            member: personnel,
+            posterURL: movieDetail.posterImageURL,
+            reservationTime: selectedTime,
+            title: movieDetail.title)
+        Task {
+            let userId = try firebaseService.getCurrentUserId()
+            let result = await makeReservationUseCase.execute(userId: userId, reservation: reservation)
+            switch result {
+            case .success(_):
+                print("예약 성공: \(reservation)")
+            case .failure(let error):
+                print("예약 실패: \(error.localizedDescription)")
+            }
+        }
+    }
 }
 
 private extension Int {

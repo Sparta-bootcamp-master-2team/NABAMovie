@@ -323,7 +323,7 @@ class BookingPageViewController: UIViewController {
     
     // MARK: - Action
     @objc private func timeButtonTapped(_ sender: UIButton) {
-        print(sender.titleLabel?.text)
+        viewModel.selectedTime = (sender.titleLabel?.text)!
         guard sender != selectedTimeButton else { return }
         
         selectedTimeButton?.backgroundColor = .clear
@@ -359,13 +359,14 @@ class BookingPageViewController: UIViewController {
         paymentAlert.addAction(
             UIAlertAction(title: "네", style: .default, handler: { [weak self] _ in
                 
-            let completionAlert = UIAlertController(title: "결제 완료", message: "결제가 완료되었습니다.", preferredStyle: .alert)
+                self?.viewModel.makeReservation()
+                let completionAlert = UIAlertController(title: "결제 완료", message: "결제가 완료되었습니다.", preferredStyle: .alert)
                 
-            completionAlert.addAction(
-                UIAlertAction(title: "확인", style: .default))
+                completionAlert.addAction(
+                    UIAlertAction(title: "확인", style: .default))
                 
-            self?.present(completionAlert, animated: true)
-        }))
+                self?.present(completionAlert, animated: true)
+            }))
         
         present(paymentAlert, animated: true)
     }
