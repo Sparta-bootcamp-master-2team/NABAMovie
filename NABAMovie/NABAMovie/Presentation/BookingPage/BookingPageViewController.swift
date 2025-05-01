@@ -21,6 +21,7 @@ class BookingPageViewController: UIViewController {
     // MARK: - UI Components
     private let containerView: UIView = {
         let view = UIView()
+        view.backgroundColor = .systemBackground
         return view
     }()
     
@@ -197,7 +198,7 @@ class BookingPageViewController: UIViewController {
     
     // MARK: - UI & Layout
     private func setupUI() {
-        view.backgroundColor = .systemBackground
+        view.backgroundColor = paymentContainerViewColor
         
         view.addSubview(containerView)
         view.addSubview(paymentContainerView)
@@ -219,20 +220,20 @@ class BookingPageViewController: UIViewController {
         }
         
         containerView.snp.makeConstraints {
-            $0.top.equalToSuperview().inset(40)
+            $0.top.equalToSuperview()
+            $0.horizontalEdges.equalToSuperview()
+            $0.height.equalToSuperview().multipliedBy(0.7)
             $0.bottom.equalTo(paymentContainerView.snp.top)
-            $0.horizontalEdges.equalTo(view.safeAreaLayoutGuide).inset(20)
         }
         
         paymentContainerView.snp.makeConstraints {
             $0.top.equalTo(containerView.snp.bottom)
-            $0.height.equalToSuperview().multipliedBy(0.3)
             $0.horizontalEdges.equalTo(view.safeAreaLayoutGuide)
-            $0.bottom.equalToSuperview()
+            $0.bottom.equalTo(view.safeAreaLayoutGuide)
         }
         
         titleLabel.snp.makeConstraints {
-            $0.top.equalToSuperview()
+            $0.top.equalToSuperview().offset(40)
             $0.centerX.equalToSuperview()
         }
         
@@ -272,12 +273,12 @@ class BookingPageViewController: UIViewController {
         }
         
         resetButton.snp.makeConstraints {
-            $0.top.equalToSuperview().inset(16)
+            $0.bottom.equalTo(personnelStackView.snp.top).offset(-16)
             $0.trailing.equalToSuperview().inset(20)
         }
         
         personnelTitle.snp.makeConstraints {
-            $0.top.equalTo(resetButton.snp.bottom).offset(16)
+            $0.bottom.equalTo(totalPriceTitle.snp.top).offset(-16)
             $0.leading.equalToSuperview().inset(20)
         }
         
@@ -295,19 +296,19 @@ class BookingPageViewController: UIViewController {
         }
         
         totalPriceTitle.snp.makeConstraints {
-            $0.top.equalTo(personnelTitle.snp.bottom).offset(16)
+            $0.centerY.equalTo(totalPriceLabel)
             $0.leading.equalToSuperview().inset(20)
         }
         
         totalPriceLabel.snp.makeConstraints {
-            $0.top.equalTo(personnelTitle.snp.bottom).offset(16)
+            $0.bottom.equalTo(paymentButton.snp.top).offset(-16)
             $0.trailing.equalToSuperview().inset(20)
         }
         
         paymentButton.snp.makeConstraints {
-            $0.top.equalTo(totalPriceTitle.snp.bottom).offset(20)
             $0.leading.trailing.equalToSuperview().inset(20)
             $0.height.equalTo(50)
+            $0.bottom.equalToSuperview()
         }
     }
     
