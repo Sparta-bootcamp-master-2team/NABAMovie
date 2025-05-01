@@ -24,6 +24,7 @@ final class MovieItemCollectionView: UICollectionView {
         configureDataSource()
         self.configureFlowLayout(with: UIScreen.main.bounds.width)
         self.keyboardDismissMode = .onDrag
+        self.backgroundColor = .secondarySystemBackground
     }
     
     required init?(coder: NSCoder) {

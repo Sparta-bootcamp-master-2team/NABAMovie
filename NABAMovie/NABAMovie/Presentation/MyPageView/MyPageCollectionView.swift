@@ -17,6 +17,7 @@ final class MyPageCollectionView: UICollectionView {
         layout.minimumInteritemSpacing = 10
         layout.headerReferenceSize = CGSize(width: UIScreen.main.bounds.width, height: 50)
         super.init(frame: frame, collectionViewLayout: layout)
+        self.backgroundColor = .secondarySystemBackground
     }
     
     required init?(coder: NSCoder) {

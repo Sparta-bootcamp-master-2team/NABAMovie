@@ -38,7 +38,7 @@ final class MyPageViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.addSubviews([headerView, myPageView])
-        view.backgroundColor = .systemBackground
+        view.backgroundColor = .secondarySystemBackground
         configureLayout()
     }
     

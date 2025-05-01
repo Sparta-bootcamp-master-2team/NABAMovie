@@ -28,7 +28,7 @@ class MovieListViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .white
+        view.backgroundColor = .secondarySystemBackground
         view.addSubviews([collectionView])
         configureLayout()
         collectionView.fetchCellItems(item: viewModel.item)

@@ -19,7 +19,7 @@ final class MovieSearchViewController: UIViewController {
         searchBar.backgroundColor = .clear
         searchBar.barTintColor = .brand
         searchBar.enablesReturnKeyAutomatically = true
-        searchBar.setTextFieldColor(.systemBackground)
+        searchBar.setTextFieldColor(.secondarySystemBackground)
         return searchBar
     }()
     
@@ -38,7 +38,7 @@ final class MovieSearchViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .systemBackground
+        view.backgroundColor = .secondarySystemBackground
         collectionView.delegate = self
         setupUI()
     }
