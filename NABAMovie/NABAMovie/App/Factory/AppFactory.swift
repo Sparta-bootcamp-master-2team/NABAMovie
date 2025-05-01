@@ -18,24 +18,7 @@ final class AppFactory {
     }
     
     func makeTabBarCoordinator(coordinator: AppCoordinator) -> TabBarCoordinator {
-        let TabBarFactory = TabBarFactory()
-        return TabBarCoordinator(TabBarFactory: TabBarFactory, parent: coordinator)
-    }
-    
-    func makeSignupViewController(coordinator: LoginCoordinator) -> SignupViewController {
-        let firebaseService = FirebaseService()
-        
-        let authRepository = FirebaseAuthRepositoryImpl(firebaseService: firebaseService)
-        let userRepository = FirebaseUserRepositoryImpl(firebaseService: firebaseService)
-        let registerUseCase = RegisterUseCase(repository: authRepository)
-        let loginUseCase = LoginUseCase(repository: authRepository)
-
-        let signupViewModel = SignupViewModel(
-            registerUseCase: registerUseCase,
-            loginUseCase: loginUseCase,
-            userRepository: userRepository
-        )
-        
-        return SignupViewController(viewModel: signupViewModel, coordinator: coordinator)
+        let tabBarFactory = TabBarFactory()
+        return TabBarCoordinator(factory: tabBarFactory, parent: coordinator)
     }
 }

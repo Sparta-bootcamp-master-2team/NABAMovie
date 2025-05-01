@@ -17,16 +17,16 @@ protocol LoginCoordinatorProtocol: Coordinator {
 final class LoginCoordinator: LoginCoordinatorProtocol {
     
     let navigationController: UINavigationController
-    private let diContainer: AppFactory
-    private var parentCoordinator: AppCoordinator
+    private let factory: LoginFactory
+    private(set) weak var parentCoordinator: AppCoordinator?
 
     init(
          navigationController: UINavigationController,
-         diContainer: AppFactory,
+         factory: LoginFactory,
          parent: AppCoordinator
     ) {
         self.navigationController = navigationController
-        self.diContainer = diContainer
+        self.factory = factory
         self.parentCoordinator = parent
     }
     
@@ -35,17 +35,17 @@ final class LoginCoordinator: LoginCoordinatorProtocol {
     }
 
     func start() {
-        let loginVC = diContainer.makeLoginViewController(coordinator: self)
+        let loginVC = factory.makeLoginViewController(coordinator: self)
         navigationController.setViewControllers([loginVC], animated: true)
     }
     
     func showSignup() {
-        let signUpVC = diContainer.makeSignupViewController(coordinator: self)
+        let signUpVC = factory.makeSignupViewController(coordinator: self)
         self.navigationController.pushViewController(signUpVC, animated: true)
     }
 
     func didLogin() {
-        parentCoordinator.start()
+        parentCoordinator?.start()
     }
     
     func showCompletedSignUp(name: String) {

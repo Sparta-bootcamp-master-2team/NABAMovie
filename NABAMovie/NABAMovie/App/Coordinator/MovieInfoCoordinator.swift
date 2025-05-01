@@ -12,20 +12,23 @@ protocol MovieInfoCoordinatorProtocol: Coordinator {
 }
 
 final class MovieInfoCoordinator: MovieInfoCoordinatorProtocol {
-    let navigationController: UINavigationController
-    private let diContainer: MovieInfoFactory
-    private var parentCoordinator: Coordinator
+    
     private let movie: MovieEntity
     
-    init(navigationController: UINavigationController,
-         diContainer: MovieInfoFactory,
-         parentCoordinator: Coordinator,
-         movie: MovieEntity
+    private let navigationController: UINavigationController
+    private let factory: MovieInfoFactory
+    private(set) weak var parentCoordinator: Coordinator?
+    
+    init(
+        movie: MovieEntity,
+        navigationController: UINavigationController,
+        factory: MovieInfoFactory,
+        parentCoordinator: Coordinator,
     ) {
-        self.navigationController = navigationController
-        self.diContainer = diContainer
-        self.parentCoordinator = parentCoordinator
         self.movie = movie
+        self.navigationController = navigationController
+        self.factory = factory
+        self.parentCoordinator = parentCoordinator
     }
     
     deinit {
@@ -33,7 +36,7 @@ final class MovieInfoCoordinator: MovieInfoCoordinatorProtocol {
     }
 
     func start() {
-        let vc = diContainer.makeMovieInfoViewController(
+        let vc = factory.makeMovieInfoViewController(
             movie: self.movie,
             coordinator: self
         )

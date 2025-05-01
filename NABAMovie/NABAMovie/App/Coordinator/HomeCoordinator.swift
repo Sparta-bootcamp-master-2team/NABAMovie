@@ -12,18 +12,19 @@ protocol HomeCoordinatorProtocol: Coordinator {
 }
 
 final class HomeCoordinator: HomeCoordinatorProtocol {
+    
     private let navigationController: UINavigationController
-    private let diContainer: HomeFactory
-    private let parentCoordinator: TabBarCoordinator
+    private let factory: HomeFactory
+    private(set) weak var parentCoordinator: TabBarCoordinator?
     private var currentCoordinators: [Coordinator] = []
 
     init(
         navigationController: UINavigationController,
-        diContainer: HomeFactory,
+        factory: HomeFactory,
         parent: TabBarCoordinator
     ) {
         self.navigationController = navigationController
-        self.diContainer = diContainer
+        self.factory = factory
         self.parentCoordinator = parent
     }
     
@@ -32,16 +33,16 @@ final class HomeCoordinator: HomeCoordinatorProtocol {
     }
 
     func start() {
-        let vc = diContainer.makeHomeViewController(coordinator: self)
+        let vc = factory.makeHomeViewController(coordinator: self)
         navigationController.setViewControllers([vc], animated: false)
     }
     
     func showMovieInfo(movie: MovieEntity) {
         let movieInfoCoordinator = MovieInfoCoordinator(
+            movie: movie,
             navigationController: self.navigationController,
-            diContainer: MovieInfoFactory(),
-            parentCoordinator: self,
-            movie: movie
+            factory: MovieInfoFactory(),
+            parentCoordinator: self
         )
         
         currentCoordinators = [movieInfoCoordinator]

@@ -15,17 +15,17 @@ protocol MyPageCoordinatorProtocol: Coordinator {
 
 final class MyPageCoordinator: MyPageCoordinatorProtocol {
     private let navigationController: UINavigationController
-    private let diContainer: MyPageFactory
-    private let parentCoordinator: TabBarCoordinator
+    private let factory: MyPageFactory
+    private(set) weak var parentCoordinator: TabBarCoordinator?
     private var currentCoordinators: [Coordinator] = []
 
     init(
         navigationController: UINavigationController,
-        diContainer: MyPageFactory,
+        factory: MyPageFactory,
         parent: TabBarCoordinator
     ) {
         self.navigationController = navigationController
-        self.diContainer = diContainer
+        self.factory = factory
         self.parentCoordinator = parent
     }
     
@@ -34,16 +34,16 @@ final class MyPageCoordinator: MyPageCoordinatorProtocol {
     }
 
     func start() {
-        let vc = diContainer.makeMyPageViewController(coordinator: self)
+        let vc = factory.makeMyPageViewController(coordinator: self)
         navigationController.setViewControllers([vc], animated: false)
     }
     
     func showMovieInfo(movie: MovieEntity) {
         let movieInfoCoordinator = MovieInfoCoordinator(
+            movie: movie,
             navigationController: self.navigationController,
-            diContainer: MovieInfoFactory(),
-            parentCoordinator: self,
-            movie: movie
+            factory: MovieInfoFactory(),
+            parentCoordinator: self
         )
         
         currentCoordinators = [movieInfoCoordinator]
@@ -51,12 +51,12 @@ final class MyPageCoordinator: MyPageCoordinatorProtocol {
     }
     
     func showMore(item: [any CellConfigurable]) {
-        let vc = diContainer.makeMovieListViewController(item: item, coordinator: self)
+        let vc = factory.makeMovieListViewController(item: item, coordinator: self)
         navigationController.pushViewController(vc, animated: true)
     }
     
     func didLogout() {
-        parentCoordinator.parentCoordinator.start()
+        parentCoordinator?.parentCoordinator?.start()
     }
 
 }
