@@ -35,5 +35,17 @@ final class MyPageFactory {
         let listVM = MovieListViewModel(item: item)
         return MovieListViewController(viewModel: listVM, coordinator: coordinator)
     }
+    
+    func makeReservationDetailViewController(
+        movie: Reservation,
+        coordinator: MyPageCoordinator
+    ) -> ReservationDetailViewController {
+        let firebaseService = FirebaseService()
+        let repository = ReservationRepositoryImpl(firebaseService: firebaseService)
+        let usecase = CancelReservationUseCase(repository: repository)
+        let viewModel = ReservationDetailViewModel(cancelReservationUseCase: usecase, reservationItem: movie)
+        
+        return ReservationDetailViewController(viewModel: viewModel, coordinator: coordinator)
+    }
 
 }

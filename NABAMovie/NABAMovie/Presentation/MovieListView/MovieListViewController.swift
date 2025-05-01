@@ -53,10 +53,7 @@ extension MovieListViewController: UICollectionViewDelegate {
         case .movieEntity(let movieEntity):
             coordinator?.showMovieInfo(movie: movieEntity)
         case .reservationEntity(let reservation):
-            let usecase = CancelReservationUseCase(repository: ReservationRepositoryImpl(firebaseService: FirebaseService()))
-            let reservationDetailViewModel = ReservationDetailViewModel(cancelReservationUseCase: usecase, reservationItem: reservation)
-            let reservationDetailVC = ReservationDetailViewController(viewModel: reservationDetailViewModel)
-            self.present(reservationDetailVC, animated: true)
+            coordinator?.showReservationDetail(movie: reservation)
         }
     }
 }

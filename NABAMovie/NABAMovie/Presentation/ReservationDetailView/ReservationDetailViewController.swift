@@ -9,12 +9,18 @@ import UIKit
 import SnapKit
 
 final class ReservationDetailViewController: UIViewController {
+    
+    private weak var coordinator: MyPageCoordinator?
 
     private let reservationDetailView = ReservationDetailView()
     private let viewModel: ReservationDetailViewModel
     
-    init(viewModel: ReservationDetailViewModel) {
+    init(
+        viewModel: ReservationDetailViewModel,
+        coordinator: MyPageCoordinator
+    ) {
         self.viewModel = viewModel
+        self.coordinator = coordinator
         reservationDetailView.configure(model: viewModel.reservationItem)
         super.init(nibName: nil, bundle: nil)
         bind()

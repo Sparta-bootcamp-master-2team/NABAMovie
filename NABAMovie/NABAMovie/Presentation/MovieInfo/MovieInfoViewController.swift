@@ -11,7 +11,7 @@ import Kingfisher
 
 final class MovieInfoViewController: UIViewController {
     
-    private weak var coordinator: MovieInfoCoordinator?
+    private weak var coordinator: MovieInfoCoordinatorProtocol?
     
     var viewModel: MovieInfoViewModel
     
@@ -240,7 +240,7 @@ final class MovieInfoViewController: UIViewController {
     }()
     
     // MARK: - Initializers
-    init(viewModel: MovieInfoViewModel, coordinator: MovieInfoCoordinator) {
+    init(viewModel: MovieInfoViewModel, coordinator: MovieInfoCoordinatorProtocol) {
         self.viewModel = viewModel
         self.coordinator = coordinator
         super.init(nibName: nil, bundle: nil)

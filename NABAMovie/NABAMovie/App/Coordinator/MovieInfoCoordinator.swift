@@ -8,7 +8,7 @@
 import UIKit
 
 protocol MovieInfoCoordinatorProtocol: Coordinator {
-    
+    func showBookingPage(movie: MovieEntity)
 }
 
 final class MovieInfoCoordinator: MovieInfoCoordinatorProtocol {

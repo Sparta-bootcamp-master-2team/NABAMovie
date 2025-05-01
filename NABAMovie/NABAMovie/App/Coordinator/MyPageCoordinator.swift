@@ -11,6 +11,7 @@ protocol MyPageCoordinatorProtocol: Coordinator {
     func showMovieInfo(movie: MovieEntity)
     func showMore(item: [CellConfigurable])
     func didLogout()
+    func showReservationDetail(movie: Reservation)
 }
 
 final class MyPageCoordinator: MyPageCoordinatorProtocol {
@@ -58,5 +59,12 @@ final class MyPageCoordinator: MyPageCoordinatorProtocol {
     func didLogout() {
         parentCoordinator?.parentCoordinator?.start()
     }
-
+    
+    func showReservationDetail(movie: Reservation) {
+        let vc = factory.makeReservationDetailViewController(
+            movie: movie,
+            coordinator: self
+        )
+        navigationController.present(vc, animated: true)
+    }
 }

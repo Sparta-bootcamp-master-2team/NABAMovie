@@ -106,19 +106,13 @@ extension MyPageViewController: MyPageViewDelegate {
     
     // 셀 선택 시
     func didSelectedItem(item: any CellConfigurable) {
-        // 찜 항목 셀 선택한 경우
-        if item is MovieEntity {
-            let item = item as! MovieEntity
-            coordinator?.showMovieInfo(movie: item)
-        }
-        // 예매 내역 셀 선택한 경우
-        if item is Reservation {
-            let item = item as! Reservation
-            let usecase = CancelReservationUseCase(repository: ReservationRepositoryImpl(firebaseService: FirebaseService()))
-            let reservationDetailViewModel = ReservationDetailViewModel(cancelReservationUseCase: usecase, reservationItem: item)
-            let reservationDetailVC = ReservationDetailViewController(viewModel: reservationDetailViewModel)
-            self.present(reservationDetailVC, animated: true)
+        
+        if let movie = item as? MovieEntity  {
+            // 찜 항목 셀 선택한 경우
+            coordinator?.showMovieInfo(movie: movie)
+        } else if let movie = item as? Reservation {
+            // 예매 내역 셀 선택한 경우
+            coordinator?.showReservationDetail(movie: movie)
         }
     }
-    
 }
