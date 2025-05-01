@@ -31,11 +31,13 @@ extension UIViewController {
     }
     
     func changeRootViewController(to viewController: UIViewController) {
-        guard let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
-              let window = windowScene.windows.first else { return }
-        
-        window.rootViewController = viewController
-        window.makeKeyAndVisible()
+        DispatchQueue.main.async {
+            guard let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
+                  let window = windowScene.windows.first else { return }
+
+            window.rootViewController = viewController
+            window.makeKeyAndVisible()
+        }
     }
 
     func navigateToHome() {
