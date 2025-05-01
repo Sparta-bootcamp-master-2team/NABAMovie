@@ -10,13 +10,13 @@ import SnapKit
 
 final class MyPageViewController: UIViewController {
     
-    private weak var coordinator: MyPageCoordinator?
+    private weak var coordinator: MyPageCoordinatorProtocol?
     
     private let headerView = HeaderView()
     private let myPageView = MyPageView()
     private let viewModel: MyPageViewModel
     
-    init(viewModel: MyPageViewModel, coordinator: MyPageCoordinator) {
+    init(viewModel: MyPageViewModel, coordinator: MyPageCoordinatorProtocol) {
         self.viewModel = viewModel
         self.coordinator = coordinator
         super.init(nibName: nil, bundle: nil)
@@ -32,6 +32,7 @@ final class MyPageViewController: UIViewController {
         navigationController?.setNavigationBarHidden(true, animated: false) // 뷰 컨트롤러가 나타날 때 숨기기
         tabBarController?.tabBar.isHidden = false
         viewModel.fetchMyPageItem()
+        viewModel.fetchUserInfo()
     }
     
     override func viewDidLoad() {
@@ -54,16 +55,32 @@ final class MyPageViewController: UIViewController {
     }
     // ViewModel 클로저 바인딩
     private func bind() {
+        // 찜목록, 예매내역 불러오기 성공한 경우
         viewModel.successFetchMyPageItem = { [weak self] reservations, favorites  in
             self?.myPageView.fetchItems(reservations: reservations, favorites: favorites)
             self?.viewModel.savePageItems(reseravations: reservations, favorites: favorites)
         }
+        // 찜목록, 예매내역 불러오기 실패한 경우
         viewModel.failedFetchMyPageItem = { [weak self] in
             self?.showAlert(title: "오류", message: "내 정보 불러오기 실패하였습니다.\n네트워크를 확인해주세요.")
         }
+        // 로그아웃 실패한 경우
         viewModel.failedLogout = { [weak self] in
             self?.showAlert(title: "로그아웃 실패", message: "로그아웃에 실패하였습니다.")
         }
+        // 로그아웃 성공한 경우
+        viewModel.successLogout = { [weak self] in
+            self?.coordinator?.didLogout()
+        }
+        // 사용자 정보 불러오기 성공한 경우
+        viewModel.successFetchUserInfo = { [weak self] userInfo in
+            self?.myPageView.fetchUserInfo(user: userInfo)
+        }
+        // 사용자 정보 불러오기 실패한 경우
+        viewModel.failedFetchUserInfo = { [weak self] in
+            self?.showAlert(title: "오류", message: "내 정보 불러오기 실패하였습니다.\n네트워크를 확인해주세요.")
+        }
+        
     }
 }
 

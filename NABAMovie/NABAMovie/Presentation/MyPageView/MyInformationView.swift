@@ -13,8 +13,6 @@ protocol MyInformationViewDelegate: AnyObject {
 // 상단 유저 정보 뷰
 final class MyInformationView: UIView {
     
-    private var username = "사용자"
-    
     weak var delegate: MyInformationViewDelegate?
     
     private let profileImageView: UIImageView = {
@@ -24,9 +22,8 @@ final class MyInformationView: UIView {
         return imageView
     }()
     
-    lazy var greetingLabel: UILabel = {
+    var greetingLabel: UILabel = {
         let label = UILabel()
-        label.text = "\(self.username) 님,\n반갑습니다."
         label.numberOfLines = 0
         label.textAlignment = .left
         label.textColor = .black
@@ -58,17 +55,17 @@ final class MyInformationView: UIView {
         }
         
         greetingLabel.snp.makeConstraints {
-            $0.center.equalToSuperview()
+            $0.centerX.equalToSuperview()
+            $0.top.equalToSuperview().inset(30)
+            $0.leading.equalTo(profileImageView.snp.trailing).offset(10)
         }
         
         profileImageView.snp.makeConstraints {
-            $0.centerY.equalToSuperview()
-            $0.trailing.equalTo(greetingLabel.snp.leading).offset(-15)
-            $0.width.height.equalTo(85)
+            $0.top.leading.bottom.equalToSuperview().inset(20)
         }
         
         logoutButton.snp.makeConstraints {
-            $0.trailing.equalToSuperview().inset(10)
+            $0.trailing.equalToSuperview().inset(20)
             $0.bottom.equalToSuperview().inset(30)
         }
     }

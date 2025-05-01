@@ -16,6 +16,9 @@ final class MovieSearchViewController: UIViewController {
         let searchBar = UISearchBar()
         searchBar.placeholder = "Search"
         searchBar.delegate = self
+        searchBar.backgroundColor = .clear
+        searchBar.barTintColor = .brand
+        searchBar.setTextFieldColor(.white)
         return searchBar
     }()
     
