@@ -14,14 +14,14 @@ final class LoginView: UIView {
 
     private var nbcLogoImageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.image = UIImage(named: "NBC_Logo")
+        imageView.image = .nbcLogo
         imageView.contentMode = .scaleAspectFit
         return imageView
     }()
     
     private var navaLogoImageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.image = UIImage(named: "NABAMOVIE_Logo")
+        imageView.image = .NABAMOVIE_LOGO
         imageView.contentMode = .scaleAspectFit
         return imageView
     }()

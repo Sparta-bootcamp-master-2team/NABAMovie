@@ -12,6 +12,7 @@ final class AppCoordinator {
     private let window: UIWindow
     private let diContainer: AppDIContainer
     private var tabBarCoordinator: TabBarCoordinator?
+    private var childCoordinators: [Coordinator] = []
 
     init(window: UIWindow, diContainer: AppDIContainer) {
         self.window = window
@@ -35,7 +36,12 @@ final class AppCoordinator {
     }
 
     func showLogin() {
-        let loginCoordinator = LoginCoordinator(window: window, diContainer: diContainer, parent: self)
+        let loginCoordinator = LoginCoordinator(
+            window: window,
+            navigationController: UINavigationController(),
+            diContainer: diContainer,
+            parent: self)
+        childCoordinators.append(loginCoordinator)
         loginCoordinator.start()
     }
 

@@ -59,7 +59,7 @@ final class SignupViewModel {
     func signup() {
         Task {
             do {
-                await registerUseCase.execute(email: email, password: password, nickname: username)
+                await registerUseCase.execute(email: email, password: password, username: username)
                 try await loginUseCase.execute(email: email, password: password)
                 onSignupSuccess?()
             } catch {

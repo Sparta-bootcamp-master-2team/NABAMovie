@@ -70,21 +70,7 @@ final class LoginViewController: UIViewController {
     }
     
     private func handleSignup() {
-        let firebaseService = FirebaseService()
-        
-        let authRepository = FirebaseAuthRepositoryImpl(firebaseService: firebaseService)
-        let userRepository = FirebaseUserRepositoryImpl(firebaseService: firebaseService)
-        let registerUseCase = RegisterUseCase(repository: authRepository)
-        let loginUseCase = LoginUseCase(repository: authRepository)
-
-        let signupViewModel = SignupViewModel(
-            registerUseCase: registerUseCase,
-            loginUseCase: loginUseCase,
-            userRepository: userRepository
-        )
-        
-        let signupVC = SignupViewController(viewModel: signupViewModel)
-        self.navigationController?.pushViewController(signupVC, animated: true)
+        coordinator?.showSignUp()
     }
     
     private func showErrorAlert(message: String) {

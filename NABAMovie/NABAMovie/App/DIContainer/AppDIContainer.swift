@@ -21,4 +21,21 @@ final class AppDIContainer {
         let tabBarDIContainer = TabBarDIContainer()
         return TabBarCoordinator(tabBarDIContainer: tabBarDIContainer)
     }
+    
+    func makeSignupViewController(coordinator: LoginCoordinator) -> SignupViewController {
+        let firebaseService = FirebaseService()
+        
+        let authRepository = FirebaseAuthRepositoryImpl(firebaseService: firebaseService)
+        let userRepository = FirebaseUserRepositoryImpl(firebaseService: firebaseService)
+        let registerUseCase = RegisterUseCase(repository: authRepository)
+        let loginUseCase = LoginUseCase(repository: authRepository)
+
+        let signupViewModel = SignupViewModel(
+            registerUseCase: registerUseCase,
+            loginUseCase: loginUseCase,
+            userRepository: userRepository
+        )
+        
+        return SignupViewController(viewModel: signupViewModel)
+    }
 }

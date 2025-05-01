@@ -78,7 +78,7 @@ final class SignupViewController: UIViewController {
 
         viewModel.onSignupSuccess = { [weak self] in
             print("회원가입 성공")
-            self?.navigateToHome()
+//            self?.navigateToHome()
         }
 
         viewModel.onSignupError = { [weak self] msg in
