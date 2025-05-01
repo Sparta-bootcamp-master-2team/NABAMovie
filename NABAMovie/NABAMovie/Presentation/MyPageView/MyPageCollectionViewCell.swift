@@ -29,7 +29,7 @@ final class MyPageCollectionViewCell: UICollectionViewCell {
     private let movieTitleLabel: UILabel = {
         let label = UILabel()
         label.font = .systemFont(ofSize: 18, weight: .medium)
-        label.textColor = .black
+        label.textColor = .label
         label.numberOfLines = 0
         return label
     }()
@@ -37,14 +37,14 @@ final class MyPageCollectionViewCell: UICollectionViewCell {
     private let genreLabel: UILabel = {
         let label = UILabel()
         label.font = .systemFont(ofSize: 12, weight: .regular)
-        label.textColor = .systemGray
+        label.textColor = .secondaryLabel
         return label
     }()
     
     private let timeLabel: UILabel = {
         let label = UILabel()
         label.font = .systemFont(ofSize: 12, weight: .regular)
-        label.textColor = .systemGray
+        label.textColor = .secondaryLabel
         return label
     }()
     
