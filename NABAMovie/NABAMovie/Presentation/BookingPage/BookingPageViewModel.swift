@@ -53,7 +53,7 @@ class BookingPageViewModel {
             genre: movieDetail.genre,
             member: personnel,
             posterURL: movieDetail.posterImageURL,
-            reservationTime: selectedTime,
+            reservationTime: convertTimeToRange(startTime: selectedTime),
             title: movieDetail.title)
         Task {
             let userId = try firebaseService.getCurrentUserId()
@@ -65,6 +65,24 @@ class BookingPageViewModel {
                 print("예약 실패: \(error.localizedDescription)")
             }
         }
+    }
+    
+    /// 시작시간 ~ 종료시간 으로 변환
+    private func convertTimeToRange(startTime: String) -> String {
+        let startHour = Int(startTime.split(separator: ":")[0])!
+        let startMinute = Int(startTime.split(separator: ":")[1])!
+        
+        let runtimeHour = movieDetail.runtime / 60
+        let runtimeMinute = movieDetail.runtime % 60
+        
+        let endHour = startHour + runtimeHour + (startMinute + runtimeMinute) / 60
+        let endMinute = (startMinute + runtimeMinute) % 60
+        
+        let endTime = String(format: "%02d:%02d", endHour, endMinute)
+        
+        let timeRange = startTime + " ~ " + endTime
+        
+        return timeRange
     }
 }
 

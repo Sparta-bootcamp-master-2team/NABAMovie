@@ -28,7 +28,8 @@ class BookingPageViewController: UIViewController {
     private lazy var titleLabel: UILabel = {
         let label = UILabel()
         label.font = .systemFont(ofSize: 20, weight: .bold)
-        label.numberOfLines = 2
+        label.numberOfLines = 1
+        label.textAlignment = .center
         return label
     }()
     
@@ -234,6 +235,7 @@ class BookingPageViewController: UIViewController {
         
         titleLabel.snp.makeConstraints {
             $0.top.equalToSuperview().offset(40)
+            $0.horizontalEdges.equalToSuperview().inset(20)
             $0.centerX.equalToSuperview()
         }
         

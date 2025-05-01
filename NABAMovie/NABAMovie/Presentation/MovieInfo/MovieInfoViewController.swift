@@ -18,6 +18,8 @@ final class MovieInfoViewController: UIViewController {
     private let heightMargin: CGFloat = 40
     private let dividerInset: CGFloat = 15
     
+    private let collectionViewHeight: CGFloat = 200
+    
     // MARK: - UI Components
     private lazy var containerView: UIView = {
         let view = UIView()
@@ -197,13 +199,13 @@ final class MovieInfoViewController: UIViewController {
     // 스틸컷 콜렉션 뷰
     lazy var stillCutCollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
+        let stillCutHeight = collectionViewHeight - 20
         layout.scrollDirection = .horizontal
-        layout.minimumLineSpacing = 8
-        layout.itemSize = CGSize(width: 210, height: 140)
+        layout.minimumLineSpacing = 12
+        layout.itemSize = CGSize(width: stillCutHeight * 3/2, height: stillCutHeight)
         
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        collectionView.backgroundColor = .clear
-        collectionView.showsHorizontalScrollIndicator = false
+        collectionView.showsHorizontalScrollIndicator = true
         return collectionView
     }()
     
@@ -312,7 +314,7 @@ final class MovieInfoViewController: UIViewController {
         
         setupStillCutCollectionView()
         
-
+        
         containerView.snp.makeConstraints {
             $0.edges.equalTo(view.safeAreaLayoutGuide)
         }
@@ -405,10 +407,10 @@ final class MovieInfoViewController: UIViewController {
             $0.top.equalTo(stillCutTitleLabel.snp.bottom).offset(10)
             $0.leading.equalToSuperview().inset(20)
             $0.trailing.equalToSuperview().inset(20)
-            $0.height.equalTo(140)
+            $0.height.equalTo(collectionViewHeight)
             $0.bottom.equalToSuperview().inset(20)
         }
-                
+        
         reserveButton.snp.makeConstraints {
             $0.leading.trailing.equalToSuperview().inset(20)
             $0.height.equalTo(50)
@@ -439,13 +441,21 @@ final class MovieInfoViewController: UIViewController {
     
     // MARK: - Action
     @objc func favoriteButtonClicked(_ sender: UIButton) {
-        
         viewModel.isFavorite.toggle()
-        let image = viewModel.isFavorite ? "heart.fill" : "heart"
-        let config = UIImage.SymbolConfiguration(pointSize: 24)
-        self.favoriteButton.setImage(UIImage(systemName: image)?.withConfiguration(config), for: .normal)
         
-        viewModel.isFavorite ? viewModel.addFavoriteMovie() : viewModel.removeFavoriteMovie()
+        self.setButtonImage()
+        
+        let message: String
+        
+        if viewModel.isFavorite {
+            viewModel.addFavoriteMovie()
+            message = "찜 추가 완료"
+        } else {
+            viewModel.removeFavoriteMovie()
+            message = "찜 삭제 완료"
+        }
+        
+        showToast(message: message)
     }
     
     @objc func transitToBookingPage() {
@@ -467,6 +477,11 @@ final class MovieInfoViewController: UIViewController {
             self?.updateStillCutCollectionView()
             self?.firstStillImageView.kf.setImage(with: self?.viewModel.firstStillImageUrl)
         }
+        
+        viewModel.setFavoriteStatus { [weak self] in
+            self?.setButtonImage()
+        }
+        
         titleLabel.text = viewModel.titleText
         infoLabel.text = viewModel.infoText
         voteAverageLabel.text = viewModel.voteAverageText
@@ -474,5 +489,54 @@ final class MovieInfoViewController: UIViewController {
         directorLabel.text = viewModel.directorText
         castLabel.text = viewModel.castText
         overviewLabel.text = viewModel.overviewText
+    }
+    
+    // MARK: - Private Methods
+    /// 즐겨찾기 버튼 fill 설정
+    private func setButtonImage() {
+        let image = viewModel.isFavorite ? "heart.fill" : "heart"
+        let config = UIImage.SymbolConfiguration(pointSize: 24)
+        self.favoriteButton.setImage(UIImage(systemName: image)?.withConfiguration(config), for: .normal)
+    }
+    
+    private func showToast(message: String) {
+        // 띄워져 있는 toast 제거
+        if let existingToast = view.viewWithTag(9999) {
+            existingToast.removeFromSuperview()
+        }
+        
+        let toast = UILabel()
+        toast.tag = 9999
+        toast.text = message
+        toast.textColor = .systemBackground
+        toast.backgroundColor = UIColor.separator.withAlphaComponent(0.8)
+        toast.textAlignment = .center
+        toast.font = .systemFont(ofSize: 14, weight: .bold)
+        toast.alpha = 0
+        toast.clipsToBounds = true
+        toast.numberOfLines = 0
+        
+        let padding: CGFloat = 20
+        let maxWidth = (view.frame.width - padding * 2) / 2
+        let size = toast.sizeThatFits(CGSize(width: maxWidth, height: .greatestFiniteMagnitude))
+        toast.frame = CGRect(x: view.frame.width/2 - (maxWidth/2),
+                             y: containerView.frame.maxY - size.height - 100,
+                             width: maxWidth,
+                             height: size.height + 16)
+        
+        toast.layer.cornerRadius = toast.frame.height / 2
+
+        
+        view.addSubview(toast)
+        
+        UIView.animate(withDuration: 0.3, animations: {
+            toast.alpha = 1
+        }) { _ in
+            UIView.animate(withDuration: 0.3, delay: 1.5, options: [], animations: {
+                toast.alpha = 0
+            }) { _ in
+                toast.removeFromSuperview()
+            }
+        }
     }
 }

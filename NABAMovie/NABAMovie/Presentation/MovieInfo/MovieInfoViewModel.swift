@@ -23,7 +23,6 @@ final class MovieInfoViewModel {
         self.movieStillsUseCase = movieStillsUseCase
         self.addFavoriteMovieUseCase = addFavoriteMovieUseCase
         self.removeFavoriteMovieUseCase = removeFavoriteMovieUseCase
-        self.setFavoriteStatus()
     }
     
     var stillImages: [URL] = []
@@ -34,10 +33,17 @@ final class MovieInfoViewModel {
     var titleText: String {
         movieDetail.title
     }
+    
+    // 한국식으로 날짜 변경
+    var releaseDate: String {
+        let date = movieDetail.releaseDate
+        let formattedDate = date.split(separator: ".").reversed().joined(separator: ".")
+        return formattedDate
+    }
         
     var infoText: String {
         let runtime = "\(Int(movieDetail.runtime) / 60)시간 \(Int(movieDetail.runtime) % 60)분"
-        return "\(movieDetail.releaseDate) · \(runtime) · \(movieDetail.genre.joined(separator: ", "))"
+        return "\(releaseDate) · \(runtime) · \(movieDetail.genre.joined(separator: ", "))"
     }
     
     var voteAverageText: String {
@@ -45,7 +51,17 @@ final class MovieInfoViewModel {
     }
     
     var certificationText: String {
-        movieDetail.certification
+        let text = movieDetail.certification
+        if Int(text) == nil {
+            if text == "ALL" {
+                return text
+            } else {
+                return text
+            }
+        }
+        else {
+            return text + "세"
+        }
     }
     
     var directorText: String {
@@ -109,12 +125,15 @@ final class MovieInfoViewModel {
     }
     
     // 즐겨찾기 상태 설정
-    private func setFavoriteStatus() {
+    func setFavoriteStatus(completion: @escaping () -> Void) {
         Task {
             let userId = try firebaseService.getCurrentUserId()
             let favoriteMovies = try await firebaseService.fetchFavoriteMovies(for: userId)
-            if favoriteMovies.contains(where: { $0.movieID == movieDetail.movieID }) {
-                isFavorite = true
+
+            self.isFavorite = favoriteMovies.contains(where: { $0.movieID == movieDetail.movieID })
+            
+            await MainActor.run {
+                completion()
             }
         }
     }
