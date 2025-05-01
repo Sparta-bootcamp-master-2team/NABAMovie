@@ -9,11 +9,17 @@ import UIKit
 
 final class LoginCoordinator: Coordinator {
     private let window: UIWindow
+    private let navigationController: UINavigationController
     private let diContainer: AppDIContainer
     private var parentCoordinator: AppCoordinator
 
-    init(window: UIWindow, diContainer: AppDIContainer, parent: AppCoordinator) {
+    init(window: UIWindow,
+         navigationController: UINavigationController,
+         diContainer: AppDIContainer,
+         parent: AppCoordinator
+    ) {
         self.window = window
+        self.navigationController = navigationController
         self.diContainer = diContainer
         self.parentCoordinator = parent
     }
@@ -24,8 +30,14 @@ final class LoginCoordinator: Coordinator {
 
     func start() {
         let loginVC = diContainer.makeLoginViewController(coordinator: self)
-        window.rootViewController = loginVC
+        navigationController.setViewControllers([loginVC], animated: true)
+        window.rootViewController = navigationController
         window.makeKeyAndVisible()
+    }
+    
+    func showSignUp() {
+        let signUpVC = diContainer.makeSignupViewController(coordinator: self)
+        self.navigationController.pushViewController(signUpVC, animated: true)
     }
 
     func didLogin() {
