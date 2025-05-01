@@ -18,7 +18,7 @@ final class MovieInfoViewController: UIViewController {
     private let heightMargin: CGFloat = 40
     private let dividerInset: CGFloat = 15
     
-    private let collectionViewHeight: CGFloat = 160
+    private let collectionViewHeight: CGFloat = 200
     
     // MARK: - UI Components
     private lazy var containerView: UIView = {
