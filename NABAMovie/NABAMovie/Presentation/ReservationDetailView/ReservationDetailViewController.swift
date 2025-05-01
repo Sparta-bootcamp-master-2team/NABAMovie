@@ -50,7 +50,9 @@ final class ReservationDetailViewController: UIViewController {
             self.showAlert(title: "오류", message: "예매 취소 실패하였습니다.\n잠시후 다시 시도해주세요.")
         }
         viewModel.successCancelReservation = { [unowned self] in
-            self.showAlert(title: "예매 취소", message: "성공적으로 예매 취소되었습니다.")
+            self.showAlert(title: "예매 취소", message: "성공적으로 예매 취소되었습니다.") {
+                self.coordinator?.didCancelReservation()
+            }
         }
     }
 }

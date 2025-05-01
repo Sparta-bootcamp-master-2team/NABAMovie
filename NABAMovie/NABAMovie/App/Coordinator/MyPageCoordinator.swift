@@ -12,6 +12,7 @@ protocol MyPageCoordinatorProtocol: Coordinator {
     func showMore(item: [CellConfigurable])
     func didLogout()
     func showReservationDetail(movie: Reservation)
+    func didCancelReservation()
 }
 
 final class MyPageCoordinator: MyPageCoordinatorProtocol {
@@ -66,5 +67,10 @@ final class MyPageCoordinator: MyPageCoordinatorProtocol {
             coordinator: self
         )
         navigationController.present(vc, animated: true)
+    }
+    
+    func didCancelReservation() {
+        navigationController.dismiss(animated: true)
+        self.start() // 새로고침
     }
 }
