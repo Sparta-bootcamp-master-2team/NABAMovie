@@ -44,7 +44,17 @@ final class MovieInfoViewModel {
     }
     
     var certificationText: String {
-        movieDetail.certification
+        let text = movieDetail.certification
+        if Int(text) == nil {
+            if text == "ALL" {
+                return text
+            } else {
+                return text
+            }
+        }
+        else {
+            return text + "세"
+        }
     }
     
     var directorText: String {
