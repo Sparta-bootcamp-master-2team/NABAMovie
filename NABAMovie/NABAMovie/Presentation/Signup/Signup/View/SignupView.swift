@@ -77,6 +77,7 @@ final class SignupView: UIView {
         textField.placeholder = "닉네임을 입력해주세요."
         textField.borderStyle = .none
         textField.font = .systemFont(ofSize: 16)
+        textField.autocapitalizationType = .none
         return textField
     }()
     
@@ -367,14 +368,14 @@ final class SignupView: UIView {
         super.init(frame: frame)
         configureDomainMenu()
         backgroundColor = .white
-
+        
+        addSubview(topBarView)
+        topBarView.addSubviews([backButton, topTitleLabel])
+        
         addSubview(scrollView)
         scrollView.addSubview(contentView)
 
-        topBarView.addSubviews([backButton, topTitleLabel])
-
         contentView.addSubviews([
-            topBarView,
             titleLabel,
             usernameVStack,
             usernameDivider,
@@ -451,21 +452,12 @@ final class SignupView: UIView {
     /// SnapKit을 사용한 제약 조건 설정
     private func setupConstraints() {
         
-        scrollView.snp.makeConstraints {
-            $0.edges.equalToSuperview()
-        }
-        
-        contentView.snp.makeConstraints {
-            $0.edges.equalTo(scrollView.contentLayoutGuide)
-            $0.width.equalTo(scrollView.frameLayoutGuide)
-            $0.height.greaterThanOrEqualTo(scrollView.frameLayoutGuide)
-        }
-        
         topBarView.snp.makeConstraints {
-            $0.top.leading.trailing.equalToSuperview()
-            $0.height.equalTo(44) // or 56
+            $0.top.equalTo(safeAreaLayoutGuide)
+            $0.leading.trailing.equalToSuperview()
+            $0.height.equalTo(44)
         }
-
+        
         backButton.snp.makeConstraints {
             $0.leading.equalToSuperview().inset(16)
             $0.centerY.equalToSuperview()
@@ -476,9 +468,21 @@ final class SignupView: UIView {
             $0.center.equalToSuperview()
         }
         
+        scrollView.snp.makeConstraints {
+            $0.top.equalTo(topBarView.snp.bottom)
+            $0.leading.trailing.bottom.equalToSuperview()
+        }
+
+        
+        contentView.snp.makeConstraints {
+            $0.edges.equalTo(scrollView.contentLayoutGuide)
+            $0.width.equalTo(scrollView.frameLayoutGuide)
+            $0.height.greaterThanOrEqualTo(scrollView.frameLayoutGuide)
+        }
+        
         // MARK: - 닉네임 영역
         titleLabel.snp.makeConstraints {
-            $0.top.equalTo(topBarView.snp.bottom).offset(40)
+            $0.top.equalTo(contentView.snp.top).offset(40)
             $0.leading.trailing.equalToSuperview().inset(20)
         }
         
@@ -579,7 +583,7 @@ final class SignupView: UIView {
             $0.top.equalTo(termsOptionalView.snp.bottom).offset(30)
             $0.leading.trailing.equalToSuperview().inset(20)
             $0.height.equalTo(50)
-            $0.bottom.equalToSuperview().offset(-40)
+            $0.bottom.equalToSuperview().offset(-20)
         }
     }
 
