@@ -121,7 +121,7 @@ class BookingPageViewController: UIViewController {
     private lazy var minusButton: UIButton = {
         let button = UIButton()
         button.setTitle("-", for: .normal)
-        button.titleLabel?.font = .boldSystemFont(ofSize: 20)
+        button.titleLabel?.font = .boldSystemFont(ofSize: 18)
         button.backgroundColor = UIColor(named: "brandColor")
         button.layer.cornerRadius = 5
         button.addTarget(self, action: #selector(minusPersonnel), for: .touchUpInside)
@@ -131,7 +131,7 @@ class BookingPageViewController: UIViewController {
     private lazy var plusButton: UIButton = {
         let button = UIButton()
         button.setTitle("+", for: .normal)
-        button.titleLabel?.font = .boldSystemFont(ofSize: 20)
+        button.titleLabel?.font = .boldSystemFont(ofSize: 18)
         button.backgroundColor = UIColor(named: "brandColor")
         button.layer.cornerRadius = 5
         button.addTarget(self, action: #selector(plusPersonnel), for: .touchUpInside)
@@ -366,6 +366,7 @@ class BookingPageViewController: UIViewController {
     
     
     // MARK: - Private Methods
+    /// 알림 텍스트 변형
     private func transformNotificationTexts() {
         let attributedText = NSMutableAttributedString()
         
@@ -390,6 +391,7 @@ class BookingPageViewController: UIViewController {
         notificationLabel.attributedText = attributedText
     }
     
+    /// 극장 텍스트 변형
     private func transformTheaterText() {
         let attributedText = NSMutableAttributedString()
         
@@ -410,6 +412,7 @@ class BookingPageViewController: UIViewController {
         theaterLabel.attributedText = attributedText
     }
     
+    /// 버튼 초기 설정
     private func setButtonStatus() {
         timeSelectionButton1.setTitle(viewModel.movieTimes[0], for: .normal)
         timeSelectionButton2.setTitle(viewModel.movieTimes[1], for: .normal)
