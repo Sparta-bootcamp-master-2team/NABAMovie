@@ -507,11 +507,10 @@ final class MovieInfoViewController: UIViewController {
         toast.tag = 9999
         toast.text = message
         toast.textColor = .systemBackground
-        toast.backgroundColor = UIColor.label.withAlphaComponent(0.6)
+        toast.backgroundColor = UIColor.separator.withAlphaComponent(0.8)
         toast.textAlignment = .center
-        toast.font = .systemFont(ofSize: 14, weight: .medium)
+        toast.font = .systemFont(ofSize: 14, weight: .bold)
         toast.alpha = 0
-        toast.layer.cornerRadius = 20
         toast.clipsToBounds = true
         toast.numberOfLines = 0
         
@@ -522,6 +521,9 @@ final class MovieInfoViewController: UIViewController {
                              y: containerView.frame.maxY - size.height - 100,
                              width: maxWidth,
                              height: size.height + 16)
+        
+        toast.layer.cornerRadius = toast.frame.height / 2
+
         
         view.addSubview(toast)
         
