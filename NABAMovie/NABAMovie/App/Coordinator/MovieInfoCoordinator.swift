@@ -42,5 +42,12 @@ final class MovieInfoCoordinator: MovieInfoCoordinatorProtocol {
         )
         navigationController.pushViewController(vc, animated: true)
     }
-
+    
+    func showBookingPage(movie: MovieEntity) {
+        let vc = factory.maekBookingPageViewController(
+            movie: movie,
+            coordinator: self
+        )
+        navigationController.present(vc, animated: true)
+    }
 }

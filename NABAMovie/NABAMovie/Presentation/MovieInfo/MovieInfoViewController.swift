@@ -11,6 +11,8 @@ import Kingfisher
 
 final class MovieInfoViewController: UIViewController {
     
+    private weak var coordinator: MovieInfoCoordinator?
+    
     var viewModel: MovieInfoViewModel
     
     var stillCutDataSource: UICollectionViewDiffableDataSource<StillCutSection, StillCutItem>!
@@ -238,8 +240,9 @@ final class MovieInfoViewController: UIViewController {
     }()
     
     // MARK: - Initializers
-    init(viewModel: MovieInfoViewModel) {
+    init(viewModel: MovieInfoViewModel, coordinator: MovieInfoCoordinator) {
         self.viewModel = viewModel
+        self.coordinator = coordinator
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -459,16 +462,7 @@ final class MovieInfoViewController: UIViewController {
     }
     
     @objc func transitToBookingPage() {
-        print(#function)
-        let bottomSheet = BookingPageViewController(viewModel: BookingPageViewModel(movieDetail: viewModel.movieDetail, useCase: MakeReservationUseCase(reservationRepository: ReservationRepositoryImpl(firebaseService: FirebaseService()))))
-        if let sheet = bottomSheet.sheetPresentationController {
-            sheet.detents = [.custom(resolver: { context in
-                return context.maximumDetentValue * 0.9
-            })]
-            sheet.preferredCornerRadius = 20
-        }
-        
-        present(bottomSheet, animated: true)
+        coordinator?.showBookingPage(movie: viewModel.movieDetail)
     }
     
     // MARK: - Internal Methods

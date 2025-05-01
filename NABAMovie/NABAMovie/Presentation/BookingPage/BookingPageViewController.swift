@@ -11,6 +11,8 @@ import Kingfisher
 
 class BookingPageViewController: UIViewController {
     
+    private weak var coordinator: MovieInfoCoordinator?
+    
     var viewModel: BookingPageViewModel
     
     /// #333333
@@ -174,8 +176,9 @@ class BookingPageViewController: UIViewController {
     
     
     // MARK: - Initializers
-    init(viewModel: BookingPageViewModel) {
+    init(viewModel: BookingPageViewModel, coordinator: MovieInfoCoordinator) {
         self.viewModel = viewModel
+        self.coordinator = coordinator
         super.init(nibName: nil, bundle: nil)
     }
     
