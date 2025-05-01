@@ -10,10 +10,16 @@ import UIKit
 final class MyPageCoordinator: Coordinator {
     private let navigationController: UINavigationController
     private let diContainer: MyPageDIContainer
+    private let parentCoordinator: TabBarCoordinator
 
-    init(navigationController: UINavigationController, diContainer: MyPageDIContainer) {
+    init(
+        navigationController: UINavigationController,
+        diContainer: MyPageDIContainer,
+        parent: TabBarCoordinator
+    ) {
         self.navigationController = navigationController
         self.diContainer = diContainer
+        self.parentCoordinator = parent
     }
     
     deinit {
