@@ -28,7 +28,7 @@ final class LoginView: UIView {
     
     private var idContainerView: UIView = {
         let view = UIView()
-        view.backgroundColor = UIColor(white: 0.95, alpha: 1)
+        view.backgroundColor = .systemGray5
         view.layer.cornerRadius = 25
         return view
     }()
@@ -44,8 +44,13 @@ final class LoginView: UIView {
     
     private var idTextField: UITextField = {
         let textField = UITextField()
-        textField.placeholder = "입력"
-        textField.textColor = .gray
+        textField.attributedPlaceholder = NSAttributedString(
+            string: "입력",
+            attributes: [
+                .foregroundColor: UIColor.gray
+            ]
+        )
+        textField.textColor = .darkGray
         textField.borderStyle = .none
         textField.backgroundColor = .clear
         textField.autocapitalizationType = .none
@@ -55,7 +60,7 @@ final class LoginView: UIView {
     
     private var passwordContainerView: UIView = {
         let view = UIView()
-        view.backgroundColor = UIColor(white: 0.95, alpha: 1)
+        view.backgroundColor = .systemGray5
         view.layer.cornerRadius = 25
         return view
     }()
@@ -71,9 +76,13 @@ final class LoginView: UIView {
     
     private var passwordTextField: UITextField = {
         let textField = UITextField()
-        textField.placeholder = "입력"
-        textField.isSecureTextEntry = true
-        textField.textColor = .gray
+        textField.attributedPlaceholder = NSAttributedString(
+            string: "입력",
+            attributes: [
+                .foregroundColor: UIColor.gray
+            ]
+        )
+        textField.textColor = .darkGray
         textField.borderStyle = .none
         textField.backgroundColor = .clear
         textField.autocapitalizationType = .none
@@ -120,7 +129,7 @@ final class LoginView: UIView {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        backgroundColor = .white
+        backgroundColor = .secondarySystemBackground
         
         addSubviews([
             nbcLogoImageView,

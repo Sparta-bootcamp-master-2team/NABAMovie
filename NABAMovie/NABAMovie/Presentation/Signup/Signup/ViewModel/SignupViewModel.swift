@@ -97,9 +97,11 @@ final class SignupViewModel {
                     lastCheckedUsername = trimmed
                     usernameErrorChanged?("사용 가능한 닉네임입니다.", true)
                 }
+                validateAll()
             } catch {
                 didCheckUsernameDuplication = false
                 usernameErrorChanged?("닉네임 중복 확인 실패", false)
+                validateAll()
             }
         }
     }
@@ -124,14 +126,17 @@ final class SignupViewModel {
                 if try await userRepository.isEmailTaken(trimmed) {
                     didCheckEmailDuplication = false
                     emailErrorChanged?("이미 사용 중인 이메일입니다.", false)
+                    validateAll()
                 } else {
                     didCheckEmailDuplication = true
                     lastCheckedEmail = trimmed
                     emailErrorChanged?("사용 가능한 이메일입니다.", true)
                 }
+                validateAll()
             } catch {
                 didCheckEmailDuplication = false
                 emailErrorChanged?("이메일 중복 확인 실패", false)
+                validateAll()
             }
         }
     }
@@ -180,8 +185,9 @@ final class SignupViewModel {
         if !isTermsAgreed {
             isValid = false
         }
-
-        isFormValidChanged?(isValid)
+        DispatchQueue.main.async {
+            self.isFormValidChanged?(isValid)
+        }
     }
 
     private func isValidUsername(_ text: String) -> Bool {
