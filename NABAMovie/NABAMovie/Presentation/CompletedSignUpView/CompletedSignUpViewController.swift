@@ -31,7 +31,7 @@ final class CompletedSignUpViewController: UIViewController {
         return stackView
     }()
     
-    private let completeSignUpButton: UIButton = {
+    private lazy var completeSignUpButton: UIButton = {
         let button = UIButton()
         button.setTitle("회원가입 완료", for: .normal)
         button.setTitleColor(.white, for: .normal)
@@ -39,6 +39,7 @@ final class CompletedSignUpViewController: UIViewController {
         button.backgroundColor = .brand
         button.clipsToBounds = true
         button.layer.cornerRadius = 25
+        button.addTarget(self, action: #selector(completeSignUpButtonTapped), for: .touchUpInside)
         return button
     }()
     
@@ -56,6 +57,13 @@ final class CompletedSignUpViewController: UIViewController {
         view.backgroundColor = .white
         view.addSubviews([stackView, completeSignUpButton])
         configureLayout()
+    }
+    
+    @objc func completeSignUpButtonTapped() {
+        let vm = HomeViewModel(usecase: FetchHomeScreenMoviesUseCase(repository: MovieRepositoryImpl(networkManager: MovieNetworkManager())))
+        let vc = HomeViewController(viewModel: vm)
+        vc.modalPresentationStyle = .fullScreen
+        self.present(vc, animated: true)
     }
     
     private func configureLayout() {
