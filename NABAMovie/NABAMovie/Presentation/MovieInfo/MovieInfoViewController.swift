@@ -261,6 +261,14 @@ final class MovieInfoViewController: UIViewController {
         tabBarController?.tabBar.isHidden = true
     }
     
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        view.backgroundColor = .clear
+        view.subviews.forEach {
+            $0.removeFromSuperview()
+        }
+    }
+    
     override func viewDidLayoutSubviews() {
         reserveButton.layer.cornerRadius =  reserveButton.frame.height / 2
     }

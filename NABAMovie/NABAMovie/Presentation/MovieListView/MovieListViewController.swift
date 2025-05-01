@@ -39,6 +39,14 @@ class MovieListViewController: UIViewController {
         tabBarController?.tabBar.isHidden = true
     }
     
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        view.backgroundColor = .clear
+        view.subviews.forEach {
+            $0.removeFromSuperview()
+        }
+    }
+    
     private func configureLayout() {
         collectionView.snp.makeConstraints {
             $0.edges.equalToSuperview()
