@@ -23,7 +23,6 @@ final class MovieInfoViewModel {
         self.movieStillsUseCase = movieStillsUseCase
         self.addFavoriteMovieUseCase = addFavoriteMovieUseCase
         self.removeFavoriteMovieUseCase = removeFavoriteMovieUseCase
-        self.setFavoriteStatus()
     }
     
     var stillImages: [URL] = []
@@ -109,12 +108,15 @@ final class MovieInfoViewModel {
     }
     
     // 즐겨찾기 상태 설정
-    private func setFavoriteStatus() {
+    func setFavoriteStatus(completion: @escaping () -> Void) {
         Task {
             let userId = try firebaseService.getCurrentUserId()
             let favoriteMovies = try await firebaseService.fetchFavoriteMovies(for: userId)
-            if favoriteMovies.contains(where: { $0.movieID == movieDetail.movieID }) {
-                isFavorite = true
+
+            self.isFavorite = favoriteMovies.contains(where: { $0.movieID == movieDetail.movieID })
+            
+            await MainActor.run {
+                completion()
             }
         }
     }

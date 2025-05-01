@@ -439,11 +439,9 @@ final class MovieInfoViewController: UIViewController {
     
     // MARK: - Action
     @objc func favoriteButtonClicked(_ sender: UIButton) {
-        
         viewModel.isFavorite.toggle()
-        let image = viewModel.isFavorite ? "heart.fill" : "heart"
-        let config = UIImage.SymbolConfiguration(pointSize: 24)
-        self.favoriteButton.setImage(UIImage(systemName: image)?.withConfiguration(config), for: .normal)
+
+        self.setButtonImage()
         
         viewModel.isFavorite ? viewModel.addFavoriteMovie() : viewModel.removeFavoriteMovie()
     }
@@ -467,6 +465,11 @@ final class MovieInfoViewController: UIViewController {
             self?.updateStillCutCollectionView()
             self?.firstStillImageView.kf.setImage(with: self?.viewModel.firstStillImageUrl)
         }
+        
+        viewModel.setFavoriteStatus { [weak self] in
+            self?.setButtonImage()
+        }
+        
         titleLabel.text = viewModel.titleText
         infoLabel.text = viewModel.infoText
         voteAverageLabel.text = viewModel.voteAverageText
@@ -474,5 +477,13 @@ final class MovieInfoViewController: UIViewController {
         directorLabel.text = viewModel.directorText
         castLabel.text = viewModel.castText
         overviewLabel.text = viewModel.overviewText
+    }
+    
+    // MARK: - Private Methods
+    /// 즐겨찾기 버튼 fill 설정
+    private func setButtonImage() {
+        let image = viewModel.isFavorite ? "heart.fill" : "heart"
+        let config = UIImage.SymbolConfiguration(pointSize: 24)
+        self.favoriteButton.setImage(UIImage(systemName: image)?.withConfiguration(config), for: .normal)
     }
 }
