@@ -30,6 +30,7 @@ final class ReservationDetailView: UIView {
     private let movieTitleLabel: UILabel = {
         let label = UILabel()
         label.textColor = .black
+        label.numberOfLines = 0
         label.font = .systemFont(ofSize: 20, weight: .bold)
         return label
     }()
@@ -94,9 +95,10 @@ final class ReservationDetailView: UIView {
         movieTitleLabel.snp.makeConstraints {
             $0.top.equalTo(posterImageView.snp.bottom).offset(20)
             $0.leading.equalToSuperview().inset(20)
+            $0.width.lessThanOrEqualToSuperview().dividedBy(1.5)
         }
         memberNumberLabel.snp.makeConstraints {
-            $0.leading.equalTo(movieTitleLabel.snp.trailing).offset(10)
+            $0.leading.equalTo(movieTitleLabel.snp.trailing).offset(20)
             $0.centerY.equalTo(movieTitleLabel)
         }
         calendarImageView.snp.makeConstraints {
@@ -112,7 +114,7 @@ final class ReservationDetailView: UIView {
         qrcodeImageView.snp.makeConstraints {
             $0.centerX.equalToSuperview()
             $0.bottom.equalTo(reservationCancelButton.snp.top).offset(-30)
-            $0.width.height.equalTo(240)
+            $0.width.height.equalTo(200)
         }
         reservationCancelButton.snp.makeConstraints {
             $0.centerX.equalToSuperview()
