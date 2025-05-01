@@ -349,9 +349,6 @@ class BookingPageViewController: UIViewController {
         let paymentAlert = UIAlertController(title: "결제하시겠습니까?", message: nil, preferredStyle: .alert)
         
         paymentAlert.addAction(
-            UIAlertAction(title: "아니오", style: .destructive))
-        
-        paymentAlert.addAction(
             UIAlertAction(title: "네", style: .default, handler: { [weak self] _ in
                 
                 self?.viewModel.makeReservation()
@@ -362,6 +359,9 @@ class BookingPageViewController: UIViewController {
                 
                 self?.present(completionAlert, animated: true)
             }))
+        
+        paymentAlert.addAction(
+            UIAlertAction(title: "아니오", style: .destructive))
         
         present(paymentAlert, animated: true)
     }
