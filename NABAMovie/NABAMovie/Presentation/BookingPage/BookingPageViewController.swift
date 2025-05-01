@@ -47,7 +47,6 @@ class BookingPageViewController: UIViewController {
     
     private lazy var timeSelectionButton1: UIButton = {
         let button = UIButton()
-        button.setTitle("12:25", for: .normal)
         button.titleLabel?.font = .boldSystemFont(ofSize: 14)
         button.setTitleColor(.white, for: .normal)
         button.layer.borderWidth = 1
@@ -59,7 +58,6 @@ class BookingPageViewController: UIViewController {
     
     private lazy var timeSelectionButton2: UIButton = {
         let button = UIButton()
-        button.setTitle("15:55", for: .normal)
         button.titleLabel?.font = .boldSystemFont(ofSize: 14)
         button.setTitleColor(.black, for: .normal)
         button.layer.borderWidth = 1
@@ -70,7 +68,6 @@ class BookingPageViewController: UIViewController {
     
     private lazy var timeSelectionButton3: UIButton = {
         let button = UIButton()
-        button.setTitle("18:35", for: .normal)
         button.titleLabel?.font = .boldSystemFont(ofSize: 14)
         button.setTitleColor(.black, for: .normal)
         button.layer.borderWidth = 1
@@ -195,7 +192,6 @@ class BookingPageViewController: UIViewController {
         
         setupUI()
         configure()
-        selectedTimeButton = timeSelectionButton1
     }
     
     override func viewDidLayoutSubviews() {
@@ -375,12 +371,19 @@ class BookingPageViewController: UIViewController {
     // MARK: - Private Methods
     
     
-    
     // MARK: - Internal Methods
     func configure() {
         titleLabel.text = viewModel.titleText
         theaterLabel.text = viewModel.theaterText
         notificationLabel.text = viewModel.notificationTexts.joined(separator: "\n")
+        
+        timeSelectionButton1.setTitle(viewModel.movieTimes[0], for: .normal)
+        timeSelectionButton2.setTitle(viewModel.movieTimes[1], for: .normal)
+        timeSelectionButton3.setTitle(viewModel.movieTimes[2], for: .normal)
+
+        // 기본 설정 시간 첫번째로 설정
+        selectedTimeButton = timeSelectionButton1
+        viewModel.selectedTime = (selectedTimeButton?.titleLabel!.text)!
         
         viewModel.onPersonnelChanged = { [weak self] count, _ in
             self?.personnelCountLabel.text = "\(count)"

@@ -24,8 +24,12 @@ class BookingPageViewModel {
     var onSelectedTimeChanged: ((String) -> Void)?
     
     let theaterText = "Zep 내일배움캠프 iOS 6기 매니저관"
-    let notificationTexts = ["· 주차 공간이 혼잡하오니 여유시간을 두고 대중교통 이용 부탁드립니다.",
-                             "· 입장 지연에 따른 관람 불편을 최소화하기 위해 본 영화는 10분 후 상영이 시작됩니다."]
+    let notificationTexts = [
+        "· 주차 공간이 혼잡하오니 여유시간을 두고 대중교통 이용 부탁드립니다.",
+        "· 입장 지연에 따른 관람 불편을 최소화하기 위해 본 영화는 10분 후 상영이 시작됩니다."
+    ]
+    
+    let movieTimes = ["12:25", "15:55", "18:35"]
     
     let moviePrice = 12000
     
@@ -37,17 +41,15 @@ class BookingPageViewModel {
         }
     }
     
-    var selectedTime = "00:00"
-    
-    var totalPriceText: String = 12000.formattedWithComma + " 원"
-        
+    var selectedTime = ""
+                
     var titleText: String {
         movieDetail.title
     }
 
     func makeReservation() {
         let reservation = Reservation(
-            reservationID: "1",
+            reservationID: "",
             genre: movieDetail.genre,
             member: personnel,
             posterURL: movieDetail.posterImageURL,
