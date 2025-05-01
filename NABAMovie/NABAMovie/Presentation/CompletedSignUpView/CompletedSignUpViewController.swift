@@ -58,7 +58,7 @@ final class CompletedSignUpViewController: UIViewController {
         view.addSubviews([stackView, completeSignUpButton])
         configureLayout()
     }
-    
+    // 회원가입 완료 버튼 클릭 시
     @objc func completeSignUpButtonTapped() {
         let vm = HomeViewModel(usecase: FetchHomeScreenMoviesUseCase(repository: MovieRepositoryImpl(networkManager: MovieNetworkManager())))
         let vc = HomeViewController(viewModel: vm)
