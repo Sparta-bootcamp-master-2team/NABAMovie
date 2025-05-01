@@ -177,6 +177,7 @@ final class SignupView: UIView {
         textField.placeholder = "이메일"
         textField.borderStyle = .none
         textField.font = .systemFont(ofSize: 16)
+        textField.autocapitalizationType = .none
         return textField
     }()
     
@@ -198,6 +199,7 @@ final class SignupView: UIView {
         textField.font = .systemFont(ofSize: 16)
         textField.textColor = .darkGray
         textField.textAlignment = .left
+        textField.autocapitalizationType = .none
         textField.isHidden = true
         return textField
     }()
@@ -252,6 +254,7 @@ final class SignupView: UIView {
         textField.font = .systemFont(ofSize: 16)
         textField.borderStyle = .none
         textField.isSecureTextEntry = true
+        textField.autocapitalizationType = .none
         return textField
     }()
     
@@ -296,6 +299,7 @@ final class SignupView: UIView {
         textField.font = .systemFont(ofSize: 16)
         textField.borderStyle = .none
         textField.isSecureTextEntry = true
+        textField.autocapitalizationType = .none
         return textField
     }()
     
