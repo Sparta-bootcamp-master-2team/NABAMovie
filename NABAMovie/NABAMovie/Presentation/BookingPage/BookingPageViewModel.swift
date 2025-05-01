@@ -17,6 +17,7 @@ class BookingPageViewModel {
     init(movieDetail: MovieEntity, useCase: MakeReservationUseCase) {
         self.movieDetail = movieDetail
         self.makeReservationUseCase = useCase
+        self.setTimeList()
     }
     
     // callBack
@@ -30,8 +31,9 @@ class BookingPageViewModel {
         "주차 공간이 혼잡하오니 여유시간을 두고 대중교통 이용 부탁드립니다.",
         "입장 지연에 따른 관람 불편을 최소화하기 위해 본 영화는 10분 후 상영이 시작됩니다."
     ]
-    let movieTimes = ["12:25", "15:55", "18:35"]
     let moviePrice = 12000
+    let firstStartTime = "12:25"
+    let restTime = 20
     
     // 예약 페이지 변수
     var personnel = 1 {
@@ -45,6 +47,7 @@ class BookingPageViewModel {
     var titleText: String {
         movieDetail.title
     }
+    var movieTimes = [String]()
 
     /// 예약 실행
     func makeReservation() {
@@ -53,7 +56,7 @@ class BookingPageViewModel {
             genre: movieDetail.genre,
             member: personnel,
             posterURL: movieDetail.posterImageURL,
-            reservationTime: convertTimeToRange(startTime: selectedTime),
+            reservationTime: selectedTime,
             title: movieDetail.title)
         Task {
             let userId = try firebaseService.getCurrentUserId()
@@ -69,6 +72,7 @@ class BookingPageViewModel {
     
     /// 시작시간 ~ 종료시간 으로 변환
     private func convertTimeToRange(startTime: String) -> String {
+        let startTime = startTime
         let startHour = Int(startTime.split(separator: ":")[0])!
         let startMinute = Int(startTime.split(separator: ":")[1])!
         
@@ -80,9 +84,36 @@ class BookingPageViewModel {
         
         let endTime = String(format: "%02d:%02d", endHour, endMinute)
         
-        let timeRange = startTime + " ~ " + endTime
+        let timeRange = startTime + "~" + endTime
         
         return timeRange
+    }
+    
+    private func setTimeList() {
+        if movieDetail.runtime != 0 {
+            self.movieTimes.append(convertTimeToRange(startTime: firstStartTime))
+            let firstEndTime = movieTimes[0].split(separator: "~").last!
+            
+            self.movieTimes.append(convertTimeToRange(startTime: addRestTime(endTime: String(firstEndTime), restTime: restTime)))
+            let secondEndTime = movieTimes[1].split(separator: "~").last!
+            
+            self.movieTimes.append(convertTimeToRange(startTime: addRestTime(endTime: String(secondEndTime), restTime: restTime)))
+        } else {
+            movieTimes =  ["12:25~15:25", "15:45~18:45", "19:05~22:05"]
+        }
+        print(movieTimes)
+    }
+    
+    private func addRestTime(endTime: String, restTime: Int) -> String {
+        var hour = Int(endTime.split(separator: ":")[0])!
+        var minute = Int(endTime.split(separator: ":")[1])!
+        
+        minute = minute + restTime % 60
+        hour = hour + minute / 60
+        
+        let time = String(format: "%02d:%02d", hour, minute)
+        
+        return time
     }
 }
 
