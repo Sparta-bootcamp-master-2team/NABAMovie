@@ -34,7 +34,6 @@ class BookingPageViewController: UIViewController {
     private lazy var theaterLabel: UILabel = {
         let label = UILabel()
         label.textAlignment = .center
-        label.font = .systemFont(ofSize: 14, weight: .medium)
         return label
     }()
     
@@ -86,7 +85,6 @@ class BookingPageViewController: UIViewController {
     private lazy var notificationLabel: UILabel = {
         let label = UILabel()
         label.textAlignment = .center
-        label.font = .systemFont(ofSize: 10, weight: .medium)
         label.numberOfLines = 0
         label.textAlignment = .left
         return label
@@ -100,7 +98,7 @@ class BookingPageViewController: UIViewController {
     
     private lazy var resetButton: UIButton = {
         let button = UIButton()
-        button.setTitle("초기화", for: .normal)
+        button.setTitle(" 초기화", for: .normal)
         button.setImage(UIImage(systemName: "return.right"), for: .normal)
         button.titleLabel?.font = .systemFont(ofSize: 14, weight: .medium)
         button.tintColor = .systemGray
@@ -243,12 +241,12 @@ class BookingPageViewController: UIViewController {
         }
         
         theaterLabel.snp.makeConstraints {
-            $0.top.equalTo(titleLabel.snp.bottom).offset(16)
+            $0.top.equalTo(titleLabel.snp.bottom).offset(14)
             $0.centerX.equalToSuperview()
         }
         
         buttonStackView.snp.makeConstraints {
-            $0.top.equalTo(theaterLabel.snp.bottom).offset(32)
+            $0.top.equalTo(theaterLabel.snp.bottom).offset(28)
             $0.centerX.equalToSuperview()
         }
         
@@ -268,13 +266,13 @@ class BookingPageViewController: UIViewController {
         }
         
         screenImageView.snp.makeConstraints {
-            $0.top.equalTo(buttonStackView.snp.bottom).offset(32)
+            $0.top.equalTo(buttonStackView.snp.bottom).offset(28)
             $0.centerX.equalToSuperview()
         }
         
         notificationLabel.snp.makeConstraints {
-            $0.top.equalTo(screenImageView.snp.bottom).offset(32)
-            $0.horizontalEdges.equalToSuperview()
+            $0.top.equalTo(screenImageView.snp.bottom).offset(28)
+            $0.horizontalEdges.equalTo(buttonStackView)
         }
         
         resetButton.snp.makeConstraints {
@@ -293,11 +291,11 @@ class BookingPageViewController: UIViewController {
         }
         
         minusButton.snp.makeConstraints {
-            $0.height.equalTo(20)
+            $0.height.equalTo(22)
         }
         
         plusButton.snp.makeConstraints {
-            $0.height.equalTo(20)
+            $0.height.equalTo(22)
         }
         
         totalPriceTitle.snp.makeConstraints {
@@ -369,13 +367,57 @@ class BookingPageViewController: UIViewController {
     
     
     // MARK: - Private Methods
+    private func transformNotificationTexts() {
+        let attributedText = NSMutableAttributedString()
+        
+        for text in viewModel.notificationTexts {
+            let bullet = "·  "
+            let paragraphStyle = NSMutableParagraphStyle()
+            paragraphStyle.headIndent = (bullet as NSString).size(withAttributes: [.font: UIFont.systemFont(ofSize: 10, weight: .black)]).width
+            
+            let bulletAttr = NSAttributedString(string: bullet, attributes: [
+                .font: UIFont.systemFont(ofSize: 10, weight: .black),
+                .paragraphStyle: paragraphStyle
+            ])
+            let messageAttr = NSAttributedString(string: text + "\n", attributes: [
+                .font: UIFont.systemFont(ofSize: 10),
+                .paragraphStyle: paragraphStyle
+            ])
+            
+            attributedText.append(bulletAttr)
+            attributedText.append(messageAttr)
+        }
+        
+        notificationLabel.attributedText = attributedText
+    }
     
-    
-    // MARK: - Internal Methods
-    func configure() {
+    private func transformTheaterText() {
+        let attributedText = NSMutableAttributedString()
+        
+        let fullText = viewModel.theaterText
+        guard let brandText = fullText.split(separator: " ").first else { return }
+        let otherText = fullText.dropFirst(brandText.count)
+        
+        let brandAttr = NSAttributedString(string: String(brandText), attributes: [
+            .font: UIFont.systemFont(ofSize: 16, weight: .bold)
+        ])
+        let otherAttr = NSAttributedString(string: String(otherText), attributes: [
+            .font: UIFont.systemFont(ofSize: 16)
+        ])
+        
+        attributedText.append(brandAttr)
+        attributedText.append(otherAttr)
+        
+        theaterLabel.attributedText = attributedText
+    }
+        
+    private func configure() {
         titleLabel.text = viewModel.titleText
         theaterLabel.text = viewModel.theaterText
-        notificationLabel.text = viewModel.notificationTexts.joined(separator: "\n")
+        notificationLabel.text = viewModel.notificationTexts.joined()
+        
+        transformTheaterText()
+        transformNotificationTexts()
         
         timeSelectionButton1.setTitle(viewModel.movieTimes[0], for: .normal)
         timeSelectionButton2.setTitle(viewModel.movieTimes[1], for: .normal)
