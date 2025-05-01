@@ -40,7 +40,7 @@ final class MovieItemCollectionViewCell: UICollectionViewCell {
     
     private func setupUI() {
         contentView.addSubview(posterImageView)
-        contentView.backgroundColor = .white
+        contentView.backgroundColor = .clear
         posterImageView.snp.makeConstraints {
             $0.center.equalToSuperview()
             $0.height.equalTo(posterImageView.snp.width).multipliedBy(1.5).priority(.low)
