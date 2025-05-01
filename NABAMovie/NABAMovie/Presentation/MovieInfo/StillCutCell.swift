@@ -7,7 +7,7 @@
 
 import UIKit
 
-class StillCutCell: UICollectionViewCell {
+final class StillCutCell: UICollectionViewCell {
     static let reuseIdentifier = "StillCutCell"
     
     let imageView = UIImageView()

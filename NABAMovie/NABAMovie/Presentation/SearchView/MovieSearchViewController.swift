@@ -33,9 +33,14 @@ final class MovieSearchViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
+        collectionView.delegate = self
         setupUI()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        navigationController?.setNavigationBarHidden(true, animated: false) // 뷰 컨트롤러가 나타날 때 숨기기
+        tabBarController?.tabBar.isHidden = false
+    }
     private func setupUI() {
         [searchBar, collectionView].forEach {
             view.addSubview($0)
@@ -52,6 +57,11 @@ final class MovieSearchViewController: UIViewController {
     }
     
 
+}
+extension MovieSearchViewController: UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        guard let item = self.collectionView.movieItemCollectionDataSource?.itemIdentifier(for: indexPath) else { return }
+    }
 }
 
 // MARK: UISearchBarDelegate

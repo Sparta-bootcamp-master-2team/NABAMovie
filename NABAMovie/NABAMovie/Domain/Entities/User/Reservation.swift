@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Reservation {
+struct Reservation: Hashable {
     let reservationID: String
     let genre: [String]
     let member: Int
@@ -15,3 +15,5 @@ struct Reservation {
     let reservationTime: String
     let title: String
 }
+
+extension Reservation: CellConfigurable { }
