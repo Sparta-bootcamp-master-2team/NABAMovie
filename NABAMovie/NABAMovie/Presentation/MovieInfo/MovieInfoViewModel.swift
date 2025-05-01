@@ -33,10 +33,17 @@ final class MovieInfoViewModel {
     var titleText: String {
         movieDetail.title
     }
+    
+    // 한국식으로 날짜 변경
+    var releaseDate: String {
+        let date = movieDetail.releaseDate
+        let formattedDate = date.split(separator: ".").reversed().joined(separator: ".")
+        return formattedDate
+    }
         
     var infoText: String {
         let runtime = "\(Int(movieDetail.runtime) / 60)시간 \(Int(movieDetail.runtime) % 60)분"
-        return "\(movieDetail.releaseDate) · \(runtime) · \(movieDetail.genre.joined(separator: ", "))"
+        return "\(releaseDate) · \(runtime) · \(movieDetail.genre.joined(separator: ", "))"
     }
     
     var voteAverageText: String {
