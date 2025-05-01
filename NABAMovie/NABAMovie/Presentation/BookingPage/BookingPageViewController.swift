@@ -47,10 +47,6 @@ class BookingPageViewController: UIViewController {
     private lazy var timeSelectionButton1: UIButton = {
         let button = UIButton()
         button.titleLabel?.font = .boldSystemFont(ofSize: 14)
-        button.setTitleColor(.white, for: .normal)
-        button.layer.borderWidth = 1
-        button.layer.borderColor = UIColor.lightGray.cgColor
-        button.backgroundColor = UIColor(named: "brandColor")
         button.addTarget(self, action: #selector(timeButtonTapped(_:)), for: .touchUpInside)
         return button
     }()
@@ -321,11 +317,13 @@ class BookingPageViewController: UIViewController {
         guard sender != selectedTimeButton else { return }
         
         selectedTimeButton?.backgroundColor = .clear
+        selectedTimeButton?.layer.borderWidth = 1
         selectedTimeButton?.layer.borderColor = UIColor.lightGray.cgColor
         selectedTimeButton?.setTitleColor(.black, for: .normal)
         
         sender.backgroundColor = UIColor(named: "brandColor")
         sender.layer.borderColor = UIColor.clear.cgColor
+        sender.layer.borderWidth = 0
         sender.setTitleColor(.white, for: .normal)
         selectedTimeButton = sender
     }
@@ -410,6 +408,19 @@ class BookingPageViewController: UIViewController {
         
         theaterLabel.attributedText = attributedText
     }
+    
+    private func setButtonStatus() {
+        timeSelectionButton1.setTitle(viewModel.movieTimes[0], for: .normal)
+        timeSelectionButton2.setTitle(viewModel.movieTimes[1], for: .normal)
+        timeSelectionButton3.setTitle(viewModel.movieTimes[2], for: .normal)
+        
+        // 기본 설정 시간 첫번째로 설정
+        selectedTimeButton = timeSelectionButton1
+        
+        viewModel.selectedTime = (selectedTimeButton?.titleLabel!.text)!
+        selectedTimeButton?.setTitleColor(.white, for: .normal)
+        selectedTimeButton?.backgroundColor = UIColor(named: "brandColor")
+    }
         
     private func configure() {
         titleLabel.text = viewModel.titleText
@@ -419,13 +430,7 @@ class BookingPageViewController: UIViewController {
         transformTheaterText()
         transformNotificationTexts()
         
-        timeSelectionButton1.setTitle(viewModel.movieTimes[0], for: .normal)
-        timeSelectionButton2.setTitle(viewModel.movieTimes[1], for: .normal)
-        timeSelectionButton3.setTitle(viewModel.movieTimes[2], for: .normal)
-
-        // 기본 설정 시간 첫번째로 설정
-        selectedTimeButton = timeSelectionButton1
-        viewModel.selectedTime = (selectedTimeButton?.titleLabel!.text)!
+        setButtonStatus()
         
         viewModel.onPersonnelChanged = { [weak self] count, _ in
             self?.personnelCountLabel.text = "\(count)"
