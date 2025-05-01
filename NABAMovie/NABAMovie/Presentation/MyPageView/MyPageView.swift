@@ -130,6 +130,10 @@ final class MyPageView: UIView {
         configureDataSource()
         apply()
     }
+    // 사용자 이름을 적용
+    func fetchUserInfo(user: User) {
+        myInformationView.greetingLabel.text = "\(user.username)님,\n반갑습니다."
+    }
 }
 
 // MARK: UICollectionViewDelegate
@@ -138,9 +142,7 @@ extension MyPageView: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if indexPath.section == MyPageCollectionSection.reservationIndex {
             delegate?.didSelectedItem(item: displayedReservationItem[indexPath.row])
-//            print(displayedReservationItem[indexPath.row])
         } else if indexPath.section == MyPageCollectionSection.favoriteIndex {
-//            print(displayedFavoritesItem[indexPath.row])
             delegate?.didSelectedItem(item: displayedFavoritesItem[indexPath.row])
         }
     }

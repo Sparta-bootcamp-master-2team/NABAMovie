@@ -15,16 +15,35 @@ final class MyPageViewModel {
     
     var favorites: [MovieEntity] = []
     var reservations: [Reservation] = []
+    var user: User?
     
     var successFetchMyPageItem: (@MainActor ([Reservation],[MovieEntity]) -> Void)?
     var failedFetchMyPageItem: (@MainActor () -> Void)?
     var failedLogout: (@MainActor () -> Void)?
+    var successFetchUserInfo: (@MainActor (User) -> Void)?
+    var failedFetchUserInfo: (@MainActor () -> Void)?
+    var successLogout: (@MainActor () -> Void)?
     
     init(fetchFavoriteMoviesUseCase: FetchFavoriteMoviesUseCase,
          fetchReservationUseCase: FetchReservationsUseCase, logoutUseCase: LogoutUseCase) {
         self.fetchFavoriteMoviesUseCase = fetchFavoriteMoviesUseCase
         self.fetchReservationUseCase = fetchReservationUseCase
         self.logoutUseCase = logoutUseCase
+    }
+    
+    // 사용자 정보 불러오기
+    func fetchUserInfo() {
+        let firebaseService = FirebaseService()
+        Task {
+            do {
+                let uid = try firebaseService.getCurrentUserId()
+                let user = try await firebaseService.fetchUser(uid: uid)
+                self.user = user
+                await successFetchUserInfo?(self.user ?? User(id: "0", username: "실패"))
+            } catch {
+                await failedFetchUserInfo?()
+            }
+        }
     }
     
     // 마이페이지 정보 병렬 호출
@@ -42,17 +61,17 @@ final class MyPageViewModel {
         }
     }
     
+    // 뷰모델에 데이터 저장
     func savePageItems(reseravations: [Reservation], favorites: [MovieEntity]) {
         self.favorites = favorites
         self.reservations = reseravations
     }
     
+    // 로그아웃
     func logout() {
         Task {
             let result = await logoutUseCase.execute()
-            if !result {
-                await failedLogout?()
-            }
+            result ? await successLogout?() : await failedLogout?()
         }
     }
 }
