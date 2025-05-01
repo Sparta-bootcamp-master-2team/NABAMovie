@@ -18,6 +18,8 @@ final class MovieInfoViewController: UIViewController {
     private let heightMargin: CGFloat = 40
     private let dividerInset: CGFloat = 15
     
+    private let collectionViewHeight: CGFloat = 160
+    
     // MARK: - UI Components
     private lazy var containerView: UIView = {
         let view = UIView()
@@ -197,13 +199,13 @@ final class MovieInfoViewController: UIViewController {
     // 스틸컷 콜렉션 뷰
     lazy var stillCutCollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
+        let stillCutHeight = collectionViewHeight - 20
         layout.scrollDirection = .horizontal
-        layout.minimumLineSpacing = 8
-        layout.itemSize = CGSize(width: 210, height: 140)
+        layout.minimumLineSpacing = 12
+        layout.itemSize = CGSize(width: stillCutHeight * 3/2, height: stillCutHeight)
         
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        collectionView.backgroundColor = .clear
-        collectionView.showsHorizontalScrollIndicator = false
+        collectionView.showsHorizontalScrollIndicator = true
         return collectionView
     }()
     
@@ -405,7 +407,7 @@ final class MovieInfoViewController: UIViewController {
             $0.top.equalTo(stillCutTitleLabel.snp.bottom).offset(10)
             $0.leading.equalToSuperview().inset(20)
             $0.trailing.equalToSuperview().inset(20)
-            $0.height.equalTo(140)
+            $0.height.equalTo(collectionViewHeight)
             $0.bottom.equalToSuperview().inset(20)
         }
         
@@ -538,5 +540,3 @@ final class MovieInfoViewController: UIViewController {
         }
     }
 }
-
-

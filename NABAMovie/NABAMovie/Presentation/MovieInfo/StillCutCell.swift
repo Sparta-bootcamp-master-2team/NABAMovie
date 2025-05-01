@@ -15,8 +15,9 @@ final class StillCutCell: UICollectionViewCell {
     override init(frame: CGRect) {
         super.init(frame: frame)
         contentView.addSubview(imageView)
-        imageView.contentMode = .scaleAspectFit
+        imageView.contentMode = .scaleAspectFill
         imageView.clipsToBounds = true
+        imageView.layer.cornerRadius = 10
         imageView.snp.makeConstraints { $0.edges.equalToSuperview() }
     }
     
