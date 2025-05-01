@@ -67,8 +67,21 @@ final class LoginViewController: UIViewController {
     }
     
     private func handleSignup() {
-        // TODO: 회원가입 화면 이동 로직 추가
-        print("회원가입 버튼 눌림")
+        let firebaseService = FirebaseService()
+        
+        let authRepository = FirebaseAuthRepositoryImpl(firebaseService: firebaseService)
+        let userRepository = FirebaseUserRepositoryImpl(firebaseService: firebaseService)
+        let registerUseCase = RegisterUseCase(repository: authRepository)
+        let loginUseCase = LoginUseCase(repository: authRepository)
+
+        let signupViewModel = SignupViewModel(
+            registerUseCase: registerUseCase,
+            loginUseCase: loginUseCase,
+            userRepository: userRepository
+        )
+        
+        let signupVC = SignupViewController(viewModel: signupViewModel)
+        self.navigationController?.pushViewController(signupVC, animated: true)
     }
     
     private func showErrorAlert(message: String) {

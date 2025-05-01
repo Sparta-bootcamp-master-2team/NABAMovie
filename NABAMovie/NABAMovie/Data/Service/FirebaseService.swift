@@ -48,7 +48,9 @@ final class FirebaseService: FirebaseServiceProtocol {
         let authResult = try await Auth.auth().createUser(withEmail: email, password: password)
         let uid = authResult.user.uid
         try await Firestore.firestore().collection("users").document(uid).setData([
-            "username": username
+            "id": uid,
+            "username": username,
+            "email": email
         ])
         return User(id: uid, username: username)
     }
@@ -256,6 +258,22 @@ final class FirebaseService: FirebaseServiceProtocol {
             .collection("reservations")
             .document(reservationID)
             .delete()
+    }
+    
+    func isNicknameTaken(_ nickname: String) async throws -> Bool {
+        let snapshot = try await Firestore.firestore()
+            .collection("users")
+            .whereField("username", isEqualTo: nickname)
+            .getDocuments()
+        return !snapshot.documents.isEmpty
+    }
+
+    func isEmailTaken(_ email: String) async throws -> Bool {
+        let snapshot = try await Firestore.firestore()
+            .collection("users")
+            .whereField("email", isEqualTo: email)
+            .getDocuments()
+        return !snapshot.documents.isEmpty
     }
 
 

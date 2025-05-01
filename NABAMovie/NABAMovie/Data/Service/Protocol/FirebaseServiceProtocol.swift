@@ -65,7 +65,9 @@ protocol FirebaseServiceProtocol {
     func removeAllFavoriteMovies(for userID: String) async throws
     
     func cancelReservation(for userID: String, reservationID: String) async throws
-
-
+    
+    func isNicknameTaken(_ username: String) async throws -> Bool
+    func isEmailTaken(_ email: String) async throws -> Bool
+    
 }
 
