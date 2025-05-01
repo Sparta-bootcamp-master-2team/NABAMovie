@@ -26,25 +26,8 @@ final class UpComingCell: UICollectionViewCell {
     private let movieTitleLabel: UILabel = {
         let label = UILabel()
         label.font = .systemFont(ofSize: 12, weight: .bold)
-        label.numberOfLines = 2
+        label.textAlignment = .center
         return label
-    }()
-    
-    private lazy var genreStackView: UIStackView = {
-        let stackView = UIStackView(arrangedSubviews: [genreImageView, genreLabel])
-        stackView.axis = .horizontal
-        stackView.spacing = 10
-        return stackView
-    }()
-    
-    private let genreImageView: UIImageView = {
-        let imageView = UIImageView()
-        imageView.image = UIImage(named: "videoImage")?.withRenderingMode(.alwaysTemplate)
-        imageView.contentMode = .scaleAspectFit
-        imageView.tintColor = .label
-        imageView.setContentHuggingPriority(.required, for: .horizontal)
-        imageView.setContentHuggingPriority(.required, for: .horizontal)
-        return imageView
     }()
     
     private let genreLabel: UILabel = {
@@ -81,7 +64,7 @@ private extension UpComingCell {
         [
             posterImageView,
             movieTitleLabel,
-            genreStackView,
+            genreLabel,
         ].forEach { contentView.addSubview($0) }
     }
     
@@ -97,9 +80,9 @@ private extension UpComingCell {
             $0.horizontalEdges.equalToSuperview()
         }
         
-        genreStackView.snp.makeConstraints {
-            $0.top.equalTo(movieTitleLabel.snp.bottom).offset(10)
-            $0.horizontalEdges.equalToSuperview()
+        genreLabel.snp.makeConstraints {
+            $0.top.equalTo(movieTitleLabel.snp.bottom).offset(3)
+            $0.centerX.equalToSuperview()
         }
     }
 }
