@@ -29,6 +29,7 @@ class BookingPageViewController: UIViewController {
         let label = UILabel()
         label.font = .systemFont(ofSize: 20, weight: .bold)
         label.numberOfLines = 1
+        label.textAlignment = .center
         return label
     }()
     
