@@ -201,11 +201,12 @@ final class MovieInfoViewController: UIViewController {
         let layout = UICollectionViewFlowLayout()
         let stillCutHeight = collectionViewHeight - 20
         layout.scrollDirection = .horizontal
-        layout.minimumLineSpacing = 12
+        layout.minimumLineSpacing = 20
         layout.itemSize = CGSize(width: stillCutHeight * 3/2, height: stillCutHeight)
         
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.showsHorizontalScrollIndicator = true
+        collectionView.backgroundColor = .secondarySystemBackground
         return collectionView
     }()
     
@@ -233,7 +234,7 @@ final class MovieInfoViewController: UIViewController {
         view.layer.shadowColor = UIColor.label.cgColor
         view.layer.shadowOpacity = 1
         view.layer.shadowOffset = CGSize(width: 0, height: -3)
-        view.layer.shadowRadius = 2
+        view.layer.shadowRadius = 5
         return view
     }()
     
@@ -265,7 +266,7 @@ final class MovieInfoViewController: UIViewController {
     // MARK: - UI & Layout
     private func setupUI() {
         navigationItem.title = "상세 정보"
-        view.backgroundColor = .systemBackground
+        view.backgroundColor = .secondarySystemBackground
         
         view.addSubview(containerView)
         view.addSubview(shadowDivider)

@@ -56,7 +56,7 @@ class BookingPageViewController: UIViewController {
     private lazy var timeSelectionButton2: UIButton = {
         let button = UIButton()
         button.titleLabel?.font = .boldSystemFont(ofSize: 14)
-        button.setTitleColor(.black, for: .normal)
+        button.setTitleColor(.label, for: .normal)
         button.layer.borderWidth = 1
         button.layer.borderColor = UIColor.lightGray.cgColor
         button.addTarget(self, action: #selector(timeButtonTapped(_:)), for: .touchUpInside)
@@ -66,7 +66,7 @@ class BookingPageViewController: UIViewController {
     private lazy var timeSelectionButton3: UIButton = {
         let button = UIButton()
         button.titleLabel?.font = .boldSystemFont(ofSize: 14)
-        button.setTitleColor(.black, for: .normal)
+        button.setTitleColor(.label, for: .normal)
         button.layer.borderWidth = 1
         button.layer.borderColor = UIColor.lightGray.cgColor
         button.addTarget(self, action: #selector(timeButtonTapped(_:)), for: .touchUpInside)
@@ -322,7 +322,7 @@ class BookingPageViewController: UIViewController {
         selectedTimeButton?.backgroundColor = .clear
         selectedTimeButton?.layer.borderWidth = 1
         selectedTimeButton?.layer.borderColor = UIColor.lightGray.cgColor
-        selectedTimeButton?.setTitleColor(.black, for: .normal)
+        selectedTimeButton?.setTitleColor(.label, for: .normal)
         
         sender.backgroundColor = UIColor(named: "brandColor")
         sender.layer.borderColor = UIColor.clear.cgColor
