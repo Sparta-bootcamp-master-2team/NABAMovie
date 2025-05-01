@@ -126,12 +126,23 @@ final class MyPageCollectionViewCell: UICollectionViewCell {
         }
     }
     
-    func configure(model: MyPageMovieEntity) {
-        self.movieTitleLabel.text = model.title
-        self.timeLabel.text = model.releaseDate
-        self.genreLabel.text = model.genre.joined(separator: ",")
-        let url = URL(string: model.posterImageURL)
-        self.posterImageView.kf.setImage(with: url)
+    func configure(model: CellConfigurable) {
+        if model is MovieEntity {
+            let model = model as! MovieEntity
+            self.movieTitleLabel.text = model.title
+            self.timeLabel.text = model.releaseDate
+            self.genreLabel.text = model.genre.joined(separator: ",")
+            let url = URL(string: model.posterImageURL)
+            self.posterImageView.kf.setImage(with: url)
+        }
+        if model is Reservation {
+            let model = model as! Reservation
+            self.movieTitleLabel.text = model.title
+            self.timeLabel.text = model.reservationTime
+            self.genreLabel.text = model.genre.joined(separator: ",")
+            let url = URL(string: model.posterURL)
+            self.posterImageView.kf.setImage(with: url)
+        }
     }
  
 }

@@ -7,10 +7,15 @@
 
 import UIKit
 
+protocol MyInformationViewDelegate: AnyObject {
+    func logoutButtonTapped()
+}
 // 상단 유저 정보 뷰
 final class MyInformationView: UIView {
     
     private var username = "사용자"
+    
+    weak var delegate: MyInformationViewDelegate?
     
     private let profileImageView: UIImageView = {
         let imageView = UIImageView()
@@ -69,7 +74,7 @@ final class MyInformationView: UIView {
     }
     
     @objc func logoutButtonTapped() {
-        print("logoutButton Tapped")
+        delegate?.logoutButtonTapped()
     }
     
 }
