@@ -89,6 +89,7 @@ class BookingPageViewModel {
         return timeRange
     }
     
+    /// 영화 시간 선택 버튼의 시간 정보 리스트 재설정
     private func setTimeList() {
         if movieDetail.runtime != 0 {
             self.movieTimes.append(convertTimeToRange(startTime: firstStartTime))
@@ -104,6 +105,7 @@ class BookingPageViewModel {
         print(movieTimes)
     }
     
+    /// 쉬는 시간 추가 (현재 20분)
     private func addRestTime(endTime: String, restTime: Int) -> String {
         var hour = Int(endTime.split(separator: ":")[0])!
         var minute = Int(endTime.split(separator: ":")[1])!

@@ -415,6 +415,7 @@ class BookingPageViewController: UIViewController {
         theaterLabel.attributedText = attributedText
     }
     
+    /// 영화 상영 시간 텍스트 "~종료시간"만 변형
     private func transformMovieTimeText() {
         let buttons = [timeSelectionButton1, timeSelectionButton2, timeSelectionButton3]
         
