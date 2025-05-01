@@ -312,7 +312,7 @@ final class MovieInfoViewController: UIViewController {
         
         setupStillCutCollectionView()
         
-
+        
         containerView.snp.makeConstraints {
             $0.edges.equalTo(view.safeAreaLayoutGuide)
         }
@@ -408,7 +408,7 @@ final class MovieInfoViewController: UIViewController {
             $0.height.equalTo(140)
             $0.bottom.equalToSuperview().inset(20)
         }
-                
+        
         reserveButton.snp.makeConstraints {
             $0.leading.trailing.equalToSuperview().inset(20)
             $0.height.equalTo(50)
@@ -440,10 +440,20 @@ final class MovieInfoViewController: UIViewController {
     // MARK: - Action
     @objc func favoriteButtonClicked(_ sender: UIButton) {
         viewModel.isFavorite.toggle()
-
+        
         self.setButtonImage()
         
-        viewModel.isFavorite ? viewModel.addFavoriteMovie() : viewModel.removeFavoriteMovie()
+        let message: String
+        
+        if viewModel.isFavorite {
+            viewModel.addFavoriteMovie()
+            message = "찜 추가 완료"
+        } else {
+            viewModel.removeFavoriteMovie()
+            message = "찜 삭제 완료"
+        }
+        
+        showToast(message: message)
     }
     
     @objc func transitToBookingPage() {
@@ -486,4 +496,45 @@ final class MovieInfoViewController: UIViewController {
         let config = UIImage.SymbolConfiguration(pointSize: 24)
         self.favoriteButton.setImage(UIImage(systemName: image)?.withConfiguration(config), for: .normal)
     }
+    
+    private func showToast(message: String) {
+        // 띄워져 있는 toast 제거
+        if let existingToast = view.viewWithTag(9999) {
+            existingToast.removeFromSuperview()
+        }
+        
+        let toast = UILabel()
+        toast.tag = 9999
+        toast.text = message
+        toast.textColor = .systemBackground
+        toast.backgroundColor = UIColor.label.withAlphaComponent(0.6)
+        toast.textAlignment = .center
+        toast.font = .systemFont(ofSize: 14, weight: .medium)
+        toast.alpha = 0
+        toast.layer.cornerRadius = 20
+        toast.clipsToBounds = true
+        toast.numberOfLines = 0
+        
+        let padding: CGFloat = 20
+        let maxWidth = (view.frame.width - padding * 2) / 2
+        let size = toast.sizeThatFits(CGSize(width: maxWidth, height: .greatestFiniteMagnitude))
+        toast.frame = CGRect(x: view.frame.width/2 - (maxWidth/2),
+                             y: containerView.frame.maxY - size.height - 100,
+                             width: maxWidth,
+                             height: size.height + 16)
+        
+        view.addSubview(toast)
+        
+        UIView.animate(withDuration: 0.3, animations: {
+            toast.alpha = 1
+        }) { _ in
+            UIView.animate(withDuration: 0.3, delay: 1.5, options: [], animations: {
+                toast.alpha = 0
+            }) { _ in
+                toast.removeFromSuperview()
+            }
+        }
+    }
 }
+
+
