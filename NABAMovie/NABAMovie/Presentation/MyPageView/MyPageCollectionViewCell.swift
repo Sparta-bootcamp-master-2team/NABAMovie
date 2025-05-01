@@ -48,6 +48,12 @@ final class MyPageCollectionViewCell: UICollectionViewCell {
         return label
     }()
     
+    private lazy var timeImageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.snp.makeConstraints { $0.width.height.equalTo(16) }
+        return imageView
+    }()
+    
     private lazy var genreStackView: UIStackView = {
         let stackView = UIStackView()
         let imageView = UIImageView()
@@ -72,7 +78,7 @@ final class MyPageCollectionViewCell: UICollectionViewCell {
         stackView.spacing = 8
         stackView.alignment = .center
         stackView.distribution = .fill
-        [imageView, timeLabel].forEach {
+        [timeImageView, timeLabel].forEach {
             stackView.addArrangedSubview($0)
         }
         return stackView
@@ -134,6 +140,7 @@ final class MyPageCollectionViewCell: UICollectionViewCell {
             self.genreLabel.text = model.genre.joined(separator: ",")
             let url = URL(string: model.posterImageURL)
             self.posterImageView.kf.setImage(with: url)
+            self.timeImageView.image = .calendar
         }
         if model is Reservation {
             let model = model as! Reservation
@@ -142,6 +149,7 @@ final class MyPageCollectionViewCell: UICollectionViewCell {
             self.genreLabel.text = model.genre.joined(separator: ",")
             let url = URL(string: model.posterURL)
             self.posterImageView.kf.setImage(with: url)
+            self.timeImageView.image = .clock
         }
     }
  
