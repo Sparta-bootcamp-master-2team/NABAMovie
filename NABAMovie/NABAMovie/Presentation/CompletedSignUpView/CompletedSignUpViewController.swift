@@ -60,10 +60,10 @@ final class CompletedSignUpViewController: UIViewController {
     }
     // 회원가입 완료 버튼 클릭 시
     @objc func completeSignUpButtonTapped() {
-        let vm = HomeViewModel(usecase: FetchHomeScreenMoviesUseCase(repository: MovieRepositoryImpl(networkManager: MovieNetworkManager())))
-        let vc = HomeViewController(viewModel: vm)
-        vc.modalPresentationStyle = .fullScreen
-        self.present(vc, animated: true)
+//        let vm = HomeViewModel(usecase: FetchHomeScreenMoviesUseCase(repository: MovieRepositoryImpl(networkManager: MovieNetworkManager())))
+//        let vc = HomeViewController(viewModel: vm)
+//        vc.modalPresentationStyle = .fullScreen
+//        self.present(vc, animated: true)
     }
     
     private func configureLayout() {

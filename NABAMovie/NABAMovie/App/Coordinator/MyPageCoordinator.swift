@@ -7,6 +7,12 @@
 
 import UIKit
 
+protocol MyPageCoordinatorProtocol: Coordinator {
+    func showMovieInfo(movie: MovieEntity)
+    func showReservation(movie: Reservation)
+    func showMore(item: [CellConfigurable])
+}
+
 final class MyPageCoordinator: Coordinator {
     private let navigationController: UINavigationController
     private let diContainer: MyPageDIContainer
@@ -27,7 +33,22 @@ final class MyPageCoordinator: Coordinator {
     }
 
     func start() {
-        let viewController = diContainer.makeMyPageViewController()
-        navigationController.setViewControllers([viewController], animated: false)
+        let vc = diContainer.makeMyPageViewController(coordinator: self)
+        navigationController.setViewControllers([vc], animated: false)
     }
+    
+    func showMovieInfo(movie: MovieEntity) {
+        let vc = diContainer.makeMovieInfoController(movie: movie)
+        navigationController.pushViewController(vc, animated: true)
+    }
+    
+    func showReservation(movie: Reservation) {
+        print(1)
+    }
+    
+    func showMore(item: [any CellConfigurable]) {
+        let vc = diContainer.makeMovieListViewController(item: item, coordinator: self)
+        navigationController.pushViewController(vc, animated: true)
+    }
+
 }

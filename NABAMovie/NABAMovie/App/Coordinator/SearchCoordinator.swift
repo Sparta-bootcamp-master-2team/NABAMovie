@@ -36,6 +36,7 @@ final class SearchCoordinator: Coordinator {
     }
     
     func showMovieInfo(movie: MovieEntity) {
+        print(1)
         let vc = diContainer.makeMovieInfoController(movie: movie)
         navigationController.pushViewController(vc, animated: true)
     }

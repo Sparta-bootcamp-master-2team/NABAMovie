@@ -251,6 +251,11 @@ final class MovieInfoViewController: UIViewController {
         setupUI()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        navigationController?.setNavigationBarHidden(false, animated: false) // 뷰 컨트롤러가 나타날 때 숨기기
+        tabBarController?.tabBar.isHidden = true
+    }
+    
     override func viewDidLayoutSubviews() {
         reserveButton.layer.cornerRadius =  reserveButton.frame.height / 2
     }
