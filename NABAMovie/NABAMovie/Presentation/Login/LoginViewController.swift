@@ -9,7 +9,7 @@ import UIKit
 
 final class LoginViewController: UIViewController {
     
-    private weak var coordinator: LoginCoordinator?
+    private weak var coordinator: LoginCoordinatorProtocol?
     
     private let loginView: LoginView
     private let viewModel: LoginViewModel
@@ -70,7 +70,7 @@ final class LoginViewController: UIViewController {
     }
     
     private func handleSignup() {
-        coordinator?.showSignUp()
+        coordinator?.showSignup()
     }
     
     private func showErrorAlert(message: String) {

@@ -10,8 +10,8 @@ import Foundation
 final class SignupViewModel {
 
     // MARK: - Bindings
-    var onSignupSuccess: (() -> Void)?
-    var onSignupError: ((String) -> Void)?
+    var onSignupSuccess: (@MainActor(String) -> Void)?
+    var onSignupError: (@MainActor(String) -> Void)?
     var isFormValidChanged: ((Bool) -> Void)?
     var usernameErrorChanged: ((String?, Bool) -> Void)?
     var emailErrorChanged: ((String?, Bool) -> Void)?
@@ -58,13 +58,22 @@ final class SignupViewModel {
     // MARK: - 회원가입
     func signup() {
         Task {
-            do {
-                await registerUseCase.execute(email: email, password: password, username: username)
-                try await loginUseCase.execute(email: email, password: password)
-                onSignupSuccess?()
-            } catch {
-                onSignupError?(error.localizedDescription)
+            let result = await registerUseCase.execute(email: email, password: password, username: username)
+            switch result {
+            case .success(_):
+                await login()
+            case .failure(let error):
+                await onSignupError?(error.localizedDescription)
             }
+        }
+    }
+    
+    func login() async {
+        do {
+            let user = try await loginUseCase.execute(email: email, password: password)
+            await onSignupSuccess?(user.username)
+        } catch {
+            await onSignupError?(error.localizedDescription)
         }
     }
 
