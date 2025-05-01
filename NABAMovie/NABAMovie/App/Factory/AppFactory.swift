@@ -1,5 +1,5 @@
 //
-//  AppDIContainer.swift
+//  AppFactory.swift
 //  NABAMovie
 //
 //  Created by 박주성 on 4/30/25.
@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class AppDIContainer {
+final class AppFactory {
     
     func makeLoginViewController(coordinator: LoginCoordinator) -> LoginViewController {
         let firebaseService = FirebaseService()
@@ -17,9 +17,9 @@ final class AppDIContainer {
         return LoginViewController(viewModel: viewModel, coordinator: coordinator)
     }
     
-    func makeTabBarCoordinator() -> TabBarCoordinator {
-        let tabBarDIContainer = TabBarDIContainer()
-        return TabBarCoordinator(tabBarDIContainer: tabBarDIContainer)
+    func makeTabBarCoordinator(coordinator: AppCoordinator) -> TabBarCoordinator {
+        let TabBarFactory = TabBarFactory()
+        return TabBarCoordinator(TabBarFactory: TabBarFactory, parent: coordinator)
     }
     
     func makeSignupViewController(coordinator: LoginCoordinator) -> SignupViewController {
@@ -36,6 +36,6 @@ final class AppDIContainer {
             userRepository: userRepository
         )
         
-        return SignupViewController(viewModel: signupViewModel)
+        return SignupViewController(viewModel: signupViewModel, coordinator: coordinator)
     }
 }

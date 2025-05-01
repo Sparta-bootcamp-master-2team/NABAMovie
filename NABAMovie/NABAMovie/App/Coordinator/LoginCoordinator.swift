@@ -7,18 +7,24 @@
 
 import UIKit
 
-final class LoginCoordinator: Coordinator {
-    private let window: UIWindow
-    private let navigationController: UINavigationController
-    private let diContainer: AppDIContainer
+protocol LoginCoordinatorProtocol: Coordinator {
+    func showSignup()
+    func didLogin()
+    func showCompletedSignUp(name: String)
+    func backButtonDidtap()
+}
+
+final class LoginCoordinator: LoginCoordinatorProtocol {
+    
+    let navigationController: UINavigationController
+    private let diContainer: AppFactory
     private var parentCoordinator: AppCoordinator
 
-    init(window: UIWindow,
+    init(
          navigationController: UINavigationController,
-         diContainer: AppDIContainer,
+         diContainer: AppFactory,
          parent: AppCoordinator
     ) {
-        self.window = window
         self.navigationController = navigationController
         self.diContainer = diContainer
         self.parentCoordinator = parent
@@ -31,16 +37,23 @@ final class LoginCoordinator: Coordinator {
     func start() {
         let loginVC = diContainer.makeLoginViewController(coordinator: self)
         navigationController.setViewControllers([loginVC], animated: true)
-        window.rootViewController = navigationController
-        window.makeKeyAndVisible()
     }
     
-    func showSignUp() {
+    func showSignup() {
         let signUpVC = diContainer.makeSignupViewController(coordinator: self)
         self.navigationController.pushViewController(signUpVC, animated: true)
     }
 
     func didLogin() {
-        parentCoordinator.showTabBar()
+        parentCoordinator.start()
+    }
+    
+    func showCompletedSignUp(name: String) {
+        let vc = CompletedSignUpViewController(username: name, coordinator: self)
+        self.navigationController.pushViewController(vc, animated: true)
+    }
+    
+    func backButtonDidtap() {
+        self.navigationController.popViewController(animated: true)
     }
 }

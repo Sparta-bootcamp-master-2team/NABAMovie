@@ -1,23 +1,17 @@
 //
-//  SearchDIContainer.swift
+//  MovieInfoFactory.swift
 //  NABAMovie
 //
-//  Created by 박주성 on 4/30/25.
+//  Created by 박주성 on 5/1/25.
 //
 
 import UIKit
 
-final class SearchDIContainer {
-    func makeMovieSearchViewController(coordinator: SearchCoordinator) -> MovieSearchViewController {
-        let networkManager = MovieNetworkManager()
-        let repository = MovieRepositoryImpl(networkManager: networkManager)
-        let usecase = FetchSearchMoviesUseCase(repository: repository)
-        let viewModel = MovieSearchViewModel(fetchSearchUseCase: usecase)
-        let vc = MovieSearchViewController(viewModel: viewModel, coordinator: coordinator)
-        return vc
-    }
-    
-    func makeMovieInfoController(movie: MovieEntity) -> MovieInfoViewController {
+final class MovieInfoFactory {
+    func makeMovieInfoViewController(
+        movie: MovieEntity,
+        coordinator: MovieInfoCoordinator
+    ) -> MovieInfoViewController {
         let networkManager = MovieNetworkManager()
         let firebaseService = FirebaseService()
         

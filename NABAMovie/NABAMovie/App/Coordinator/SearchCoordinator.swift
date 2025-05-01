@@ -11,14 +11,15 @@ protocol SearchCoordinatorProtocol: Coordinator {
     func showMovieInfo(movie: MovieEntity)
 }
 
-final class SearchCoordinator: Coordinator {
+final class SearchCoordinator: SearchCoordinatorProtocol {
     private let navigationController: UINavigationController
-    private let diContainer: SearchDIContainer
+    private let diContainer: SearchFactory
     private let parentCoordinator: TabBarCoordinator
+    private var currentCoordinators: [Coordinator] = []
 
     init(
         navigationController: UINavigationController,
-        diContainer: SearchDIContainer,
+        diContainer: SearchFactory,
         parent: TabBarCoordinator
     ) {
         self.navigationController = navigationController
@@ -36,8 +37,14 @@ final class SearchCoordinator: Coordinator {
     }
     
     func showMovieInfo(movie: MovieEntity) {
-        print(1)
-        let vc = diContainer.makeMovieInfoController(movie: movie)
-        navigationController.pushViewController(vc, animated: true)
+        let movieInfoCoordinator = MovieInfoCoordinator(
+            navigationController: self.navigationController,
+            diContainer: MovieInfoFactory(),
+            parentCoordinator: self,
+            movie: movie
+        )
+        
+        currentCoordinators = [movieInfoCoordinator]
+        movieInfoCoordinator.start()
     }
 }

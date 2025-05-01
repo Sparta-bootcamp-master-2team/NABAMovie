@@ -10,11 +10,10 @@ import FirebaseAuth
 
 final class AppCoordinator {
     private let window: UIWindow
-    private let diContainer: AppDIContainer
-    private var tabBarCoordinator: TabBarCoordinator?
-    private var childCoordinators: [Coordinator] = []
+    private let diContainer: AppFactory
+    private var currentCoordinators: [Coordinator] = []
 
-    init(window: UIWindow, diContainer: AppDIContainer) {
+    init(window: UIWindow, diContainer: AppFactory) {
         self.window = window
         self.diContainer = diContainer
     }
@@ -24,33 +23,33 @@ final class AppCoordinator {
     }
 
     func start() {
-        if isLoggedIn() {
-            showTabBar()
-        } else {
-            showLogin()
-        }
+        isLoggedIn() ? showTabBar() : showLogin()
     }
 
     private func isLoggedIn() -> Bool {
         return Auth.auth().currentUser != nil
     }
 
-    func showLogin() {
+    private func showLogin() {
         let loginCoordinator = LoginCoordinator(
-            window: window,
             navigationController: UINavigationController(),
             diContainer: diContainer,
             parent: self)
-        childCoordinators.append(loginCoordinator)
+        
+        currentCoordinators = [loginCoordinator]
         loginCoordinator.start()
+        
+        window.rootViewController = loginCoordinator.navigationController
+        window.makeKeyAndVisible()
     }
 
-    func showTabBar() {
-        let tabBarDI = TabBarDIContainer()
-        let tabBarCoordinator = TabBarCoordinator(tabBarDIContainer: tabBarDI)
-        self.tabBarCoordinator = tabBarCoordinator
+    private func showTabBar() {
+        let tabBarDI = TabBarFactory()
+        let tabBarCoordinator = TabBarCoordinator(TabBarFactory: tabBarDI, parent: self)
 
+        currentCoordinators = [tabBarCoordinator]
         tabBarCoordinator.start()
+        
         window.rootViewController = tabBarCoordinator.tabBarController
         window.makeKeyAndVisible()
     }
