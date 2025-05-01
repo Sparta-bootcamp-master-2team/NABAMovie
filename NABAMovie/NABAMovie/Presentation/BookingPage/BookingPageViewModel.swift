@@ -23,6 +23,7 @@ class BookingPageViewModel {
     var onPersonnelChanged: ((Int, String) -> Void)?
     var onTotalPriceChanged: ((String) -> Void)?
     var onSelectedTimeChanged: ((String) -> Void)?
+    var onSuccessReservation: (@MainActor (Reservation) -> Void)?
     
     // rawValue
     let theaterText = "Zep 내일배움캠프 iOS 6기 매니저관"
@@ -61,6 +62,7 @@ class BookingPageViewModel {
             switch result {
             case .success(_):
                 print("예약 성공: \(reservation)")
+                await onSuccessReservation?(reservation)
             case .failure(let error):
                 print("예약 실패: \(error.localizedDescription)")
             }

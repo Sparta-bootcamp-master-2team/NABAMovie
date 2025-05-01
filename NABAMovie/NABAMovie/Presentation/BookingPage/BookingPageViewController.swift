@@ -358,7 +358,9 @@ class BookingPageViewController: UIViewController {
                 let completionAlert = UIAlertController(title: "결제 완료", message: "결제가 완료되었습니다.", preferredStyle: .alert)
                 
                 completionAlert.addAction(
-                    UIAlertAction(title: "확인", style: .default))
+                    UIAlertAction(title: "확인", style: .default, handler: { _ in
+                        self?.coordinator?.didSuccessBooking()
+                    }))
                 
                 self?.present(completionAlert, animated: true)
             }))
@@ -447,6 +449,10 @@ class BookingPageViewController: UIViewController {
         
         viewModel.onTotalPriceChanged = { [weak self] total in
             self?.totalPriceLabel.text = total
+        }
+        
+        viewModel.onSuccessReservation = { reservation in
+            
         }
     }
 }

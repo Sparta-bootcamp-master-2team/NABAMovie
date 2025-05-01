@@ -9,6 +9,7 @@ import UIKit
 
 protocol MovieInfoCoordinatorProtocol: Coordinator {
     func showBookingPage(movie: MovieEntity)
+    func didSuccessBooking()
 }
 
 final class MovieInfoCoordinator: MovieInfoCoordinatorProtocol {
@@ -49,5 +50,9 @@ final class MovieInfoCoordinator: MovieInfoCoordinatorProtocol {
             coordinator: self
         )
         navigationController.present(vc, animated: true)
+    }
+    
+    func didSuccessBooking() {
+        navigationController.dismiss(animated: true)
     }
 }
