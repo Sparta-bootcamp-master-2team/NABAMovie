@@ -55,6 +55,10 @@ final class SignupViewController: UIViewController {
         signupView.onEmailCheckTapped = { [weak self] email in
             self?.viewModel.checkEmailDuplication(email)
         }
+        
+        signupView.onBackTapped = { [weak self] in
+            self?.coordinator?.backButtonDidtap()
+        }
     }
 
     private func bindViewModel() {

@@ -345,7 +345,7 @@ final class SignupView: UIView {
         let button = UIButton(type: .system)
         button.setTitle("회원가입", for: .normal)
         button.setTitleColor(.white, for: .normal)
-        button.backgroundColor = .brand
+        button.backgroundColor = .lightGray
         button.isEnabled = false
         button.layer.cornerRadius = 25
         return button
@@ -358,6 +358,8 @@ final class SignupView: UIView {
 
     /// 회원가입 버튼 클릭 시 호출되는 클로저
     var onSignupButtonTapped: (() -> Void)?
+    
+    var onBackTapped: (() -> Void)?
 
     
     
@@ -367,7 +369,7 @@ final class SignupView: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         configureDomainMenu()
-        backgroundColor = .white
+        backgroundColor = .secondarySystemBackground
         
         addSubview(topBarView)
         topBarView.addSubviews([backButton, topTitleLabel])
@@ -396,48 +398,40 @@ final class SignupView: UIView {
 
         setupConstraints()
         setupBindings()
-        validateForm()
     }
 
     
     required init?(coder: NSCoder) {
         fatalError()
     }
+    private func selectDomain(_ domain: String) {
+        domainMenuButton.setTitle(domain, for: .normal)
+        domainMenuButton.isHidden = false
+        domainTextField.isHidden = true
+        domainTextField.resignFirstResponder()
+        textFieldDidChange()
+    }
+
+    private func enableCustomDomainInput() {
+        domainMenuButton.setTitle("", for: .normal)
+        domainMenuButton.isHidden = true
+        domainTextField.isHidden = false
+        domainTextField.becomeFirstResponder()
+        textFieldDidChange()
+    }
     
     /// 도메인 선택 메뉴 설정 (UIMenu + 직접입력 지원)
     private func configureDomainMenu() {
         domainMenuButton.menu = UIMenu(title: "도메인 선택", children: [
-            UIAction(title: "gmail.com") { _ in
-                self.domainMenuButton.setTitle("gmail.com", for: .normal)
-                self.domainMenuButton.isHidden = false
-                self.domainTextField.isHidden = true
-                self.domainTextField.resignFirstResponder()
-            },
-            UIAction(title: "naver.com") { _ in
-                self.domainMenuButton.setTitle("naver.com", for: .normal)
-                self.domainMenuButton.isHidden = false
-                self.domainTextField.isHidden = true
-                self.domainTextField.resignFirstResponder()
-            },
-            UIAction(title: "daum.net") { _ in
-                self.domainMenuButton.setTitle("daum.net", for: .normal)
-                self.domainMenuButton.isHidden = false
-                self.domainTextField.isHidden = true
-                self.domainTextField.resignFirstResponder()
-            },
-            UIAction(title: "직접 입력") { _ in
-                self.domainMenuButton.setTitle("", for: .normal)
-                self.domainMenuButton.isHidden = true
-                self.domainTextField.isHidden = false
-                self.domainTextField.becomeFirstResponder()
-            }
+            UIAction(title: "gmail.com") { _ in self.selectDomain("gmail.com") },
+            UIAction(title: "naver.com") { _ in self.selectDomain("naver.com") },
+            UIAction(title: "daum.net") { _ in self.selectDomain("daum.net") },
+            UIAction(title: "직접 입력") { _ in self.enableCustomDomainInput() }
         ])
         domainMenuButton.showsMenuAsPrimaryAction = true
     }
     
     @objc private func textFieldDidChange() {
-        validateForm()
-
         onInputChanged?(
             usernameTextField.text ?? "",
             fullEmail ?? "",
@@ -596,19 +590,6 @@ final class SignupView: UIView {
         return "\(prefix)@\(domainUnwrapped)"
     }
     
-    private func validateForm() {
-        let isUsernameValid = !(usernameTextField.text?.isEmpty ?? true)
-        let isEmailValid = fullEmail != nil
-        let isPasswordValid = isValidPassword(passwordTextField.text)
-        let isPasswordConfirmed = passwordTextField.text == passwordConfirmTextField.text
-        let isTermsAgreed = termsRequiredView.isChecked
-
-        let isFormValid = isUsernameValid && isEmailValid && isPasswordValid && isPasswordConfirmed && isTermsAgreed
-
-        signupButton.isEnabled = isFormValid
-        signupButton.backgroundColor = isFormValid ? .brand : .lightGray
-    }
-    
     private func isValidPassword(_ text: String?) -> Bool {
         guard let text = text, text.count >= 8 else { return false }
         let regex = "^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d\\S]{8,}$"
@@ -621,15 +602,16 @@ final class SignupView: UIView {
          passwordTextField, passwordConfirmTextField].forEach {
             $0.addTarget(self, action: #selector(textFieldDidChange), for: .editingChanged)
         }
-
+        
         // 약관 체크 변경 시
         termsRequiredView.checkChangedHandler = { [weak self] _ in
-            self?.validateForm()
+            self?.textFieldDidChange()
         }
         
         signupButton.addTarget(self, action: #selector(signupButtonTapped), for: .touchUpInside)
         usernameCheckButton.addTarget(self, action: #selector(usernameCheckTapped), for: .touchUpInside)
         idCheckButton.addTarget(self, action: #selector(emailCheckTapped), for: .touchUpInside)
+        backButton.addTarget(self, action: #selector(backButtonTapped), for: .touchUpInside)
 
     }
     
@@ -645,6 +627,10 @@ final class SignupView: UIView {
     @objc private func emailCheckTapped() {
         let email = fullEmail ?? ""
         onEmailCheckTapped?(email)
+    }
+    
+    @objc private func backButtonTapped() {
+        onBackTapped?()
     }
 
 
