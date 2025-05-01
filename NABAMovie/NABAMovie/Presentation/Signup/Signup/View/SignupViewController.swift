@@ -8,21 +8,24 @@
 import UIKit
 
 final class SignupViewController: UIViewController {
-
+    
+    private weak var coordinator: LoginCoordinatorProtocol?
+    
     private let signupView = SignupView()
     private let viewModel: SignupViewModel
-
-    init(viewModel: SignupViewModel) {
+    
+    init(viewModel: SignupViewModel, coordinator: LoginCoordinatorProtocol) {
         self.viewModel = viewModel
+        self.coordinator = coordinator
         super.init(nibName: nil, bundle: nil)
     }
-
+    
     required init?(coder: NSCoder) { fatalError() }
-
+    
     override func loadView() {
         self.view = signupView
     }
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationController?.setNavigationBarHidden(true, animated: false)
@@ -76,9 +79,9 @@ final class SignupViewController: UIViewController {
             self?.signupView.showConfirmPasswordError(msg)
         }
 
-        viewModel.onSignupSuccess = { [weak self] in
+        viewModel.onSignupSuccess = { [weak self] name in
             print("회원가입 성공")
-//            self?.navigateToHome()
+            self?.coordinator?.showCompletedSignUp(name: name)
         }
 
         viewModel.onSignupError = { [weak self] msg in

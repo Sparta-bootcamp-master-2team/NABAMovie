@@ -9,7 +9,7 @@ import UIKit
 
 final class LoginViewController: UIViewController {
     
-    private weak var coordinator: LoginCoordinator?
+    private weak var coordinator: LoginCoordinatorProtocol?
     
     private let loginView: LoginView
     private let viewModel: LoginViewModel
@@ -62,7 +62,7 @@ final class LoginViewController: UIViewController {
                 print("로그인 성공: \(user.username)")
                 self?.coordinator?.didLogin()
             case .failure(let error):
-                self?.showErrorAlert(message: error.localizedDescription)
+                self?.showErrorAlert(message: "아이디 또는 비밀번호가 잘못되었습니다.")
             case .none:
                 break
             }
@@ -70,7 +70,7 @@ final class LoginViewController: UIViewController {
     }
     
     private func handleSignup() {
-        coordinator?.showSignUp()
+        coordinator?.showSignup()
     }
     
     private func showErrorAlert(message: String) {

@@ -48,6 +48,7 @@ final class LoginView: UIView {
         textField.textColor = .gray
         textField.borderStyle = .none
         textField.backgroundColor = .clear
+        textField.autocapitalizationType = .none
         textField.setLeftPadding(2)
         return textField
     }()
@@ -75,6 +76,7 @@ final class LoginView: UIView {
         textField.textColor = .gray
         textField.borderStyle = .none
         textField.backgroundColor = .clear
+        textField.autocapitalizationType = .none
         textField.setLeftPadding(2)
         return textField
     }()

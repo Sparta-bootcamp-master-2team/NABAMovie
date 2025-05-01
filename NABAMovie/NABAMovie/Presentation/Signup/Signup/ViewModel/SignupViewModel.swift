@@ -10,8 +10,8 @@ import Foundation
 final class SignupViewModel {
 
     // MARK: - Bindings
-    var onSignupSuccess: (() -> Void)?
-    var onSignupError: ((String) -> Void)?
+    var onSignupSuccess: (@MainActor(String) -> Void)?
+    var onSignupError: (@MainActor(String) -> Void)?
     var isFormValidChanged: ((Bool) -> Void)?
     var usernameErrorChanged: ((String?, Bool) -> Void)?
     var emailErrorChanged: ((String?, Bool) -> Void)?
@@ -58,26 +58,43 @@ final class SignupViewModel {
     // MARK: - 회원가입
     func signup() {
         Task {
-            do {
-                await registerUseCase.execute(email: email, password: password, username: username)
-                try await loginUseCase.execute(email: email, password: password)
-                onSignupSuccess?()
-            } catch {
-                onSignupError?(error.localizedDescription)
+            let result = await registerUseCase.execute(email: email, password: password, username: username)
+            switch result {
+            case .success(_):
+                await login()
+            case .failure(let error):
+                await onSignupError?(error.localizedDescription)
             }
+        }
+    }
+    
+    func login() async {
+        do {
+            let user = try await loginUseCase.execute(email: email, password: password)
+            await onSignupSuccess?(user.username)
+        } catch {
+            await onSignupError?(error.localizedDescription)
         }
     }
 
     // MARK: - 중복 확인
     func checkUsernameDuplication(_ nickname: String) {
+        let trimmed = nickname.trimmingCharacters(in: .whitespaces)
+
+        guard !trimmed.isEmpty else {
+            didCheckUsernameDuplication = false
+            usernameErrorChanged?("닉네임을 입력해주세요.", false)
+            return
+        }
+
         Task {
             do {
-                if try await userRepository.isNicknameTaken(nickname) {
+                if try await userRepository.isNicknameTaken(trimmed) {
                     didCheckUsernameDuplication = false
                     usernameErrorChanged?("이미 사용 중인 닉네임입니다.", false)
                 } else {
                     didCheckUsernameDuplication = true
-                    lastCheckedUsername = nickname
+                    lastCheckedUsername = trimmed
                     usernameErrorChanged?("사용 가능한 닉네임입니다.", true)
                 }
             } catch {
@@ -88,14 +105,28 @@ final class SignupViewModel {
     }
 
     func checkEmailDuplication(_ email: String) {
+        let trimmed = email.trimmingCharacters(in: .whitespaces)
+
+        guard !trimmed.isEmpty else {
+            didCheckEmailDuplication = false
+            emailErrorChanged?("이메일을 입력해주세요.", false)
+            return
+        }
+
+        guard isValidEmail(trimmed) else {
+            didCheckEmailDuplication = false
+            emailErrorChanged?("유효한 이메일 형식을 입력해주세요.", false)
+            return
+        }
+
         Task {
             do {
-                if try await userRepository.isEmailTaken(email) {
+                if try await userRepository.isEmailTaken(trimmed) {
                     didCheckEmailDuplication = false
                     emailErrorChanged?("이미 사용 중인 이메일입니다.", false)
                 } else {
                     didCheckEmailDuplication = true
-                    lastCheckedEmail = email
+                    lastCheckedEmail = trimmed
                     emailErrorChanged?("사용 가능한 이메일입니다.", true)
                 }
             } catch {
@@ -109,21 +140,24 @@ final class SignupViewModel {
     private func validateAll() {
         var isValid = true
 
-        if username.trimmingCharacters(in: .whitespaces).isEmpty {
-            usernameErrorChanged?("닉네임은 필수입니다.", false)
+        if !isValidUsername(username) {
+            usernameErrorChanged?("닉네임은 공백 없이 2자 이상 입력해주세요.", false)
             isValid = false
         } else if !didCheckUsernameDuplication || username != lastCheckedUsername {
-            usernameErrorChanged?(nil, true)
+            usernameErrorChanged?("닉네임 중복 확인을 해주세요.", false)
             isValid = false
         } else {
             usernameErrorChanged?("사용 가능한 닉네임입니다.", true)
         }
 
-        if !email.contains("@") || !email.contains(".") {
-            emailErrorChanged?("유효한 이메일 주소를 입력해주세요.", false)
+        if email.trimmingCharacters(in: .whitespaces).isEmpty {
+            emailErrorChanged?("이메일은 필수입니다.", false)
+            isValid = false
+        } else if !isValidEmail(email) {
+            emailErrorChanged?("유효한 이메일 형식을 입력해주세요.", false)
             isValid = false
         } else if !didCheckEmailDuplication || email != lastCheckedEmail {
-            emailErrorChanged?(nil, true)
+            emailErrorChanged?("이메일 중복 확인을 해주세요.", false)
             isValid = false
         } else {
             emailErrorChanged?("사용 가능한 이메일입니다.", true)
@@ -150,9 +184,25 @@ final class SignupViewModel {
         isFormValidChanged?(isValid)
     }
 
+    private func isValidUsername(_ text: String) -> Bool {
+        let trimmed = text.trimmingCharacters(in: .whitespaces)
+        guard trimmed.count >= 2 else { return false }
+        return !trimmed.contains(" ")
+    }
+
+    private func isValidEmail(_ text: String) -> Bool {
+        let koreanRegex = ".*[ㄱ-ㅎㅏ-ㅣ가-힣]+.*"
+        let containsKorean = NSPredicate(format: "SELF MATCHES %@", koreanRegex).evaluate(with: text)
+        if containsKorean { return false }
+
+        let emailRegex = "^[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$"
+        return NSPredicate(format: "SELF MATCHES %@", emailRegex).evaluate(with: text)
+    }
+
     private func isValidPassword(_ text: String) -> Bool {
         let regex = "^(?=.*[A-Za-z])(?=.*\\d)(?=.*[!@#$%^&*()_+=-]).{8,}$"
         return NSPredicate(format: "SELF MATCHES %@", regex).evaluate(with: text)
     }
 }
+
 
