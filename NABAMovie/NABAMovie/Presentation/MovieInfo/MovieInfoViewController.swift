@@ -445,7 +445,7 @@ final class MovieInfoViewController: UIViewController {
     
     @objc func transitToBookingPage() {
         print(#function)
-        let bottomSheet = BookingPageViewController(viewModel: BookingPageViewModel(movieDetail: viewModel.movieDetail))
+        let bottomSheet = BookingPageViewController(viewModel: BookingPageViewModel(movieDetail: viewModel.movieDetail, useCase: MakeReservationUseCase(reservationRepository: ReservationRepositoryImpl(firebaseService: FirebaseService()))))
         if let sheet = bottomSheet.sheetPresentationController {
             sheet.detents = [.custom(resolver: { context in
                 return context.maximumDetentValue * 0.9
