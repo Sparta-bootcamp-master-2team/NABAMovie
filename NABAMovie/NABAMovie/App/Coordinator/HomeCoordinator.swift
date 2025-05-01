@@ -14,7 +14,8 @@ protocol HomeCoordinatorProtocol: Coordinator {
 final class HomeCoordinator: HomeCoordinatorProtocol {
     private let navigationController: UINavigationController
     private let diContainer: HomeDIContainer
-    private var parentCoordinator: TabBarCoordinator
+    private let parentCoordinator: TabBarCoordinator
+    private let childCoordinators: [Coordinator] = []
 
     init(
         navigationController: UINavigationController,
@@ -31,15 +32,11 @@ final class HomeCoordinator: HomeCoordinatorProtocol {
     }
 
     func start() {
-        parentCoordinator.tabBarController.tabBar.isHidden = false
-        navigationController.navigationBar.isHidden = true
         let vc = diContainer.makeHomeViewController(coordinator: self)
         navigationController.setViewControllers([vc], animated: false)
     }
     
     func showMovieInfo(movie: MovieEntity) {
-        parentCoordinator.tabBarController.tabBar.isHidden = true
-        navigationController.navigationBar.isHidden = false
         let vc = diContainer.makeMovieInfoController(movie: movie)
         navigationController.pushViewController(vc, animated: true)
     }

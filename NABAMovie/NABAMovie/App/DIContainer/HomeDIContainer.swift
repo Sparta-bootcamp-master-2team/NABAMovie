@@ -16,7 +16,22 @@ final class HomeDIContainer {
     }
     
     func makeMovieInfoController(movie: MovieEntity) -> MovieInfoViewController {
-        let viewModel = MovieInfoViewModel(movieDetail: movie)
+        let networkManager = MovieNetworkManager()
+        let firebaseService = FirebaseService()
+        
+        let movieRepository = MovieRepositoryImpl(networkManager: networkManager)
+        let favoriteMovieRepository = FavoriteMovieRepositoryImpl(firebaseService: firebaseService)
+        
+        let movieStillsUseCase = FetchMovieStillsUseCase(repository: movieRepository)
+        let addFavoriteMovieUseCase = AddFavoriteMovieUseCase(repository: favoriteMovieRepository)
+        let removeFavoriteMovieUseCase = RemoveFavoriteMovieUseCase(repository: favoriteMovieRepository)
+        
+        let viewModel = MovieInfoViewModel(
+            movieDetail: movie,
+            movieStillsUseCase: movieStillsUseCase,
+            addFavoriteMovieUseCase: addFavoriteMovieUseCase,
+            removeFavoriteMovieUseCase: removeFavoriteMovieUseCase
+        )
         return MovieInfoViewController(viewModel: viewModel)
     }
 }

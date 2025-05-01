@@ -36,12 +36,14 @@ final class TabBarCoordinator: Coordinator {
 
         let searchCoordinator = SearchCoordinator(
             navigationController: searchNav,
-            diContainer: tabBarDIContainer.makeSearchDIContainer()
+            diContainer: tabBarDIContainer.makeSearchDIContainer(),
+            parent: self
         )
 
         let myPageCoordinator = MyPageCoordinator(
             navigationController: myPageNav,
-            diContainer: tabBarDIContainer.makeMyPageDIContainer()
+            diContainer: tabBarDIContainer.makeMyPageDIContainer(),
+            parent: self
         )
 
         // Coordinator들 start
