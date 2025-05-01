@@ -12,19 +12,25 @@ final class MovieInfoViewModel {
     
     let movieDetail: MovieEntity
     
+    private let firebaseService = FirebaseService()
+    
+    private let movieStillsUseCase: FetchMovieStillsUseCase
+    private let addFavoriteMovieUseCase: AddFavoriteMovieUseCase
+    private let removeFavoriteMovieUseCase: RemoveFavoriteMovieUseCase
+    
+    init(movieDetail: MovieEntity, movieStillsUseCase: FetchMovieStillsUseCase, addFavoriteMovieUseCase: AddFavoriteMovieUseCase, removeFavoriteMovieUseCase: RemoveFavoriteMovieUseCase) {
+        self.movieDetail = movieDetail
+        self.movieStillsUseCase = movieStillsUseCase
+        self.addFavoriteMovieUseCase = addFavoriteMovieUseCase
+        self.removeFavoriteMovieUseCase = removeFavoriteMovieUseCase
+        self.setFavoriteStatus()
+    }
+    
     var stillImages: [URL] = []
     var firstStillImageUrl: URL?
     
     var isFavorite: Bool = false
-    
-//    private let fetchUserUseCase
-    private let movieStillsUseCase = FetchMovieStillsUseCase(repository: MovieRepositoryImpl(networkManager: MovieNetworkManager()))
-    private let addFavoriteMovieUseCase = AddFavoriteMovieUseCase(repository: FavoriteMovieRepositoryImpl(firebaseService: FirebaseService()))
-    
-    init(movieDetail: MovieEntity) {
-        self.movieDetail = movieDetail
-    }
-    
+
     var titleText: String {
         movieDetail.title
     }
@@ -74,24 +80,41 @@ final class MovieInfoViewModel {
         }
     }
     
-    
-    /// let movie = MovieEntity(...)
-    /// let result = await addFavoriteMovieUseCase.execute(userId: "user-uid", movie: movie)
-    /// switch result {
-    /// case .success:
-    ///     print("찜 추가 성공")
-    /// case .failure(let error):
-    ///     print(error.localizedDescription)
-    /// }
-
-    func setFavoriteMovie(completion: @escaping () -> Void) {
+    /// 즐겨찾기 추가
+    func addFavoriteMovie() {
         Task {
-            let result = await addFavoriteMovieUseCase.execute(userId: "user-uid", movie: movieDetail)
+            let userId = try firebaseService.getCurrentUserId()
+            let result = await addFavoriteMovieUseCase.execute(userId: userId, movie: movieDetail)
             switch result {
-            case .success(let success):
+            case .success(_):
                 print("찜 추가 성공")
             case .failure(let error):
                 print("찜 추가 에러: \(error.localizedDescription)")
+            }
+        }
+    }
+    
+    /// 즐겨찾기 삭제
+    func removeFavoriteMovie() {
+        Task {
+            let userId = try firebaseService.getCurrentUserId()
+            let result = await removeFavoriteMovieUseCase.execute(userID: userId, movieID: movieDetail.movieID)
+            switch result {
+            case .success(_):
+                print("찜 삭제 성공")
+            case .failure(let error):
+                print("찜 삭제 에러: \(error.localizedDescription)")
+            }
+        }
+    }
+    
+    // 즐겨찾기 상태 설정
+    private func setFavoriteStatus() {
+        Task {
+            let userId = try firebaseService.getCurrentUserId()
+            let favoriteMovies = try await firebaseService.fetchFavoriteMovies(for: userId)
+            if favoriteMovies.contains(where: { $0.movieID == movieDetail.movieID }) {
+                isFavorite = true
             }
         }
     }
