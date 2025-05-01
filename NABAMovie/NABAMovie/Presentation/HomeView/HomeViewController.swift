@@ -5,6 +5,8 @@ final class HomeViewController: UIViewController {
     
     // MARK: - Properties
     
+    private weak var coordinator: HomeCoordinator?
+    
     private let viewModel: HomeViewModel
     
     enum Section: Int, CaseIterable {
@@ -32,8 +34,9 @@ final class HomeViewController: UIViewController {
     
     // MARK: - Initailizer
     
-    init(viewModel: HomeViewModel) {
+    init(viewModel: HomeViewModel, coordinator: HomeCoordinator) {
         self.viewModel = viewModel
+        self.coordinator = coordinator
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -50,14 +53,6 @@ final class HomeViewController: UIViewController {
         viewModel.action?(.fetch)
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        navigationController?.setNavigationBarHidden(true, animated: true) // 뷰 컨트롤러가 나타날 때 숨기기
-    }
-    
-    override func viewWillDisappear(_ animated: Bool) {
-        navigationController?.setNavigationBarHidden(false, animated: true) // 뷰 컨트롤러가 사라질 때 나타내기
-    }
-    
     // MARK: - Configure CollectionView
     
     private func configureCollectionView() {
@@ -67,6 +62,7 @@ final class HomeViewController: UIViewController {
     
     private func setCollectionViewAttributes() {
         collectionView.contentInset = UIEdgeInsets(top: 20, left: 0, bottom: 0, right: 0)
+        collectionView.delegate = self
         
         collectionView.register(NowPlayingCell.self, forCellWithReuseIdentifier: NowPlayingCell.reuseIdentifier)
         collectionView.register(UpComingCell.self, forCellWithReuseIdentifier: UpComingCell.reuseIdentifier)
@@ -415,6 +411,18 @@ private extension HomeViewController {
             case .networkError(let error):
                 self?.showNetworkErrorAlert(for: error)
             }
+        }
+    }
+}
+
+extension HomeViewController: UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        guard let item = datasource?.itemIdentifier(for: indexPath) else { return }
+        switch item {
+        case .nowPlaying(let movie, _):
+            coordinator?.showMovieInfo(movie: movie)
+        case .upcoming(let movie):
+            coordinator?.showMovieInfo(movie: movie)
         }
     }
 }
