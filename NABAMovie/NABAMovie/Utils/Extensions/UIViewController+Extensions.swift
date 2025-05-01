@@ -40,18 +40,4 @@ extension UIViewController {
         window.rootViewController = viewController
         window.makeKeyAndVisible()
     }
-
-    func navigateToHome() {
-        let repository = MovieRepositoryImpl(networkManager: MovieNetworkManager())
-        let usecase = FetchHomeScreenMoviesUseCase(repository: repository)
-        let homeVM = HomeViewModel(usecase: usecase)
-        let homeVC = HomeViewController(viewModel: homeVM)
-        
-        changeRootViewController(to: homeVC)
-    }
-
-    func navigateToLogin() {
-        let loginVM = LoginViewModel(loginUseCase: LoginUseCase(repository: FirebaseAuthRepositoryImpl(firebaseService: FirebaseService())))
-        changeRootViewController(to: LoginViewController(viewModel: loginVM))
-    }
 }

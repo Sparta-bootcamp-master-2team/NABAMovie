@@ -10,12 +10,15 @@ import SnapKit
 
 final class MyPageViewController: UIViewController {
     
+    private weak var coordinator: MyPageCoordinator?
+    
     private let headerView = HeaderView()
     private let myPageView = MyPageView()
     private let viewModel: MyPageViewModel
     
-    init(viewModel: MyPageViewModel) {
+    init(viewModel: MyPageViewModel, coordinator: MyPageCoordinator) {
         self.viewModel = viewModel
+        self.coordinator = coordinator
         super.init(nibName: nil, bundle: nil)
         myPageView.delegate = self
         bind()
@@ -68,15 +71,11 @@ final class MyPageViewController: UIViewController {
 extension MyPageViewController: MyPageViewDelegate {
     // 예매 내역 더보기 버튼 클릭 시
     func reservationMoreButtonTapped() {
-        let listVM = MovieListViewModel(item: self.viewModel.reservations)
-        let listVC = MovieListViewController(viewModel: listVM)
-        self.present(listVC, animated: true)
+        coordinator?.showMore(item: self.viewModel.reservations)
     }
     // 찜 목록 더보기 버튼 클릭 시
     func favoriteMoreButtonTapped() {
-        let listVM = MovieListViewModel(item: self.viewModel.favorites)
-        let listVC = MovieListViewController(viewModel: listVM)
-        self.present(listVC, animated: true)
+        coordinator?.showMore(item: self.viewModel.favorites)
     }
     
     // 로그아웃 버튼 클릭 시
@@ -93,9 +92,7 @@ extension MyPageViewController: MyPageViewDelegate {
         // 찜 항목 셀 선택한 경우
         if item is MovieEntity {
             let item = item as! MovieEntity
-            let movieInfoViewModel = MovieInfoViewModel(movieDetail: item)
-            let movieInfoVC = MovieInfoViewController(viewModel: movieInfoViewModel)
-            self.present(movieInfoVC, animated: true)
+            coordinator?.showMovieInfo(movie: item)
         }
         // 예매 내역 셀 선택한 경우
         if item is Reservation {

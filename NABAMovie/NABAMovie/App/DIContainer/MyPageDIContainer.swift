@@ -8,7 +8,7 @@
 import UIKit
 
 final class MyPageDIContainer {
-    func makeMyPageViewController() -> MyPageViewController {
+    func makeMyPageViewController(coordinator: MyPageCoordinator) -> MyPageViewController {
         
         let firebaseService = FirebaseService()
         
@@ -25,6 +25,35 @@ final class MyPageDIContainer {
             fetchReservationUseCase: fetchReservationUseCase,
             logoutUseCase: logoutUseCase)
         
-        return MyPageViewController(viewModel: viewModel)
+        return MyPageViewController(viewModel: viewModel, coordinator: coordinator)
     }
+    
+    func makeMovieInfoController(movie: MovieEntity) -> MovieInfoViewController {
+        let networkManager = MovieNetworkManager()
+        let firebaseService = FirebaseService()
+        
+        let movieRepository = MovieRepositoryImpl(networkManager: networkManager)
+        let favoriteMovieRepository = FavoriteMovieRepositoryImpl(firebaseService: firebaseService)
+        
+        let movieStillsUseCase = FetchMovieStillsUseCase(repository: movieRepository)
+        let addFavoriteMovieUseCase = AddFavoriteMovieUseCase(repository: favoriteMovieRepository)
+        let removeFavoriteMovieUseCase = RemoveFavoriteMovieUseCase(repository: favoriteMovieRepository)
+        
+        let viewModel = MovieInfoViewModel(
+            movieDetail: movie,
+            movieStillsUseCase: movieStillsUseCase,
+            addFavoriteMovieUseCase: addFavoriteMovieUseCase,
+            removeFavoriteMovieUseCase: removeFavoriteMovieUseCase
+        )
+        return MovieInfoViewController(viewModel: viewModel)
+    }
+    
+    func makeMovieListViewController(
+        item: [CellConfigurable],
+        coordinator: MyPageCoordinator
+    ) -> MovieListViewController {
+        let listVM = MovieListViewModel(item: item)
+        return MovieListViewController(viewModel: listVM, coordinator: coordinator)
+    }
+
 }

@@ -9,12 +9,15 @@ import UIKit
 
 final class LoginViewController: UIViewController {
     
+    private weak var coordinator: LoginCoordinator?
+    
     private let loginView: LoginView
     private let viewModel: LoginViewModel
 
-    init(viewModel: LoginViewModel) {
+    init(viewModel: LoginViewModel, coordinator: LoginCoordinator) {
         self.viewModel = viewModel
         self.loginView = LoginView()
+        self.coordinator = coordinator
         super.init(nibName: nil, bundle: nil)
     }
 
@@ -57,7 +60,7 @@ final class LoginViewController: UIViewController {
             switch result {
             case .success(let user):
                 print("로그인 성공: \(user.username)")
-                self?.navigateToHome()
+                self?.coordinator?.didLogin()
             case .failure(let error):
                 self?.showErrorAlert(message: error.localizedDescription)
             case .none:

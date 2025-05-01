@@ -9,6 +9,8 @@ import UIKit
 import SnapKit
 
 final class MovieSearchViewController: UIViewController {
+    
+    private weak var coordinator: SearchCoordinator?
 
     private lazy var searchBar: UISearchBar = {
         let searchBar = UISearchBar()
@@ -17,12 +19,12 @@ final class MovieSearchViewController: UIViewController {
         return searchBar
     }()
     
-    private let collectionView: MovieItemCollectionView
+    private let collectionView = MovieItemCollectionView()
     private let viewModel: MovieSearchViewModel
     
-    init(collectionView: MovieItemCollectionView, viewModel: MovieSearchViewModel) {
-        self.collectionView = collectionView
+    init(viewModel: MovieSearchViewModel, coordinator: SearchCoordinator) {
         self.viewModel = viewModel
+        self.coordinator = coordinator
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -61,6 +63,12 @@ final class MovieSearchViewController: UIViewController {
 extension MovieSearchViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         guard let item = self.collectionView.movieItemCollectionDataSource?.itemIdentifier(for: indexPath) else { return }
+        switch item {
+        case .movieEntity(let movie):
+            coordinator?.showMovieInfo(movie: movie)
+        case .reservationEntity(_):
+            break
+        }
     }
 }
 

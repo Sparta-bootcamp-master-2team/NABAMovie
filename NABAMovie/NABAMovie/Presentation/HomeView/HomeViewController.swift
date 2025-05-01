@@ -53,6 +53,11 @@ final class HomeViewController: UIViewController {
         viewModel.action?(.fetch)
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        navigationController?.setNavigationBarHidden(true, animated: false) // 뷰 컨트롤러가 나타날 때 숨기기
+        tabBarController?.tabBar.isHidden = false
+    }
+    
     // MARK: - Configure CollectionView
     
     private func configureCollectionView() {
