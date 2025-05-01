@@ -30,7 +30,7 @@ final class ReservationDetailView: UIView {
     private let movieTitleLabel: UILabel = {
         let label = UILabel()
         label.textColor = .black
-        label.numberOfLines = 0
+        label.numberOfLines = 2
         label.font = .systemFont(ofSize: 20, weight: .bold)
         return label
     }()
