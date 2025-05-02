@@ -42,7 +42,7 @@ class BookingPageViewController: UIViewController {
     private lazy var buttonStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .horizontal
-        stackView.spacing = 24
+        stackView.spacing = 16
         return stackView
     }()
     
@@ -56,7 +56,7 @@ class BookingPageViewController: UIViewController {
     private lazy var timeSelectionButton2: UIButton = {
         let button = UIButton()
         button.titleLabel?.font = .boldSystemFont(ofSize: 14)
-        button.setTitleColor(.black, for: .normal)
+        button.setTitleColor(.label, for: .normal)
         button.layer.borderWidth = 1
         button.layer.borderColor = UIColor.lightGray.cgColor
         button.addTarget(self, action: #selector(timeButtonTapped(_:)), for: .touchUpInside)
@@ -66,7 +66,7 @@ class BookingPageViewController: UIViewController {
     private lazy var timeSelectionButton3: UIButton = {
         let button = UIButton()
         button.titleLabel?.font = .boldSystemFont(ofSize: 14)
-        button.setTitleColor(.black, for: .normal)
+        button.setTitleColor(.label, for: .normal)
         button.layer.borderWidth = 1
         button.layer.borderColor = UIColor.lightGray.cgColor
         button.addTarget(self, action: #selector(timeButtonTapped(_:)), for: .touchUpInside)
@@ -250,17 +250,17 @@ class BookingPageViewController: UIViewController {
         }
         
         timeSelectionButton1.snp.makeConstraints {
-            $0.width.equalTo(80)
+            $0.width.equalTo(100)
             $0.height.equalTo(50)
         }
         
         timeSelectionButton2.snp.makeConstraints {
-            $0.width.equalTo(80)
+            $0.width.equalTo(100)
             $0.height.equalTo(50)
         }
         
         timeSelectionButton3.snp.makeConstraints {
-            $0.width.equalTo(80)
+            $0.width.equalTo(100)
             $0.height.equalTo(50)
         }
         
@@ -322,12 +322,13 @@ class BookingPageViewController: UIViewController {
         selectedTimeButton?.backgroundColor = .clear
         selectedTimeButton?.layer.borderWidth = 1
         selectedTimeButton?.layer.borderColor = UIColor.lightGray.cgColor
-        selectedTimeButton?.setTitleColor(.black, for: .normal)
+        selectedTimeButton?.setTitleColor(.label, for: .normal)
         
         sender.backgroundColor = UIColor(named: "brandColor")
         sender.layer.borderColor = UIColor.clear.cgColor
         sender.layer.borderWidth = 0
         sender.setTitleColor(.white, for: .normal)
+        
         selectedTimeButton = sender
     }
     
@@ -414,6 +415,31 @@ class BookingPageViewController: UIViewController {
         theaterLabel.attributedText = attributedText
     }
     
+    /// 영화 상영 시간 텍스트 "~종료시간"만 변형
+    private func transformMovieTimeText() {
+        let buttons = [timeSelectionButton1, timeSelectionButton2, timeSelectionButton3]
+        
+        for (i, button) in buttons.enumerated() {
+            guard i < viewModel.movieTimes.count else { continue }
+            let fullText = viewModel.movieTimes[i]
+            let parts = fullText.split(separator: "~", maxSplits: 1).map { String($0) }
+            guard parts.count == 2 else {
+                button.setTitle(fullText, for: .normal)
+                continue
+            }
+            
+            let startTimeText = parts[0]
+            let endTimeText = " ~" + parts[1]
+            
+            let attributedText = NSMutableAttributedString(string: startTimeText + endTimeText)
+            attributedText.addAttributes([
+                .font: UIFont.systemFont(ofSize: 12, weight: .light),
+            ], range: NSRange(location: startTimeText.count, length: endTimeText.count))
+            
+            button.setAttributedTitle(attributedText, for: .normal)
+        }
+    }
+    
     /// 버튼 초기 설정
     private func setButtonStatus() {
         timeSelectionButton1.setTitle(viewModel.movieTimes[0], for: .normal)
@@ -423,11 +449,13 @@ class BookingPageViewController: UIViewController {
         // 기본 설정 시간 첫번째로 설정
         selectedTimeButton = timeSelectionButton1
         
+        transformMovieTimeText()
+        
         viewModel.selectedTime = (selectedTimeButton?.titleLabel!.text)!
         selectedTimeButton?.setTitleColor(.white, for: .normal)
         selectedTimeButton?.backgroundColor = UIColor(named: "brandColor")
     }
-        
+    
     private func configure() {
         titleLabel.text = viewModel.titleText
         theaterLabel.text = viewModel.theaterText
