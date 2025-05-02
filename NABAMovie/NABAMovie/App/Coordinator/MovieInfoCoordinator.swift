@@ -8,24 +8,28 @@
 import UIKit
 
 protocol MovieInfoCoordinatorProtocol: Coordinator {
-    
+    func showBookingPage(movie: MovieEntity)
+    func didSuccessBooking()
 }
 
 final class MovieInfoCoordinator: MovieInfoCoordinatorProtocol {
-    let navigationController: UINavigationController
-    private let diContainer: MovieInfoFactory
-    private var parentCoordinator: Coordinator
+    
     private let movie: MovieEntity
     
-    init(navigationController: UINavigationController,
-         diContainer: MovieInfoFactory,
-         parentCoordinator: Coordinator,
-         movie: MovieEntity
+    private let navigationController: UINavigationController
+    private let factory: MovieInfoFactory
+    private(set) weak var parentCoordinator: Coordinator?
+    
+    init(
+        movie: MovieEntity,
+        navigationController: UINavigationController,
+        factory: MovieInfoFactory,
+        parentCoordinator: Coordinator,
     ) {
-        self.navigationController = navigationController
-        self.diContainer = diContainer
-        self.parentCoordinator = parentCoordinator
         self.movie = movie
+        self.navigationController = navigationController
+        self.factory = factory
+        self.parentCoordinator = parentCoordinator
     }
     
     deinit {
@@ -33,11 +37,22 @@ final class MovieInfoCoordinator: MovieInfoCoordinatorProtocol {
     }
 
     func start() {
-        let vc = diContainer.makeMovieInfoViewController(
+        let vc = factory.makeMovieInfoViewController(
             movie: self.movie,
             coordinator: self
         )
         navigationController.pushViewController(vc, animated: true)
     }
-
+    
+    func showBookingPage(movie: MovieEntity) {
+        let vc = factory.maekBookingPageViewController(
+            movie: movie,
+            coordinator: self
+        )
+        navigationController.present(vc, animated: true)
+    }
+    
+    func didSuccessBooking() {
+        navigationController.dismiss(animated: true)
+    }
 }

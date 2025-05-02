@@ -8,17 +8,19 @@
 import UIKit
 
 final class TabBarCoordinator: Coordinator {
-    var parentCoordinator: AppCoordinator
-    var childCoordinators: [Coordinator] = []
-
+    
     let tabBarController = UITabBarController()
-    private let TabBarFactory: TabBarFactory
+    private let factory: TabBarFactory
+
+    private(set) weak var parentCoordinator: AppCoordinator?
+    private var childCoordinators: [Coordinator] = []
+
 
     init(
-        TabBarFactory: TabBarFactory,
+        factory: TabBarFactory,
         parent: AppCoordinator
     ) {
-        self.TabBarFactory = TabBarFactory
+        self.factory = factory
         self.parentCoordinator = parent
     }
     
@@ -35,6 +37,7 @@ final class TabBarCoordinator: Coordinator {
         let appearance = UINavigationBarAppearance()
         appearance.configureWithOpaqueBackground()
         appearance.backgroundColor = .brand
+        appearance.shadowColor = .clear // 테두리 없애기
         appearance.titleTextAttributes = [
             .foregroundColor: UIColor.white
         ]
@@ -49,19 +52,19 @@ final class TabBarCoordinator: Coordinator {
         // 탭별 Coordinator 생성 및 DI 주입
         let homeCoordinator = HomeCoordinator(
             navigationController: homeNav,
-            diContainer: TabBarFactory.makeHomeFactory(),
+            factory: factory.makeHomeFactory(),
             parent: self
         )
 
         let searchCoordinator = SearchCoordinator(
             navigationController: searchNav,
-            diContainer: TabBarFactory.makeSearchFactory(),
+            factory: factory.makeSearchFactory(),
             parent: self
         )
 
         let myPageCoordinator = MyPageCoordinator(
             navigationController: myPageNav,
-            diContainer: TabBarFactory.makeMyPageFactory(),
+            factory: factory.makeMyPageFactory(),
             parent: self
         )
 

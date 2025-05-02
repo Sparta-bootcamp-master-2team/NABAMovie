@@ -10,12 +10,12 @@ import FirebaseAuth
 
 final class AppCoordinator {
     private let window: UIWindow
-    private let diContainer: AppFactory
+    private let factory: AppFactory
     private var currentCoordinators: [Coordinator] = []
 
-    init(window: UIWindow, diContainer: AppFactory) {
+    init(window: UIWindow, factory: AppFactory) {
         self.window = window
-        self.diContainer = diContainer
+        self.factory = factory
     }
     
     deinit {
@@ -33,7 +33,7 @@ final class AppCoordinator {
     private func showLogin() {
         let loginCoordinator = LoginCoordinator(
             navigationController: UINavigationController(),
-            diContainer: diContainer,
+            factory: LoginFactory(),
             parent: self)
         
         currentCoordinators = [loginCoordinator]
@@ -44,8 +44,8 @@ final class AppCoordinator {
     }
 
     private func showTabBar() {
-        let tabBarDI = TabBarFactory()
-        let tabBarCoordinator = TabBarCoordinator(TabBarFactory: tabBarDI, parent: self)
+        let tabBarFactory = TabBarFactory()
+        let tabBarCoordinator = TabBarCoordinator(factory: tabBarFactory, parent: self)
 
         currentCoordinators = [tabBarCoordinator]
         tabBarCoordinator.start()

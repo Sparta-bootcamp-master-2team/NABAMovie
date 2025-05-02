@@ -39,6 +39,14 @@ class MovieListViewController: UIViewController {
         tabBarController?.tabBar.isHidden = true
     }
     
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        view.backgroundColor = .clear
+        view.subviews.forEach {
+            $0.removeFromSuperview()
+        }
+    }
+    
     private func configureLayout() {
         collectionView.snp.makeConstraints {
             $0.edges.equalToSuperview()
@@ -53,10 +61,7 @@ extension MovieListViewController: UICollectionViewDelegate {
         case .movieEntity(let movieEntity):
             coordinator?.showMovieInfo(movie: movieEntity)
         case .reservationEntity(let reservation):
-            let usecase = CancelReservationUseCase(repository: ReservationRepositoryImpl(firebaseService: FirebaseService()))
-            let reservationDetailViewModel = ReservationDetailViewModel(cancelReservationUseCase: usecase, reservationItem: reservation)
-            let reservationDetailVC = ReservationDetailViewController(viewModel: reservationDetailViewModel)
-            self.present(reservationDetailVC, animated: true)
+            coordinator?.showReservationDetail(movie: reservation)
         }
     }
 }

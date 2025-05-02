@@ -13,17 +13,17 @@ protocol SearchCoordinatorProtocol: Coordinator {
 
 final class SearchCoordinator: SearchCoordinatorProtocol {
     private let navigationController: UINavigationController
-    private let diContainer: SearchFactory
-    private let parentCoordinator: TabBarCoordinator
+    private let factory: SearchFactory
+    private(set) weak var parentCoordinator: TabBarCoordinator?
     private var currentCoordinators: [Coordinator] = []
 
     init(
         navigationController: UINavigationController,
-        diContainer: SearchFactory,
+        factory: SearchFactory,
         parent: TabBarCoordinator
     ) {
         self.navigationController = navigationController
-        self.diContainer = diContainer
+        self.factory = factory
         self.parentCoordinator = parent
     }
     
@@ -32,16 +32,16 @@ final class SearchCoordinator: SearchCoordinatorProtocol {
     }
 
     func start() {
-        let viewController = diContainer.makeMovieSearchViewController(coordinator: self)
+        let viewController = factory.makeMovieSearchViewController(coordinator: self)
         navigationController.setViewControllers([viewController], animated: false)
     }
     
     func showMovieInfo(movie: MovieEntity) {
         let movieInfoCoordinator = MovieInfoCoordinator(
+            movie: movie,
             navigationController: self.navigationController,
-            diContainer: MovieInfoFactory(),
-            parentCoordinator: self,
-            movie: movie
+            factory: MovieInfoFactory(),
+            parentCoordinator: self
         )
         
         currentCoordinators = [movieInfoCoordinator]

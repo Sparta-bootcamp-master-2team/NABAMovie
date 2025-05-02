@@ -223,7 +223,7 @@ final class HomeViewController: UIViewController {
             // 화면 중앙 포인트
             let centerPoint = CGPoint(
                 x: self.collectionView.bounds.midX,
-                y: self.collectionView.bounds.midY
+                y: self.collectionView.bounds.midY * 0.3
             )
             guard
                 let indexPath = self.collectionView.indexPathForItem(at: centerPoint),
@@ -362,7 +362,7 @@ final class HomeViewController: UIViewController {
             self.collectionView.scrollToItem(
                 at: initialIndex,
                 at: .centeredHorizontally,
-                animated: true
+                animated: false
             )
             
             // 4) 최초 푸터 업데이트

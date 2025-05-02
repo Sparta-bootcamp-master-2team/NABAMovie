@@ -11,6 +11,8 @@ import Kingfisher
 
 final class MovieInfoViewController: UIViewController {
     
+    private weak var coordinator: MovieInfoCoordinatorProtocol?
+    
     var viewModel: MovieInfoViewModel
     
     var stillCutDataSource: UICollectionViewDiffableDataSource<StillCutSection, StillCutItem>!
@@ -239,8 +241,9 @@ final class MovieInfoViewController: UIViewController {
     }()
     
     // MARK: - Initializers
-    init(viewModel: MovieInfoViewModel) {
+    init(viewModel: MovieInfoViewModel, coordinator: MovieInfoCoordinatorProtocol) {
         self.viewModel = viewModel
+        self.coordinator = coordinator
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -257,6 +260,14 @@ final class MovieInfoViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         navigationController?.setNavigationBarHidden(false, animated: false) // 뷰 컨트롤러가 나타날 때 숨기기
         tabBarController?.tabBar.isHidden = true
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        view.backgroundColor = .clear
+        view.subviews.forEach {
+            $0.removeFromSuperview()
+        }
     }
     
     override func viewDidLayoutSubviews() {
@@ -460,16 +471,7 @@ final class MovieInfoViewController: UIViewController {
     }
     
     @objc func transitToBookingPage() {
-        print(#function)
-        let bottomSheet = BookingPageViewController(viewModel: BookingPageViewModel(movieDetail: viewModel.movieDetail, useCase: MakeReservationUseCase(reservationRepository: ReservationRepositoryImpl(firebaseService: FirebaseService()))))
-        if let sheet = bottomSheet.sheetPresentationController {
-            sheet.detents = [.custom(resolver: { context in
-                return context.maximumDetentValue * 0.9
-            })]
-            sheet.preferredCornerRadius = 20
-        }
-        
-        present(bottomSheet, animated: true)
+        coordinator?.showBookingPage(movie: viewModel.movieDetail)
     }
     
     // MARK: - Internal Methods
