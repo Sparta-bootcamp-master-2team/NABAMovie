@@ -37,13 +37,17 @@ class MovieListViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         navigationController?.setNavigationBarHidden(false, animated: false) // 뷰 컨트롤러가 나타날 때 숨기기
         tabBarController?.tabBar.isHidden = true
+        view.backgroundColor = .secondarySystemBackground
+        view.subviews.forEach {
+            $0.isHidden = false
+        }
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         view.backgroundColor = .clear
         view.subviews.forEach {
-            $0.removeFromSuperview()
+            $0.isHidden = true
         }
     }
     

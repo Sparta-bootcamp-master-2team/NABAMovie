@@ -24,7 +24,7 @@ final class MovieInfoCoordinator: MovieInfoCoordinatorProtocol {
         movie: MovieEntity,
         navigationController: UINavigationController,
         factory: MovieInfoFactory,
-        parentCoordinator: Coordinator,
+        parentCoordinator: Coordinator
     ) {
         self.movie = movie
         self.navigationController = navigationController
