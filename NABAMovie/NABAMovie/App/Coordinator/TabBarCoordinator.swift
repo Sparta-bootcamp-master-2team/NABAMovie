@@ -37,7 +37,7 @@ final class TabBarCoordinator: Coordinator {
         let appearance = UINavigationBarAppearance()
         appearance.configureWithOpaqueBackground()
         appearance.backgroundColor = .brand
-        appearance.shadowColor = .clear // 테두리 없애기
+        appearance.shadowColor = .brand
         appearance.titleTextAttributes = [
             .foregroundColor: UIColor.white
         ]
