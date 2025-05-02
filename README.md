@@ -202,6 +202,6 @@ NABAMovie/
 | 이름 | 역할 | GitHub |
 |------|------|--------|
 | 박주성 |      | [@](https://github.com/) |
-| 양원식 | 로그인 · 회원가입 UI, Firebase + Service 구성 / 관련 Repository, UseCase, DTO, RepositoryImpl, UserEntity 설계 및 작성 | [@_GGDol](https://github.com/Sheep1sik) |
+| 양원식 | 로그인 · 회원가입 UI, Firebase + Service 구성 | [@_GGDol](https://github.com/Sheep1sik) |
 | 정근호 |      | [@](https://github.com/) |
 | 이민재 |      | [@](https://github.com/) |
