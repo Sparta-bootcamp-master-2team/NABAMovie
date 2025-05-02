@@ -205,9 +205,10 @@ final class MovieInfoViewController: UIViewController {
         layout.scrollDirection = .horizontal
         layout.minimumLineSpacing = 20
         layout.itemSize = CGSize(width: stillCutHeight * 3/2, height: stillCutHeight)
-        
+
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        collectionView.showsHorizontalScrollIndicator = true
+        collectionView.contentInset = UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20)
+        collectionView.showsHorizontalScrollIndicator = false
         collectionView.backgroundColor = .secondarySystemBackground
         return collectionView
     }()
@@ -417,8 +418,8 @@ final class MovieInfoViewController: UIViewController {
         
         stillCutCollectionView.snp.makeConstraints {
             $0.top.equalTo(stillCutTitleLabel.snp.bottom).offset(10)
-            $0.leading.equalToSuperview().inset(20)
-            $0.trailing.equalToSuperview().inset(20)
+            $0.leading.equalToSuperview()
+            $0.trailing.equalToSuperview()
             $0.height.equalTo(collectionViewHeight)
             $0.bottom.equalToSuperview().inset(20)
         }

@@ -60,6 +60,7 @@ final class CompletedSignUpViewController: UIViewController {
         view.backgroundColor = .white
         view.addSubviews([stackView, completeSignUpButton])
         configureLayout()
+        view.backgroundColor = .secondarySystemBackground
     }
     // 회원가입 완료 버튼 클릭 시
     @objc func completeSignUpButtonTapped() {
