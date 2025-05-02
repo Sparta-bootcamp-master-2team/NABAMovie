@@ -28,6 +28,7 @@ final class SignupViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        signupView.setTextFieldDelegates(self)
         navigationController?.setNavigationBarHidden(true, animated: false)
         bindView()
         bindViewModel()
@@ -93,4 +94,10 @@ final class SignupViewController: UIViewController {
         }
     }
 
+}
+extension SignupViewController: UITextFieldDelegate {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
+    }
 }

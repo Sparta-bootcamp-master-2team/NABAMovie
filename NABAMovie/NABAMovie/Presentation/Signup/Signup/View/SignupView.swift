@@ -76,6 +76,7 @@ final class SignupView: UIView {
         let textField = UITextField()
         textField.placeholder = "닉네임을 입력해주세요."
         textField.borderStyle = .none
+        textField.returnKeyType = .done
         textField.font = .systemFont(ofSize: 16)
         textField.autocapitalizationType = .none
         return textField
@@ -177,6 +178,7 @@ final class SignupView: UIView {
         let textField = UITextField()
         textField.placeholder = "이메일"
         textField.borderStyle = .none
+        textField.returnKeyType = .done
         textField.font = .systemFont(ofSize: 16)
         textField.autocapitalizationType = .none
         return textField
@@ -199,6 +201,7 @@ final class SignupView: UIView {
         textField.borderStyle = .none
         textField.font = .systemFont(ofSize: 16)
         textField.textColor = .darkGray
+        textField.returnKeyType = .done
         textField.textAlignment = .left
         textField.autocapitalizationType = .none
         textField.isHidden = true
@@ -254,6 +257,7 @@ final class SignupView: UIView {
         textField.placeholder = "영문, 숫자, 특수기호 중 2가지 이상 조합"
         textField.font = .systemFont(ofSize: 16)
         textField.borderStyle = .none
+        textField.returnKeyType = .done
         textField.isSecureTextEntry = true
         textField.autocapitalizationType = .none
         return textField
@@ -299,6 +303,7 @@ final class SignupView: UIView {
         textField.placeholder = "비밀번호를 다시 입력해주세요."
         textField.font = .systemFont(ofSize: 16)
         textField.borderStyle = .none
+        textField.returnKeyType = .done
         textField.isSecureTextEntry = true
         textField.autocapitalizationType = .none
         return textField
@@ -360,6 +365,7 @@ final class SignupView: UIView {
     var onSignupButtonTapped: (() -> Void)?
     
     var onBackTapped: (() -> Void)?
+    var setTextFieldDelegates: ((UITextFieldDelegate) -> Void)?
 
     
     
@@ -631,6 +637,14 @@ final class SignupView: UIView {
     
     @objc private func backButtonTapped() {
         onBackTapped?()
+    }
+    
+    func setTextFieldDelegates(_ delegate: UITextFieldDelegate) {
+        usernameTextField.delegate = delegate
+        passwordTextField.delegate = delegate
+        passwordConfirmTextField.delegate = delegate
+        idPrefixTextField.delegate = delegate
+        domainTextField.delegate = delegate
     }
 
 

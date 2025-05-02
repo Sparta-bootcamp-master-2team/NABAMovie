@@ -8,7 +8,7 @@
 import UIKit
 import SnapKit
 
-final class LoginView: UIView {
+final class LoginView: UIView, UITextFieldDelegate {
 
     // MARK: - UI Components
 
@@ -52,6 +52,7 @@ final class LoginView: UIView {
         )
         textField.textColor = .darkGray
         textField.borderStyle = .none
+        textField.returnKeyType = .done
         textField.backgroundColor = .clear
         textField.autocapitalizationType = .none
         textField.setLeftPadding(2)
@@ -84,6 +85,8 @@ final class LoginView: UIView {
         )
         textField.textColor = .darkGray
         textField.borderStyle = .none
+        textField.returnKeyType = .done
+        textField.isSecureTextEntry = true
         textField.backgroundColor = .clear
         textField.autocapitalizationType = .none
         textField.setLeftPadding(2)
@@ -124,12 +127,15 @@ final class LoginView: UIView {
 
     var onLoginButtonTapped: (() -> Void)?
     var onSignupButtonTapped: (() -> Void)?
+    var setTextFieldDelegates: ((UITextFieldDelegate) -> Void)?
     
     // MARK: - LifeCycle
     
     override init(frame: CGRect) {
         super.init(frame: frame)
         backgroundColor = .secondarySystemBackground
+        
+        setTextFieldDelegates?(self)
         
         addSubviews([
             nbcLogoImageView,
@@ -229,6 +235,7 @@ final class LoginView: UIView {
         }
     }
     
+    
     private func setupActions() {
         loginButton.addTarget(self, action: #selector(didTapLoginButton), for: .touchUpInside)
         signupButton.addTarget(self, action: #selector(didTapSignupButton), for: .touchUpInside)
@@ -257,4 +264,10 @@ final class LoginView: UIView {
     func getPasswordText() -> String? {
         return passwordTextField.text
     }
+    
+    func setTextFieldDelegates(_ delegate: UITextFieldDelegate) {
+        idTextField.delegate = delegate
+        passwordTextField.delegate = delegate
+    }
+
 }
