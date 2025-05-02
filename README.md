@@ -189,8 +189,9 @@ NABAMovie/
    - 필요 시 `File > Packages > Resolve Package Versions`
 
 4. **Firebase 및 API 키 설정**
+   - 최상위 폴더에 추가
+    - `GoogleService-Info.plist`
    - `Resources` 폴더에 다음 파일 추가:
-     - `GoogleService-Info.plist`
      - `Secrets.xcconfig`
 
 5. **빌드 및 실행**
