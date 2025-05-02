@@ -26,7 +26,7 @@ final class MyInformationView: UIView {
         let label = UILabel()
         label.numberOfLines = 0
         label.textAlignment = .left
-        label.textColor = .black
+        label.textColor = .label
         label.font = .boldSystemFont(ofSize: 30)
         return label
     }()

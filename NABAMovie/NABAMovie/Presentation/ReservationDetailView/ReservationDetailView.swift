@@ -29,7 +29,7 @@ final class ReservationDetailView: UIView {
     
     private let movieTitleLabel: UILabel = {
         let label = UILabel()
-        label.textColor = .black
+        label.textColor = .label
         label.numberOfLines = 2
         label.font = .systemFont(ofSize: 20, weight: .bold)
         return label
@@ -37,7 +37,7 @@ final class ReservationDetailView: UIView {
     
     private let memberNumberLabel: UILabel = {
         let label = UILabel()
-        label.textColor = .black
+        label.textColor = .label
         label.font = .systemFont(ofSize: 14, weight: .light)
         return label
     }()
@@ -45,7 +45,7 @@ final class ReservationDetailView: UIView {
     private let timeLabel: UILabel = {
         let label = UILabel()
         label.font = .systemFont(ofSize: 13, weight: .regular)
-        label.textColor = .lightGray
+        label.textColor = .secondaryLabel
         return label
     }()
     

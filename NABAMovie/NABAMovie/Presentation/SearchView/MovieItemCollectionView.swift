@@ -21,10 +21,10 @@ final class MovieItemCollectionView: UICollectionView {
     
     override init(frame: CGRect, collectionViewLayout layout: UICollectionViewLayout) {
         super.init(frame: frame, collectionViewLayout: UICollectionViewFlowLayout())
-        self.backgroundColor = .white
         configureDataSource()
         self.configureFlowLayout(with: UIScreen.main.bounds.width)
         self.keyboardDismissMode = .onDrag
+        self.backgroundColor = .secondarySystemBackground
     }
     
     required init?(coder: NSCoder) {
@@ -67,7 +67,6 @@ final class MovieItemCollectionView: UICollectionView {
             case .reservationEntity(let reservationEntity):
                 cell.configure(model: reservationEntity)
             }
-//            cell.configure(model: item)
             return cell
         }
     }

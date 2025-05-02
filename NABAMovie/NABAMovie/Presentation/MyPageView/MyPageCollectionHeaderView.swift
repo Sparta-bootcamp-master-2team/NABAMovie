@@ -24,14 +24,14 @@ final class MyPageCollectionHeaderView: UICollectionReusableView {
     private let titleLabel: UILabel = {
         let label = UILabel()
         label.font = .systemFont(ofSize: 20, weight: .bold)
-        label.textColor = .black
+        label.textColor = .label
         return label
     }()
     
     private lazy var moreButton: UIButton = {
         let button = UIButton()
         button.setTitle("더보기 >", for: .normal)
-        button.setTitleColor(.systemGray, for: .normal)
+        button.setTitleColor(.secondaryLabel, for: .normal)
         button.addTarget(self, action: #selector(moreButtonTapped), for: .touchUpInside)
         button.titleLabel?.font = .systemFont(ofSize: 12)
         return button
