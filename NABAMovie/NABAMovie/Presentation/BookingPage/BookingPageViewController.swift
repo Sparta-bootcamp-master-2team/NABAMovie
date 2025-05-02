@@ -429,7 +429,7 @@ class BookingPageViewController: UIViewController {
             }
             
             let startTimeText = parts[0]
-            let endTimeText = "~" + parts[1]
+            let endTimeText = " ~" + parts[1]
             
             let attributedText = NSMutableAttributedString(string: startTimeText + endTimeText)
             attributedText.addAttributes([
