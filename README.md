@@ -204,7 +204,7 @@ NABAMovie/
 
 | 이름 | 역할 | GitHub |
 |------|------|--------|
-| 박주성 |      | [@](https://github.com/) |
+| 박주성 | 영화 목록 UI  · 영화 도메인 & 데이터 계층 · 코디네이터 패턴 적용    | [@_gnoes-ios](https://github.com/gnoes-ios) |
 | 양원식 | 로그인 · 회원가입 UI, Firebase + Service 구성 | [@_GGDol](https://github.com/Sheep1sik) |
-| 정근호 |      | [@](https://github.com/) |
-| 이민재 |      | [@](https://github.com/) |
+| 정근호 | 영화 세부 페이지 UI · 영화 예매 입력 UI   | [@_GEUNHO](https://github.com/eightroutes) |
+| 이민재 | 마이 페이지 UI · 예매 내역 상세 UI · 영화 검색 UI   | [@_minjae-L](https://github.com/minjae-L) |
