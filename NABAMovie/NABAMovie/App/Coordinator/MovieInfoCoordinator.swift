@@ -9,7 +9,7 @@ import UIKit
 
 protocol MovieInfoCoordinatorProtocol: Coordinator {
     func showBookingPage(movie: MovieEntity)
-    func didSuccessBooking()
+    func didSuccessBooking(movie: Reservation)
 }
 
 final class MovieInfoCoordinator: MovieInfoCoordinatorProtocol {
@@ -52,7 +52,21 @@ final class MovieInfoCoordinator: MovieInfoCoordinatorProtocol {
         navigationController.present(vc, animated: true)
     }
     
-    func didSuccessBooking() {
-        navigationController.dismiss(animated: true)
+    func didSuccessBooking(movie: Reservation) {
+        navigationController.popViewController(animated: false)
+        navigationController.dismiss(animated: true) { [weak self] in
+            guard let self = self else { return }
+
+            // 1. MovieInfoCoordinator → 중간 부모 (Home/Search/MyPage 중 하나)
+            guard let midCoordinator = self.parentCoordinator else { return }
+
+            // 2. 중간 부모 → TabBarCoordinator
+            if let tabBarCoordinator = (midCoordinator as? HomeCoordinator)?.parentCoordinator
+                ?? (midCoordinator as? SearchCoordinator)?.parentCoordinator
+                ?? (midCoordinator as? MyPageCoordinator)?.parentCoordinator {
+                
+                tabBarCoordinator.showMyReservationDetail(movie: movie)
+            }
+        }
     }
 }

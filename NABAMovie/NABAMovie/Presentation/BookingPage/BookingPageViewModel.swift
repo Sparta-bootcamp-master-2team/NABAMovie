@@ -50,24 +50,33 @@ class BookingPageViewModel {
     }
     var movieTimes = [String]()
 
-    /// 예약 실행
-    func makeReservation() {
-        let reservation = Reservation(
+    
+    func createReservation() -> Reservation {
+        return Reservation(
             reservationID: "",
             genre: movieDetail.genre,
             member: personnel,
             posterURL: movieDetail.posterImageURL,
             reservationTime: selectedTime,
-            title: movieDetail.title)
+            title: movieDetail.title
+        )
+    }
+
+    /// 예약 실행
+    func executeReservationTask(_ reservation: Reservation) {
         Task {
-            let userId = try firebaseService.getCurrentUserId()
-            let result = await makeReservationUseCase.execute(userId: userId, reservation: reservation)
-            switch result {
-            case .success(_):
-                print("예약 성공: \(reservation)")
-                await onSuccessReservation?(reservation)
-            case .failure(let error):
-                print("예약 실패: \(error.localizedDescription)")
+            do {
+                let userId = try firebaseService.getCurrentUserId()
+                let result = await makeReservationUseCase.execute(userId: userId, reservation: reservation)
+                switch result {
+                case .success:
+                    print("예약 성공: \(reservation)")
+                    await onSuccessReservation?(reservation)
+                case .failure(let error):
+                    print("예약 실패: \(error.localizedDescription)")
+                }
+            } catch {
+                print("유저 ID 가져오기 실패: \(error.localizedDescription)")
             }
         }
     }

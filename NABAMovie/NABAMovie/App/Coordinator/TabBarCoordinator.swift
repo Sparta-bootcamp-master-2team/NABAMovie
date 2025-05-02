@@ -103,3 +103,17 @@ final class TabBarCoordinator: Coordinator {
         )
     }
 }
+
+extension TabBarCoordinator {
+    func showMyReservationDetail(movie: Reservation) {
+        // 탭을 마이페이지로 전환
+        tabBarController.selectedIndex = 2 // MyPage 탭 인덱스
+
+        // MyPageCoordinator 찾기
+        if let myPageCoordinator = childCoordinators
+            .compactMap({ $0 as? MyPageCoordinator })
+            .first {
+            myPageCoordinator.showReservationDetail(movie: movie)
+        }
+    }
+}

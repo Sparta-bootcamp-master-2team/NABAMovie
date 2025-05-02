@@ -355,12 +355,13 @@ class BookingPageViewController: UIViewController {
         paymentAlert.addAction(
             UIAlertAction(title: "네", style: .default, handler: { [weak self] _ in
                 
-                self?.viewModel.makeReservation()
+                guard let reservation = self?.viewModel.createReservation() else { return }
+                self?.viewModel.executeReservationTask(reservation)
                 let completionAlert = UIAlertController(title: "결제 완료", message: "결제가 완료되었습니다.", preferredStyle: .alert)
                 
                 completionAlert.addAction(
                     UIAlertAction(title: "확인", style: .default, handler: { _ in
-                        self?.coordinator?.didSuccessBooking()
+                        self?.coordinator?.didSuccessBooking(movie: reservation)
                     }))
                 
                 self?.present(completionAlert, animated: true)
