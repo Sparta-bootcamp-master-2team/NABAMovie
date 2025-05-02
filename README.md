@@ -174,7 +174,7 @@ NABAMovie/
 
 1. **프로젝트 클론**
    ```bash
-   git clone https://github.com/your-team/NABAMovie.git
+   git clone https://github.com/Sparta-bootcamp-master-2team/NABAMovie.git
    cd NABAMovie
    ```
 
