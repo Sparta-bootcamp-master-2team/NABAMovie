@@ -142,14 +142,17 @@ NABAMovie/
 
 | 화면 | 설명 | 미리보기 |
 |------|------|-----------|
-| 로그인 / 회원가입 | Firebase 인증 기반 화면 | (추가 예정) |
-| 홈 화면 | 현재 상영작 / 개봉 예정작 캐러셀 UI | (추가 예정) |
-| 영화 상세 화면 | 상세 정보, 찜 / 예매 버튼 포함 | (추가 예정) |
-| 검색 화면 | 실시간 필터링 UI | (추가 예정) |
-| 예매 화면 | 시간 선택 및 예매 | (추가 예정) |
-| 마이페이지 | 예매 내역, 찜 목록, 로그아웃 | (추가 예정) |
+| 로그인 / 회원가입 | Firebase 인증 기반 화면 | ![Simulator Screen Recording - iPhone 13 mini - 2025-05-02 at 12 00 14](https://github.com/user-attachments/assets/5e7b2cc5-63aa-4f48-8442-8be5ca1f62c1) |
+| 홈 화면 | 현재 상영작 / 개봉 예정작 캐러셀 UI | ![Simulator Screen Recording - iPhone 13 mini - 2025-05-02 at 12 57 58](https://github.com/user-attachments/assets/d6a34c6b-6095-4c6e-a466-0b515b806404) |
+| 영화 상세 화면 | 상세 정보, 찜 / 예매 버튼 포함 | ![Simulator Screen Recording - iPhone 13 mini - 2025-05-02 at 13 00 10](https://github.com/user-attachments/assets/af55b3f5-5094-462a-b41e-8b27aa55ae74) |
+| 검색 화면 | 실시간 필터링 UI |![Simulator Screen Recording - iPhone 13 mini - 2025-05-02 at 13 02 55](https://github.com/user-attachments/assets/a69ce002-edc8-4430-acd7-98b8a8cb2b18) |
+| 예매 화면 | 시간 선택 및 예매 | ![Simulator Screen Recording - iPhone 13 mini - 2025-05-02 at 13 03 23](https://github.com/user-attachments/assets/4d693fbf-29ce-4298-ad1f-d67ae4a60f77) |
+| 마이페이지 | 예매 내역, 찜 목록, 로그아웃 | ![Simulator Screen Recording - iPhone 13 mini - 2025-05-02 at 13 04 17](https://github.com/user-attachments/assets/cbc6a510-0c52-4de1-9bed-349e54bfa990) |
+
 
 ---
+
+
 
 ## 🧩 기술 스택
 
